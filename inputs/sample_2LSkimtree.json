@@ -1,0 +1,122 @@
+{
+  "DYJetsToLL": {
+    "DYJetsToLL_M10to50": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/DYJetsToLL/M10to50",
+      "xsec": 15940,
+      "year": 2018
+    },
+    "DYJetsToLL_M50": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/DYJetsToLL/M50",
+      "xsec": 6448,
+      "year": 2018
+    }
+  },
+  "SingleTop": {
+    "SingleTop_s-channel_LeptonDecays": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/SingleTop/s-channel_LeptonDecays",
+      "xsec": 3.549,
+      "year": 2018
+    },
+    "SingleTop_t-channel_AntiTop_InclusiveDecays": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/SingleTop/t-channel_AntiTop_InclusiveDecays",
+      "xsec": 67.93,
+      "year": 2018
+    },
+    "SingleTop_t-channel_Top_InclusiveDecays": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/SingleTop/t-channel_Top_InclusiveDecays",
+      "xsec": 113.4,
+      "year": 2018
+    },
+    "SingleTop_tW_AntiTop_InclusiceDecays": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/SingleTop/tW_AntiTop_InclusiceDecays",
+      "xsec": 32.51,
+      "year": 2018
+    },
+    "SingleTop_tW_Top_InclusiveDecays": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/SingleTop/tW_Top_InclusiveDecays",
+      "xsec": 32.45,
+      "year": 2018
+    }
+  },
+  "TTBar": {
+    "TTBar_TTTo2L2Nu": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/TTBar/TTTo2L2Nu",
+      "xsec": 88.29,
+      "year": 2018
+    },
+    "TTBar_TTToSemiLeptonic": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/TTBar/TTToSemiLeptonic",
+      "xsec": 365.34,
+      "year": 2018
+    }
+  },
+  "WW": {
+    "WW_WWTo1L1Nu2Q": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/WW/WWTo1L1Nu2Q",
+      "xsec": 51.14,
+      "year": 2018
+    },
+    "WW_WWTo4Q": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/WW/WWTo4Q",
+      "xsec": 51.15,
+      "year": 2018
+    }
+  },
+  "WZ": {
+    "WZ_WZTo1L1Nu2Q": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/WZ/WZTo1L1Nu2Q",
+      "xsec": 9.184,
+      "year": 2018
+    },
+    "WZ_WZTo2Q2L": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/WZ/WZTo2Q2L",
+      "xsec": 6.351,
+      "year": 2018
+    },
+    "WZ_WZTo3LNu": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/WZ/WZTo3LNu",
+      "xsec": 5.197,
+      "year": 2018
+    }
+  },
+  "ZZ": {
+    "ZZ_ZZTo2L2Nu": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/ZZ/ZZTo2L2Nu",
+      "xsec": 0.9738,
+      "year": 2018
+    },
+    "ZZ_ZZTo2Q2L": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/ZZ/ZZTo2Q2L",
+      "xsec": 3.703,
+      "year": 2018
+    },
+    "ZZ_ZZTo2Q2Nu": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/ZZ/ZZTo2Q2Nu",
+      "xsec": 4.498,
+      "year": 2018
+    },
+    "ZZ_ZZTo4L": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/work/skimmedTrees/2LSkim/2018/ZZ/ZZTo4L",
+      "xsec": 1.325,
+      "year": 2018
+    }
+  }
+}

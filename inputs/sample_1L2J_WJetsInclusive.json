@@ -1,0 +1,10 @@
+{
+  "HTbinnedWJets":{
+    "HTbinnedWJets_Inclusive": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/Inclusive",
+      "xsec": 53450,
+      "year": 2018
+    }
+  }
+}

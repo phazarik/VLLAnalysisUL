@@ -1,0 +1,34 @@
+{
+  "VLL": {
+    "VLL_VLLM100": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/public/RunII_ULNanoAODv8Samples/signal/2018/VLL/VLLM100",
+      "xsec": 1.17,
+      "year": 2018
+    },
+    "VLL_VLLM125": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/public/RunII_ULNanoAODv8Samples/signal/2018/VLL/VLLM125",
+      "xsec": 0.545,
+      "year": 2018
+    },
+    "VLL_VLLM150": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/public/RunII_ULNanoAODv8Samples/signal/2018/VLL/VLLM150",
+      "xsec": 1,
+      "year": 2018
+    },
+    "VLL_VLLM200": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/public/RunII_ULNanoAODv8Samples/signal/2018/VLL/VLLM200",
+      "xsec": 1,
+      "year": 2018
+    },
+    "VLL_VLLM400": {
+      "data": 0,
+      "samplepath": "/home/work/alaha1/public/RunII_ULNanoAODv8Samples/signal/2018/VLL/VLLM400",
+      "xsec": 1,
+      "year": 2018
+    }
+  }
+}

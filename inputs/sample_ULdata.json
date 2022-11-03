@@ -1,0 +1,54 @@
+{
+  "EGamma": {
+    "EGamma_EGamma_A": {
+      "data": 1,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_A",
+      "xsec": 1,
+      "year": 2018
+    },
+    "EGamma_EGamma_B": {
+      "data": 1,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_B",
+      "xsec": 1,
+      "year": 2018
+    },
+    "EGamma_EGamma_C": {
+      "data": 1,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_C",
+      "xsec": 1,
+      "year": 2018
+    },
+    "EGamma_EGamma_D": {
+      "data": 1,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_D",
+      "xsec": 1,
+      "year": 2018
+    }
+  },
+  "SingleMuon": {
+    "SingleMuon_SingleMuon_A": {
+      "data": 1,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon/SingleMuon_A",
+      "xsec": 1,
+      "year": 2018
+    },
+    "SingleMuon_SingleMuon_B": {
+      "data": 1,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon/SingleMuon_B",
+      "xsec": 1,
+      "year": 2018
+    },
+    "SingleMuon_SingleMuon_C": {
+      "data": 1,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon/SingleMuon_C",
+      "xsec": 1,
+      "year": 2018
+    },
+    "SingleMuon_SingleMuon_D": {
+      "data": 1,
+      "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon/SingleMuon_D",
+      "xsec": 1,
+      "year": 2018
+    }
+  }
+}

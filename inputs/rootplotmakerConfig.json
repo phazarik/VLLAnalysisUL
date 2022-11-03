@@ -1,0 +1,280 @@
+{
+  "DYJetsToLL": {
+    "DYJetsToLL_M10to50": {
+      "data": 0,
+      "filename": "DYJetsToLL_M10to50_sample.root",
+      "lumi": 5925.52,
+      "xsec": 15940,
+      "year": 2018
+    },
+    "DYJetsToLL_M50": {
+      "data": 0,
+      "filename": "DYJetsToLL_M50_sample.root",
+      "lumi": 30321.15,
+      "xsec": 6448,
+      "year": 2018
+    }
+  },
+  "HTbinnedWJets": {
+    "HTbinnedWJets_100to200": {
+      "data": 0,
+      "filename": "HTbinnedWJets_100to200_sample.root",
+      "lumi": 41127.18,
+      "xsec": 1250,
+      "year": 2018
+    },
+    "HTbinnedWJets_1200to2500": {
+      "data": 0,
+      "filename": "HTbinnedWJets_1200to2500_sample.root",
+      "lumi": 5602003.46,
+      "xsec": 1.157,
+      "year": 2018
+    },
+    "HTbinnedWJets_200to400": {
+      "data": 0,
+      "filename": "HTbinnedWJets_200to400_sample.root",
+      "lumi": 160304.88,
+      "xsec": 338,
+      "year": 2018
+    },
+    "HTbinnedWJets_2500toInf": {
+      "data": 0,
+      "filename": "HTbinnedWJets_2500toInf_sample.root",
+      "lumi": 79396214.99,
+      "xsec": 0.02642,
+      "year": 2018
+    },
+    "HTbinnedWJets_400to600": {
+      "data": 0,
+      "filename": "HTbinnedWJets_400to600_sample.root",
+      "lumi": 163821.08,
+      "xsec": 45.44,
+      "year": 2018
+    },
+    "HTbinnedWJets_600to800": {
+      "data": 0,
+      "filename": "HTbinnedWJets_600to800_sample.root",
+      "lumi": 708793.85,
+      "xsec": 10.89,
+      "year": 2018
+    },
+    "HTbinnedWJets_70to100": {
+      "data": 0,
+      "filename": "HTbinnedWJets_70to100_sample.root",
+      "lumi": 52015.68,
+      "xsec": 1271,
+      "year": 2018
+    },
+    "HTbinnedWJets_800to1200": {
+      "data": 0,
+      "filename": "HTbinnedWJets_800to1200_sample.root",
+      "lumi": 1284854.16,
+      "xsec": 4.93,
+      "year": 2018
+    }
+  },
+  "QCD_MuEnriched": {
+    "QCD_MuEnriched_120to170": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_120to170_sample.root",
+      "lumi": 1802.85,
+      "xsec": 21090,
+      "year": 2018
+    },
+    "QCD_MuEnriched_170to300": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_170to300_sample.root",
+      "lumi": 10265.82,
+      "xsec": 7001,
+      "year": 2018
+    },
+    "QCD_MuEnriched_20to30": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_20to30_sample.root",
+      "lumi": 23.74,
+      "xsec": 2538000,
+      "year": 2018
+    },
+    "QCD_MuEnriched_300to470": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_300to470_sample.root",
+      "lumi": 95249.24,
+      "xsec": 618.9,
+      "year": 2018
+    },
+    "QCD_MuEnriched_30to50": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_30to50_sample.root",
+      "lumi": 42.91,
+      "xsec": 1369000,
+      "year": 2018
+    },
+    "QCD_MuEnriched_470to600": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_470to600_sample.root",
+      "lumi": 656872.16,
+      "xsec": 58.54,
+      "year": 2018
+    },
+    "QCD_MuEnriched_50to80": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_50to80_sample.root",
+      "lumi": 105.88,
+      "xsec": 378000,
+      "year": 2018
+    },
+    "QCD_MuEnriched_600to800": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_600to800_sample.root",
+      "lumi": 508.71,
+      "xsec": 18.05,
+      "year": 2018
+    },
+    "QCD_MuEnriched_80to120": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_80to120_sample.root",
+      "lumi": 109804.63,
+      "xsec": 89430,
+      "year": 2018
+    },
+    "QCD_MuEnriched_800to1000": {
+      "data": 0,
+      "filename": "QCD_MuEnriched_800to1000_sample.root",
+      "lumi": 24060647.36,
+      "xsec": 3.281,
+      "year": 2018
+    }
+  },
+    
+  "SingleMuon": {
+    "SingleMuon_SingleMuon_A": {
+      "data": 1,
+      "filename": "SingleMuon_SingleMuon_A_sample.root",
+      "lumi": 59700,
+      "xsec": 1,
+      "year": 2018
+    },
+    "SingleMuon_SingleMuon_B": {
+      "data": 1,
+      "filename": "SingleMuon_SingleMuon_B_sample.root",
+      "lumi": 59700,
+      "xsec": 1,
+      "year": 2018
+    },
+    "SingleMuon_SingleMuon_C": {
+      "data": 1,
+      "filename": "SingleMuon_SingleMuon_C_sample.root",
+	"lumi": 59700,
+      "xsec": 1,
+      "year": 2018
+    },
+    "SingleMuon_SingleMuon_D": {
+      "data": 1,
+      "filename": "SingleMuon_SingleMuon_D_sample.root",
+      "lumi": 59700,
+      "xsec": 1,
+      "year": 2018
+    }
+  },
+  "SingleTop": {
+    "SingleTop_s-channel_LeptonDecays": {
+      "data": 0,
+      "filename": "SingleTop_s-channel_LeptonDecays_sample.root",
+      "lumi": 5456748.38,
+      "xsec": 3.549,
+      "year": 2018
+    },
+    "SingleTop_t-channel_AntiTop_InclusiveDecays": {
+      "data": 0,
+      "filename": "SingleTop_t-channel_AntiTop_InclusiveDecays_sample.root",
+      "lumi": 1407728.54,
+      "xsec": 67.93,
+      "year": 2018
+    },
+    "SingleTop_t-channel_Top_InclusiveDecays": {
+      "data": 0,
+      "filename": "SingleTop_t-channel_Top_InclusiveDecays_sample.root",
+      "lumi": 1558659.33,
+      "xsec": 113.4,
+      "year": 2018
+    },
+    "SingleTop_tW_AntiTop_InclusiceDecays": {
+      "data": 0,
+      "filename": "SingleTop_tW_AntiTop_InclusiceDecays_sample.root",
+      "lumi": 238357.43,
+      "xsec": 32.51,
+      "year": 2018
+    },
+    "SingleTop_tW_Top_InclusiveDecays": {
+      "data": 0,
+      "filename": "SingleTop_tW_Top_InclusiveDecays_sample.root",
+      "lumi": 245177.20,
+      "xsec": 32.45,
+      "year": 2018
+    }
+  },
+  "TTBar": {
+    "TTBar_TTToSemiLeptonic": {
+      "data": 0,
+      "filename": "TTBar_TTToSemiLeptonic_sample.root",
+      "lumi": 1304012.88,
+      "xsec": 365.34,
+      "year": 2018
+    }
+  },
+  "WW": {
+    "WW_WWTo1L1Nu2Q": {
+      "data": 0,
+      "filename": "WW_WWTo1L1Nu2Q_sample.root",
+      "lumi": 787485.57,
+      "xsec": 51.14,
+      "year": 2018
+    },
+    "WW_WWTo4Q": {
+      "data": 0,
+      "filename": "WW_WWTo4Q_sample.root",
+      "lumi": 773049.78,
+      "xsec": 51.15,
+      "year": 2018
+    }
+  },
+  "WZ": {
+    "WZ_WZTo1L1Nu2Q": {
+      "data": 0,
+      "filename": "WZ_WZTo1L1Nu2Q_sample.root",
+      "lumi": 805257.73,
+      "xsec": 9.184,
+      "year": 2018
+    },
+    "WZ_WZTo2Q2L": {
+      "data": 0,
+      "filename": "WZ_WZTo2Q2L_sample.root",
+      "lumi": 4499606.36,
+      "xsec": 6.351,
+      "year": 2018
+    }
+  },
+  "ZZ": {
+    "ZZ_ZZTo2L2Nu": {
+      "data": 0,
+      "filename": "ZZ_ZZTo2L2Nu_sample.root",
+      "lumi": 56787841.45,
+      "xsec": 0.9738,
+      "year": 2018
+    },
+    "ZZ_ZZTo2Q2L": {
+      "data": 0,
+      "filename": "ZZ_ZZTo2Q2L_sample.root",
+      "lumi": 7928149.07,
+      "xsec": 3.703,
+      "year": 2018
+    },
+    "ZZ_ZZTo2Q2Nu": {
+      "data": 0,
+      "filename": "ZZ_ZZTo2Q2Nu_sample.root",
+      "lumi": 4405016.45,
+      "xsec": 4.498,
+      "year": 2018
+    }
+  }
+}
