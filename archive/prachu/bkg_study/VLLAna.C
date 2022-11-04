@@ -8,21 +8,21 @@
 #include <iomanip>
 using namespace std;
 //Include SF correction header files
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/IISERLogo.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/corrections/MuonScaleFactor.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/corrections/ElectronScaleFactor.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/corrections/TauScaleFactor.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/corrections/TriggerEfficiencyScaleFactor.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/corrections/ApplyScaleFactors.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/ProduceGenCollection.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/ObjectCleaning.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/ProduceRecoCollection.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/EventSelection.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/SignalCutflow.h"
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/CustomFunctions.h"
+#include "../../../setup/anaCodesetup/IISERLogo.h"
+#include "../../../setup/anaCodesetup/corrections/MuonScaleFactor.h"
+#include "../../../setup/anaCodesetup/corrections/ElectronScaleFactor.h"
+#include "../../../setup/anaCodesetup/corrections/TauScaleFactor.h"
+#include "../../../setup/anaCodesetup/corrections/TriggerEfficiencyScaleFactor.h"
+#include "../../../setup/anaCodesetup/corrections/ApplyScaleFactors.h"
+#include "../../../setup/anaCodesetup/ProduceGenCollection.h"
+#include "../../../setup/anaCodesetup/ObjectCleaning.h"
+#include "../../../setup/anaCodesetup/ProduceRecoCollection.h"
+#include "../../../setup/anaCodesetup/EventSelection.h"
+#include "../../../setup/anaCodesetup/SignalCutflow.h"
+#include "../../../setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
 
-#include "/home/work/phazarik1/work/VLLanalysis/test/vllanalysisul/setup/anaCodesetup/2LStudy.h"
+#include "../../../setup/anaCodesetup/2LStudy.h"
 
 void VLLAna::Begin(TTree * /*tree*/)
 {
@@ -941,8 +941,20 @@ void VLLAna::BookHistograms()
   h.sourabh[3] = new TH1F("mtlep_PuppiMET_cut","Leading Lepton MT after PuppiMet>30 GeV",1000,0,1000);
   for(int i=0;i<4;i++)h.sourabh[i]->Sumw2();*/
 
-  
-  h.study2L[0] = new TH1F("2L_boxes", "2L_boxes", 10, 0, 10); 
+
+  //2L channel plots:
+  h.study2L[0] = new TH1F("2L_boxes",     "2L_boxes", 10, 0, 10);
+  h.study2L[1] = new TH1F("2L_llep0_Pt",  "2L_llep0_Pt", 1000, 0, 1000);
+  h.study2L[2] = new TH1F("2L_llep0_Eta", "2L_llep0_Eta", 200, -4, 4);
+  h.study2L[3] = new TH1F("2L_llep0_Phi", "2L_llep0_Phi", 200, -4, 4);
+  h.study2L[4] = new TH1F("2L_llep1_Pt",  "2L_llep1_Pt", 1000, 0, 1000);
+  h.study2L[5] = new TH1F("2L_llep1_Eta", "2L_llep1_Eta", 200, -4, 4);
+  h.study2L[6] = new TH1F("2L_llep1_Phi", "2L_llep1_Phi", 200, -4, 4);
+
+  h.study2L[7] = new TH1F("2L_llep_dEta", "2L_llep_dEta", 200, 0, 10);
+  h.study2L[8] = new TH1F("2L_llep_dPhi", "2L_llep_dPhi", 200, 0, 10);
+  h.study2L[9] = new TH1F("2L_llep_dR",   "2L_llep_dR",  1000, 0, 10);
+  h.study2L[10] = new TH1F("2L_dilep_mass", "2L_dilep_mass", 1000, 0, 1000);
 
 
 

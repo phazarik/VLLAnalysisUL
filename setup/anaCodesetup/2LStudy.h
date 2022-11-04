@@ -42,5 +42,23 @@ void VLLAna::Make2LPlots()
       h.study2L[0]->Fill(6); //SSOF
     }
   }
+
+  //Kinematic variables for 2L events:
+  h.study2L[1]->Fill(llep.at(0).v.Pt());
+  h.study2L[2]->Fill(llep.at(0).v.Eta());
+  h.study2L[3]->Fill(llep.at(0).v.Phi());
+  h.study2L[4]->Fill(llep.at(1).v.Pt());
+  h.study2L[5]->Fill(llep.at(1).v.Eta());
+  h.study2L[6]->Fill(llep.at(1).v.Phi());
+
+  float dphi_llep = delta_phi(llep.at(0).v.Phi(), llep.at(1).v.Phi());
+  float dR_llep = llep.at(0).v.DeltaR(llep.at(1).v);
+  float deta_llep = fabs(llep.at(0).v.Eta() - llep.at(1).v.Eta());
+  float dilep_mass = (llep.at(0).v+llep.at(1).v).M();
+  h.study2L[7]->Fill(deta_llep);
+  h.study2L[8]->Fill(dphi_llep);
+  h.study2L[9]->Fill(dR_llep);
+  h.study2L[10]->Fill(dilep_mass);
+  
   
 }
