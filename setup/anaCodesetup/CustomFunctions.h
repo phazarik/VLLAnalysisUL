@@ -283,3 +283,10 @@ int VLLAna::NonBestOnZLeptonIndex()
 }
 
 
+float VLLAna::transv_mass(float lepE, float lepphi, float met, float metphi)
+{
+  float dphi = fabs(lepphi - metphi);
+  if(dphi>TMath::Pi()) dphi = 2*TMath::Pi() - dphi;
+  float mT = sqrt(2* lepE * met *(1-cos(dphi)));
+  return mT;
+}

@@ -1713,6 +1713,10 @@ public :
   void InitializeMVATreeBranch();
 
   void Make2LPlots();
+  void Make2muPlots();
+  void MakeSSPlots();
+  float transv_mass(float lepE, float lepphi, float met, float metphi);
+  
 public:
   struct Hists {
     //Histograms are declared here.
@@ -1726,6 +1730,9 @@ public:
     //TH1F *sourabh[4];
     
     TH1F *study2L[50];
+    TH1F *study2mu[50];
+    TH1F *studySS[50];
+    TH1F *studyOS[50];
   };
   struct Lepton {//The struct 'Lepton' can store the following variables:
     TLorentzVector v;
