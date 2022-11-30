@@ -486,14 +486,26 @@ Bool_t VLLAna::Process(Long64_t entry)
 	}
       }
 
-      //###########################
+      //########################### 
       // Analysis of 2L events
       //###########################
       if(is_ll_event){
-	Make2LPlots();
-	//h.studySig[0]->Fill((int)llep.size());
-	MakeSSPlots();
+	//Putting a singleMuon trigger:
+	bool singleMuonTrigger = false;
+	if(fabs(llep.at(0).id) == 13 && llep.at(0).v.Pt()>24) singleMuonTrigger=true;
+	else if(fabs(llep.at(1).id) == 13 && llep.at(1).v.Pt()>24) singleMuonTrigger=true;
+
+	//Selecting well separated leptons:
+	float dRllep = llep.at(0).v.DeltaR(llep.at(1).v);
+
+	//if the leading lepton or the subleading lepton triggers the event,
+	//and they are separated by a dR of atleast 0.4
+	if(singleMuonTrigger && dRllep>0.4){
+	  Make2LPlots();
+	  MakeSSPlots();
+	}
       }
+      
       //###########################
       // Analysis of 2Mu events
       //###########################
@@ -1009,7 +1021,8 @@ void VLLAna::BookHistograms()
   h.studySS[13] = new TH1F("SS_metphi", "SS_met", 200, -4, 4);
   h.studySS[14] = new TH1F("SS_llep0mT", "SS_llep0mT", 1000, 0, 1000);
   h.studySS[15] = new TH1F("SS_llep1mT", "SS_llep1mT", 1000, 0, 1000);
-  for(int i=0; i<16; i++) h.studySS[i]->Sumw2();
+  h.studySS[16] = new TH1F("SS_sumcos", "SS_sumcos", 200, -2, 2);
+  for(int i=0; i<17; i++) h.studySS[i]->Sumw2();
 
   //Studying OS events
   h.studyOS[0] = new TH1F("OS_llep0_Pt",  "OS_llep0_Pt", 1000, 0, 1000);
@@ -1026,7 +1039,8 @@ void VLLAna::BookHistograms()
   h.studyOS[11] = new TH1F("OS_metphi", "OS_met", 200, -4, 4);
   h.studyOS[12] = new TH1F("OS_llep0mT", "OS_llep0mT", 1000, 0, 1000);
   h.studyOS[13] = new TH1F("OS_llep1mT", "OS_llep1mT", 1000, 0, 1000);
-  for(int i=0; i<14; i++) h.studyOS[i]->Sumw2();
+  h.studyOS[14] = new TH1F("OS_sumcos", "OS_sumcos", 200, -2, 2);
+  for(int i=0; i<15; i++) h.studyOS[i]->Sumw2();
   
 }//end of BOOK HISTOS
 

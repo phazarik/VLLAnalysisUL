@@ -5,7 +5,11 @@ void VLLAna::MakeSSPlots()
   h.studySS[0]->Fill((int)llep.size());
   h.studySS[1]->Fill(0);
   bool samesign = false;
+ 
+  //Scheme 1 :
+  //if(llep.at(0).charge == llep.at(1).charge) samesign = true; 
 
+  //Scheme 2 :
   /*
   if((int)llep.size() == 2){
     if(llep.at(0).charge == llep.at(1).charge) samesign = true;
@@ -17,7 +21,15 @@ void VLLAna::MakeSSPlots()
     else if(llep.at(1).charge == llep.at(2).charge) samesign = true;
     }*/
 
-  if(llep.at(0).charge == llep.at(1).charge) samesign = true; 
+  //Scheme 3:
+  for(int i=0; i<(int)llep.size(); i++){
+    //Finding a same sign lepton for the leading llep.
+    if(i!=0 && llep.at(0).charge == llep.at(i).charge) samesign = true;
+    //But this will put events like l-l+l+l+ in the OS box, which we don't want.
+    //Therefore, I am doing the same check for the subleading llep also.
+    if(i!=1 && llep.at(1).charge == llep.at(i).charge) samesign = true;
+  }
+
   if(!samesign) h.studySS[1]->Fill(1);
   if(samesign) h.studySS[1]->Fill(2);
 
@@ -29,6 +41,11 @@ void VLLAna::MakeSSPlots()
   float lep0mT = transv_mass(llep.at(0).v.E(), llep.at(0).v.Phi(), metpt, metphi);
   float lep1mT = transv_mass(llep.at(1).v.E(), llep.at(1).v.Phi(), metpt, metphi);
 
+  //To reduce QCD:
+  float dphi1 = delta_phi(llep.at(0).v.Phi(), metphi);
+  float dphi2 = delta_phi(llep.at(1).v.Phi(), metphi);
+  float sumcosdphi = cos(dphi1) + cos(dphi2);
+  
   //Make plots for the SS events:
   if(samesign){
     h.studySS[2]->Fill(llep.at(0).v.Pt());
@@ -45,6 +62,7 @@ void VLLAna::MakeSSPlots()
     h.studySS[13]->Fill(metphi);
     h.studySS[14]->Fill(lep0mT);
     h.studySS[15]->Fill(lep1mT);
+    h.studySS[16]->Fill(sumcosdphi);
   }
   
   if(!samesign){
@@ -62,6 +80,7 @@ void VLLAna::MakeSSPlots()
     h.studyOS[11]->Fill(metphi);
     h.studyOS[12]->Fill(lep0mT);
     h.studyOS[13]->Fill(lep1mT);
+    h.studyOS[14]->Fill(sumcosdphi);
   }
   
 

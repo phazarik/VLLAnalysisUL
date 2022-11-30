@@ -59,6 +59,11 @@ void VLLAna::Make2LPlots()
   h.study2L[8]->Fill(dphi_llep);
   h.study2L[9]->Fill(dR_llep);
   h.study2L[10]->Fill(dilep_mass);
-  
-  
+
+  h.study2L[11]->Fill(metpt);
+  h.study2L[12]->Fill(metphi);
+  float lep0mT = transv_mass(llep.at(0).v.E(), llep.at(0).v.Phi(), metpt, metphi);
+  float lep1mT = transv_mass(llep.at(1).v.E(), llep.at(1).v.Phi(), metpt, metphi);
+  h.study2L[13]->Fill(lep0mT);
+  h.study2L[14]->Fill(lep1mT);
 }

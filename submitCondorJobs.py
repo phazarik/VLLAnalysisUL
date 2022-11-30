@@ -7,11 +7,14 @@ import json
 ##--------------------------------------------------------------------------------------------------#
 #                                     USER DEFINED                                                  #
 ##--------------------------------------------------------------------------------------------------#
-jsonfilename ="inputs/sample_ULdata.json"
-#bkgbundle =["HTbinnedWJets","QCD_MuEnriched","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ","SingleMuon"]
+#jsonfilename ="inputs/sample_ULdata.json"
+jsonfilename ="inputs/sample.json"
+#jsonfilename ="inputs/sample_signalNanov8.json"
+#bkgbundle =["HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
 #bkgbundle =["TTBar","DYJetsToLL","WW","WZ","ZZ"]
 bkgbundle=["SingleMuon"]
-#bkgbundle=["HTbinnedWJets","QCD_MuEnriched"]
+#bkgbundle=["QCD_MuEnriched"]
+#bkgbundle=["VLL"]
 
 ##--------------------------------------------------------------------------------------------------#
 #                                  DON'T TOUCH BELOW                                                #

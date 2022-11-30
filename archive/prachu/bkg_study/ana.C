@@ -23,7 +23,7 @@ void ana(int sample=2)
     //m_selec.SetNNFileName("/home/arnab/Arnab/Work/PhD2021/VLLSingletStudy/MultiClassifier/SignalScore_vllneuron.txt");
   }
   if(sample==1){
-    chain->Add("/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/120to170/VLL_QCDPt120to170MuEnrichedPt5_61.root");
+    chain->Add("/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/120to170/VLL_QCDPt120to170MuEnrichedPt5_10.root");
     hstfilename = "outputs/hst_qcd.root";
     sumfilename = "outputs/sum_qcd.txt";
     m_selec.SetData(0); //0 - running over MC, 1 - running over Data
