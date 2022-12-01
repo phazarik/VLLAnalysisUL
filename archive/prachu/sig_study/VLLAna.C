@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iomanip>
 using namespace std;
+
 //Include SF correction header files
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/IISERLogo.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/MuonScaleFactor.h"
@@ -22,9 +23,9 @@ using namespace std;
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
 
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2LStudy.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2LStudy.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/SSStudy.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/SSStudy.h"
 
 void VLLAna::Begin(TTree * /*tree*/)
 {
@@ -489,22 +490,26 @@ Bool_t VLLAna::Process(Long64_t entry)
       //########################### 
       // Analysis of 2L events
       //###########################
+
+      /*
       if(is_ll_event){
 	//Putting a singleMuon trigger:
 	bool singleMuonTrigger = false;
-	if(fabs(llep.at(0).id) == 13 && llep.at(0).v.Pt()>24) singleMuonTrigger=true;
-	else if(fabs(llep.at(1).id) == 13 && llep.at(1).v.Pt()>24) singleMuonTrigger=true;
-
+	if(_data == 1) singleMuonTrigger = true;
+	else if(_data == 0){
+	  if(fabs(llep.at(0).id) == 13 && llep.at(0).v.Pt()>24) singleMuonTrigger=true;
+	  else if(fabs(llep.at(1).id) == 13 && llep.at(1).v.Pt()>24) singleMuonTrigger=true;
+	}
 	//Selecting well separated leptons:
 	float dRllep = llep.at(0).v.DeltaR(llep.at(1).v);
-
+	
 	//if the leading lepton or the subleading lepton triggers the event,
 	//and they are separated by a dR of atleast 0.4
 	if(singleMuonTrigger && dRllep>0.4){
 	  Make2LPlots();
 	  MakeSSPlots();
 	}
-      }
+	}*/
       
       //###########################
       // Analysis of 2Mu events
@@ -513,7 +518,8 @@ Bool_t VLLAna::Process(Long64_t entry)
 	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
 	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
 	float leading_pT = Muon.at(0).v.Pt();
-	if(dimuon_mass>20 && muon_dr>0.4 && leading_pT>24) Make2muPlots();
+	
+	if(dimuon_mass>20 && muon_dr>0.4 && leading_pT>26) Make2muPlots();
       }
       
       //tt
@@ -983,8 +989,10 @@ void VLLAna::BookHistograms()
   h.study2L[12] = new TH1F("2L_metphi", "2L_met", 200, -4, 4);
   h.study2L[13] = new TH1F("2L_llep0mT", "2L_llep0mT", 1000, 0, 1000);
   h.study2L[14] = new TH1F("2L_llep1mT", "2L_llep1mT", 1000, 0, 1000);
-  for(int i=0; i<15; i++) h.study2L[i]->Sumw2();
+  h.study2L[15] = new TH1F("2L_sumcos", "2L_sumcos", 300, -3, 3);
+  for(int i=0; i<16; i++) h.study2L[i]->Sumw2();
 
+  /*
    //2Mu plots:
   h.study2mu[0] = new TH1F("2mu_boxes",   "2mu_boxes", 10, 0, 10);
   h.study2mu[1] = new TH1F("2mu_mu0_Pt",  "mu0_Pt", 1000, 0, 1000);
@@ -1002,27 +1010,28 @@ void VLLAna::BookHistograms()
   h.study2mu[13] = new TH1F("2mu_mu0mT", "mu0mT", 1000, 0, 1000);
   h.study2mu[14] = new TH1F("2mu_mu1mT", "mu1mT", 1000, 0, 1000);
   h.study2mu[15] = new TH1F("2mu_dimuon_mass2", "mumu mass (2)", 200, 40, 140);
-  for(int i=0; i<16; i++) h.study2mu[i]->Sumw2();
+  h.study2mu[16] = new TH1F("2mu_sumcos", "2mu_sumcos", 200, -2, 2);
+  for(int i=0; i<17; i++) h.study2mu[i]->Sumw2();*/
 
   //Studying SS events
-  h.studySS[0] = new TH1F("nllep", "nllep", 10, 0, 10);
-  h.studySS[1] = new TH1F("2L_OS_SS", "2L_OS_SS", 10, 0, 10);
-  h.studySS[2] = new TH1F("SS_llep0_Pt",  "SS_llep0_Pt", 1000, 0, 1000);
-  h.studySS[3] = new TH1F("SS_llep0_Eta", "SS_llep0_Eta", 200, -4, 4);
-  h.studySS[4] = new TH1F("SS_llep0_Phi", "SS_llep0_Phi", 200, -4, 4);
-  h.studySS[5] = new TH1F("SS_llep1_Pt",  "SS_llep1_Pt", 1000, 0, 1000);
-  h.studySS[6] = new TH1F("SS_llep1_Eta", "SS_llep1_Eta", 200, -4, 4);
-  h.studySS[7] = new TH1F("SS_llep1_Phi", "SS_llep1_Phi", 200, -4, 4);
-  h.studySS[8] = new TH1F("SS_llep_dEta", "SS_llep_dEta", 200, 0, 10);
-  h.studySS[9] = new TH1F("SS_llep_dPhi", "SS_llep_dPhi", 200, 0, 10);
-  h.studySS[10] = new TH1F("SS_llep_dR",   "SS_llep_dR",  1000, 0, 10);
-  h.studySS[11] = new TH1F("SS_dilep_mass", "SS_dilep_mass", 1000, 0, 1000);
-  h.studySS[12] = new TH1F("SS_met", "SS_met", 1000, 0, 1000);
-  h.studySS[13] = new TH1F("SS_metphi", "SS_met", 200, -4, 4);
-  h.studySS[14] = new TH1F("SS_llep0mT", "SS_llep0mT", 1000, 0, 1000);
-  h.studySS[15] = new TH1F("SS_llep1mT", "SS_llep1mT", 1000, 0, 1000);
-  h.studySS[16] = new TH1F("SS_sumcos", "SS_sumcos", 200, -2, 2);
-  for(int i=0; i<17; i++) h.studySS[i]->Sumw2();
+  //h.studySS[0] = new TH1F("nllep", "nllep", 10, 0, 10);
+  //h.studySS[1] = new TH1F("2L_OS_SS", "2L_OS_SS", 10, 0, 10);
+  h.studySS[0] = new TH1F("SS_llep0_Pt",  "SS_llep0_Pt", 1000, 0, 1000);
+  h.studySS[1] = new TH1F("SS_llep0_Eta", "SS_llep0_Eta", 200, -4, 4);
+  h.studySS[2] = new TH1F("SS_llep0_Phi", "SS_llep0_Phi", 200, -4, 4);
+  h.studySS[3] = new TH1F("SS_llep1_Pt",  "SS_llep1_Pt", 1000, 0, 1000);
+  h.studySS[4] = new TH1F("SS_llep1_Eta", "SS_llep1_Eta", 200, -4, 4);
+  h.studySS[5] = new TH1F("SS_llep1_Phi", "SS_llep1_Phi", 200, -4, 4);
+  h.studySS[6] = new TH1F("SS_llep_dEta", "SS_llep_dEta", 200, 0, 10);
+  h.studySS[7] = new TH1F("SS_llep_dPhi", "SS_llep_dPhi", 200, 0, 10);
+  h.studySS[8] = new TH1F("SS_llep_dR",   "SS_llep_dR",  1000, 0, 10);
+  h.studySS[9] = new TH1F("SS_dilep_mass", "SS_dilep_mass", 1000, 0, 1000);
+  h.studySS[10] = new TH1F("SS_met", "SS_met", 1000, 0, 1000);
+  h.studySS[11] = new TH1F("SS_metphi", "SS_met", 200, -4, 4);
+  h.studySS[12] = new TH1F("SS_llep0mT", "SS_llep0mT", 1000, 0, 1000);
+  h.studySS[13] = new TH1F("SS_llep1mT", "SS_llep1mT", 1000, 0, 1000);
+  h.studySS[14] = new TH1F("SS_sumcos", "SS_sumcos", 300, -3, 3);
+  for(int i=0; i<15; i++) h.studySS[i]->Sumw2();
 
   //Studying OS events
   h.studyOS[0] = new TH1F("OS_llep0_Pt",  "OS_llep0_Pt", 1000, 0, 1000);
@@ -1039,7 +1048,7 @@ void VLLAna::BookHistograms()
   h.studyOS[11] = new TH1F("OS_metphi", "OS_met", 200, -4, 4);
   h.studyOS[12] = new TH1F("OS_llep0mT", "OS_llep0mT", 1000, 0, 1000);
   h.studyOS[13] = new TH1F("OS_llep1mT", "OS_llep1mT", 1000, 0, 1000);
-  h.studyOS[14] = new TH1F("OS_sumcos", "OS_sumcos", 200, -2, 2);
+  h.studyOS[14] = new TH1F("OS_sumcos", "OS_sumcos", 300, -3, 3);
   for(int i=0; i<15; i++) h.studyOS[i]->Sumw2();
   
 }//end of BOOK HISTOS

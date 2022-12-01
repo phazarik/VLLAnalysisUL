@@ -66,4 +66,10 @@ void VLLAna::Make2LPlots()
   float lep1mT = transv_mass(llep.at(1).v.E(), llep.at(1).v.Phi(), metpt, metphi);
   h.study2L[13]->Fill(lep0mT);
   h.study2L[14]->Fill(lep1mT);
+
+  //To reduce QCD:
+  float dphi1 = delta_phi(llep.at(0).v.Phi(), metphi);
+  float dphi2 = delta_phi(llep.at(1).v.Phi(), metphi);
+  float sumcosdphi = cos(dphi1) + cos(dphi2);
+  h.study2L[15]->Fill(sumcosdphi);
 }
