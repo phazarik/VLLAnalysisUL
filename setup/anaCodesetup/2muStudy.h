@@ -106,63 +106,91 @@ void VLLAna::Make2muPlots()
   float dphi2 = delta_phi(Muon.at(1).v.Phi(), metphi);
   float sumcosdphi = cos(dphi1) + cos(dphi2);
 
-  //#####################
-  //2mu inclusive events:
-  //#####################
-  h.study2L[0]->Fill(0);
-  h.study2L[1]->Fill(Muon.at(0).v.Pt());
-  h.study2L[2]->Fill(Muon.at(0).v.Eta());
-  h.study2L[3]->Fill(Muon.at(0).v.Phi());
-  h.study2L[4]->Fill(Muon.at(1).v.Pt());
-  h.study2L[5]->Fill(Muon.at(1).v.Eta());
-  h.study2L[6]->Fill(Muon.at(1).v.Phi());
-  h.study2L[7]->Fill(deta_muon);
-  h.study2L[8]->Fill(dphi_muon);
-  h.study2L[9]->Fill(dR_muon);
-  h.study2L[10]->Fill(dimuonmass);
-  h.study2L[11]->Fill(metpt);
-  h.study2L[12]->Fill(metphi);
-  h.study2L[13]->Fill(mu0_mT);
-  h.study2L[14]->Fill(mu1_mT);
-  h.study2L[15]->Fill(sumcosdphi);
+  //Further event selections:
+  bool masscut = dimuonmass > 50 && dimuonmass < 300;
+  bool mT0cut = mu0_mT > 50;
+  bool mT1cut = mu0_mT > 50;
+  bool dRcut = dR_muon < 3.5;
+  bool metcut = metpt > 20;
+  bool dEtacut = deta_muon < 3;
 
-  //################
-  //Opposite Sign Events:
-  //################
-  if(!samesign){
-    h.study2L[0]->Fill(1);
-    h.studyOS[0]->Fill(Muon.at(0).v.Pt());
-    h.studyOS[1]->Fill(Muon.at(0).v.Eta());
-    h.studyOS[2]->Fill(Muon.at(0).v.Phi());
-    h.studyOS[3]->Fill(Muon.at(1).v.Pt());
-    h.studyOS[4]->Fill(Muon.at(1).v.Eta());
-    h.studyOS[5]->Fill(Muon.at(1).v.Phi());
-    h.studyOS[6]->Fill(deta_muon);
-    h.studyOS[7]->Fill(dphi_muon);
-    h.studyOS[8]->Fill(dR_muon);
-    h.studyOS[9]->Fill(dimuonmass);
-    h.studyOS[10]->Fill(metpt);
-    h.studyOS[11]->Fill(metphi);
-    h.studyOS[12]->Fill(mu0_mT);
-    h.studyOS[13]->Fill(mu1_mT);
-    h.studyOS[14]->Fill(sumcosdphi);
-  }
-  if(samesign){
-    h.study2L[0]->Fill(2);
-    h.studySS[0]->Fill(Muon.at(0).v.Pt());
-    h.studySS[1]->Fill(Muon.at(0).v.Eta());
-    h.studySS[2]->Fill(Muon.at(0).v.Phi());
-    h.studySS[3]->Fill(Muon.at(1).v.Pt());
-    h.studySS[4]->Fill(Muon.at(1).v.Eta());
-    h.studySS[5]->Fill(Muon.at(1).v.Phi());
-    h.studySS[6]->Fill(deta_muon);
-    h.studySS[7]->Fill(dphi_muon);
-    h.studySS[8]->Fill(dR_muon);
-    h.studySS[9]->Fill(dimuonmass);
-    h.studySS[10]->Fill(metpt);
-    h.studySS[11]->Fill(metphi);
-    h.studySS[12]->Fill(mu0_mT);
-    h.studySS[13]->Fill(mu1_mT);
-    h.studySS[14]->Fill(sumcosdphi);    
+  bool passcuts = masscut && mT0cut && mT1cut && dRcut && metcut && dEtacut;
+
+  //Cutflow:
+  //bin0 = 2L events with basic cuts
+  //bin1 = OS events
+  //bin2 = SS events
+  //bin3 = SS events with cut 1 .. etc etc.
+  h.study2L[0]->Fill(0);
+  if(!samesign) h.study2L[0]->Fill(1);
+  if(samesign) h.study2L[0]->Fill(2);
+
+  if(samesign && masscut) h.study2L[0]->Fill(3);
+  if(samesign && mT0cut) h.study2L[0]->Fill(4);
+  if(samesign && mT1cut) h.study2L[0]->Fill(5);
+  if(samesign && dRcut) h.study2L[0]->Fill(6);
+  if(samesign && metcut) h.study2L[0]->Fill(7);
+  if(samesign && dEtacut) h.study2L[0]->Fill(8);
+  
+  if(passcuts){//Place the cuts here.
+    //#####################
+    //2mu inclusive events:
+    //#####################
+    //h.study2L[0]->Fill(0);
+    h.study2L[1]->Fill(Muon.at(0).v.Pt());
+    h.study2L[2]->Fill(Muon.at(0).v.Eta());
+    h.study2L[3]->Fill(Muon.at(0).v.Phi());
+    h.study2L[4]->Fill(Muon.at(1).v.Pt());
+    h.study2L[5]->Fill(Muon.at(1).v.Eta());
+    h.study2L[6]->Fill(Muon.at(1).v.Phi());
+    h.study2L[7]->Fill(deta_muon);
+    h.study2L[8]->Fill(dphi_muon);
+    h.study2L[9]->Fill(dR_muon);
+    h.study2L[10]->Fill(dimuonmass);
+    h.study2L[11]->Fill(metpt);
+    h.study2L[12]->Fill(metphi);
+    h.study2L[13]->Fill(mu0_mT);
+    h.study2L[14]->Fill(mu1_mT);
+    h.study2L[15]->Fill(sumcosdphi);
+    
+    //################
+    //Opposite Sign Events:
+    //################
+    if(!samesign){
+      //h.study2L[0]->Fill(1);
+      h.studyOS[0]->Fill(Muon.at(0).v.Pt());
+      h.studyOS[1]->Fill(Muon.at(0).v.Eta());
+      h.studyOS[2]->Fill(Muon.at(0).v.Phi());
+      h.studyOS[3]->Fill(Muon.at(1).v.Pt());
+      h.studyOS[4]->Fill(Muon.at(1).v.Eta());
+      h.studyOS[5]->Fill(Muon.at(1).v.Phi());
+      h.studyOS[6]->Fill(deta_muon);
+      h.studyOS[7]->Fill(dphi_muon);
+      h.studyOS[8]->Fill(dR_muon);
+      h.studyOS[9]->Fill(dimuonmass);
+      h.studyOS[10]->Fill(metpt);
+      h.studyOS[11]->Fill(metphi);
+      h.studyOS[12]->Fill(mu0_mT);
+      h.studyOS[13]->Fill(mu1_mT);
+      h.studyOS[14]->Fill(sumcosdphi);
+    }
+    if(samesign){
+      //h.study2L[0]->Fill(2);
+      h.studySS[0]->Fill(Muon.at(0).v.Pt());
+      h.studySS[1]->Fill(Muon.at(0).v.Eta());
+      h.studySS[2]->Fill(Muon.at(0).v.Phi());
+      h.studySS[3]->Fill(Muon.at(1).v.Pt());
+      h.studySS[4]->Fill(Muon.at(1).v.Eta());
+      h.studySS[5]->Fill(Muon.at(1).v.Phi());
+      h.studySS[6]->Fill(deta_muon);
+      h.studySS[7]->Fill(dphi_muon);
+      h.studySS[8]->Fill(dR_muon);
+      h.studySS[9]->Fill(dimuonmass);
+      h.studySS[10]->Fill(metpt);
+      h.studySS[11]->Fill(metphi);
+      h.studySS[12]->Fill(mu0_mT);
+      h.studySS[13]->Fill(mu1_mT);
+      h.studySS[14]->Fill(sumcosdphi);    
+    }
   }
 }
