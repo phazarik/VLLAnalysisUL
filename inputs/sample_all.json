@@ -1,0 +1,306 @@
+{
+    "DYJetsToLL": {
+	"DYJetsToLL_M10to50": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/DYJetsToLL/M10to50",
+	    "xsec": 15940,
+	    "year": 2018
+	},
+	"DYJetsToLL_M50": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/DYJetsToLL/M50",
+	    "xsec": 6448,
+	    "year": 2018
+	}
+    },
+    "HTbinnedWJets": {
+	"HTbinnedWJets_100to200": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/100to200",
+	    "xsec": 1250,
+	    "year": 2018
+	},
+	"HTbinnedWJets_1200to2500": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/1200to2500",
+	    "xsec": 1.157,
+	    "year": 2018
+	},
+	"HTbinnedWJets_200to400": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/200to400",
+	    "xsec": 338,
+	    "year": 2018
+	},
+	"HTbinnedWJets_2500toInf": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/2500toInf",
+	    "xsec": 0.02642,
+	    "year": 2018
+	},
+	"HTbinnedWJets_400to600": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/400to600",
+	    "xsec": 45.44,
+	    "year": 2018
+	},
+	"HTbinnedWJets_600to800": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/600to800",
+	    "xsec": 10.89,
+	    "year": 2018
+	},
+	"HTbinnedWJets_70to100": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/70to100",
+	    "xsec": 1271,
+	    "year": 2018
+	},
+	"HTbinnedWJets_800to1200": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/HTbinnedWJets/800to1200",
+	    "xsec": 4.93,
+	    "year": 2018
+	}
+    },
+    "QCD_MuEnriched": {
+	"QCD_MuEnriched_120to170": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/120to170",
+	    "xsec": 21090,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_170to300": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/170to300",
+	    "xsec": 7001,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_20to30": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/20to30",
+	    "xsec": 2538000,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_20toInf": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/20toInf",
+	    "xsec": 523400000,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_300to470": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/300to470",
+	    "xsec": 618.9,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_30to50": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/30to50",
+	    "xsec": 1369000,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_470to600": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/470to600",
+	    "xsec": 58.54,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_50to80": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/50to80",
+	    "xsec": 378000,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_600to800": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/600to800",
+	    "xsec": 18.05,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_800to1000": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/800to1000",
+	    "xsec": 3.281,
+	    "year": 2018
+	},
+	"QCD_MuEnriched_80to120": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/QCD_MuEnriched/80to120",
+	    "xsec": 89430,
+	    "year": 2018
+	}
+    },
+    "SingleTop": {
+	"SingleTop_s-channel_LeptonDecays": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/SingleTop/s-channel_LeptonDecays",
+	    "xsec": 3.549,
+	    "year": 2018
+	},
+	"SingleTop_t-channel_AntiTop_InclusiveDecays": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/SingleTop/t-channel_AntiTop_InclusiveDecays",
+	    "xsec": 67.93,
+	    "year": 2018
+	},
+	"SingleTop_t-channel_Top_InclusiveDecays": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/SingleTop/t-channel_Top_InclusiveDecays",
+	    "xsec": 113.4,
+	    "year": 2018
+	},
+	"SingleTop_tW_AntiTop_InclusiceDecays": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/SingleTop/tW_AntiTop_InclusiceDecays",
+	    "xsec": 32.51,
+	    "year": 2018
+	},
+	"SingleTop_tW_Top_InclusiveDecays": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/SingleTop/tW_Top_InclusiveDecays",
+	    "xsec": 32.45,
+	    "year": 2018
+	}
+    },
+    "TTBar": {
+	"TTBar_TTTo2L2Nu": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/TTBar/TTTo2L2Nu",
+	    "xsec": 88.29,
+	    "year": 2018
+	},
+	"TTBar_TTToSemiLeptonic": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/TTBar/TTToSemiLeptonic",
+	    "xsec": 365.34,
+	    "year": 2018
+	}
+    },
+    "UL2018Data": {
+	"UL2018Data_EGamma": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma",
+	    "xsec": 1,
+	  "year": 2018
+	},
+	"UL2018Data_SingleMuon": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon",
+	    "xsec": 1,
+	    "year": 2018
+	}
+    },
+    "WW": {
+	"WW_WWTo1L1Nu2Q": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/WW/WWTo1L1Nu2Q",
+	    "xsec": 51.14,
+	    "year": 2018
+	},
+	"WW_WWTo4Q": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/WW/WWTo4Q",
+	    "xsec": 51.15,
+	    "year": 2018
+	}
+    },
+    "WZ": {
+	"WZ_WZTo1L1Nu2Q": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/WZ/WZTo1L1Nu2Q",
+	    "xsec": 9.184,
+	    "year": 2018
+	},
+	"WZ_WZTo2Q2L": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/WZ/WZTo2Q2L",
+	    "xsec": 6.351,
+	    "year": 2018
+	},
+	"WZ_WZTo3LNu": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/WZ/WZTo3LNu",
+	    "xsec": 5.197,
+      "year": 2018
+	}
+    },
+    "ZZ": {
+	"ZZ_ZZTo2L2Nu": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/ZZ/ZZTo2L2Nu",
+	    "xsec": 0.9738,
+	    "year": 2018
+	},
+	"ZZ_ZZTo2Q2L": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/ZZ/ZZTo2Q2L",
+	    "xsec": 3.703,
+	    "year": 2018
+	},
+	"ZZ_ZZTo2Q2Nu": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/ZZ/ZZTo2Q2Nu",
+	    "xsec": 4.498,
+	    "year": 2018
+	},
+	"ZZ_ZZTo4L": {
+	    "data": 0,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/ZZ/ZZTo4L",
+	    "xsec": 1.325,
+	    "year": 2018
+	}
+    },
+    "EGamma": {
+	"EGamma_EGamma_A": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_A",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"EGamma_EGamma_B": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_B",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"EGamma_EGamma_C": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_C",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"EGamma_EGamma_D": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_D",
+	    "xsec": 1,
+	    "year": 2018
+	}
+    },
+    "SingleMuon": {
+	"SingleMuon_SingleMuon_A": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon/SingleMuon_A",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"SingleMuon_SingleMuon_B": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon/SingleMuon_B",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"SingleMuon_SingleMuon_C": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon/SingleMuon_C",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"SingleMuon_SingleMuon_D": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/SingleMuon/SingleMuon_D",
+	    "xsec": 1,
+	    "year": 2018
+	}
+    }
+}

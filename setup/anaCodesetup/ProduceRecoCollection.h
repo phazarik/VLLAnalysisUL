@@ -23,6 +23,10 @@ void VLLAna::RecoLightLepton(){
   for(unsigned int i=0; i< (*nMuon); i++){
     Lepton temp; temp.v.SetPtEtaPhiM(Muon_pt[i],Muon_eta[i],Muon_phi[i],0.105); 
     temp.id = -13*Muon_charge[i]; temp.ind = i;  temp.charge = Muon_charge[i];
+    temp.sip3d = Muon_sip3d[i];
+    temp.reliso03 = Muon_pfRelIso03_all[i];
+    temp.reliso04 = Muon_pfRelIso04_all[i];
+    
     //h.ptlep[0]->Fill(temp.v.Pt());
     h.mucut->Fill(9);
 	
@@ -253,6 +257,7 @@ void VLLAna::RecoJetandBJets(){
     Lepton temp; temp.v.SetPtEtaPhiM(Jet_pt[i],Jet_eta[i],Jet_phi[i],Jet_mass[i]);
     temp.ind = i;temp.taucleaning=TaujetCleaning(temp.v);temp.lepcleaning=LepjetCleaning(temp.v); // No jet in the direction of tau
     //h.ptjet[0]->Fill(temp.v.Pt());
+    temp.deepBscore = Jet_btagDeepB[i];
     bool passcut =temp.v.Pt()>20 && fabs(temp.v.Eta())<2.4 && temp.taucleaning && temp.lepcleaning; //PF Tight Jet ID: bit 2
     //if(passcut)
     //jets.push_back(temp);

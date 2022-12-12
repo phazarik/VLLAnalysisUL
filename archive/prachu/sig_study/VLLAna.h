@@ -1733,6 +1733,7 @@ public:
     TH1F *study2mu[50];
     TH1F *studySS[50];
     TH1F *studyOS[50];
+    TH1F *cutflow[10];
   };
   struct Lepton {//The struct 'Lepton' can store the following variables:
     TLorentzVector v;
@@ -1752,6 +1753,11 @@ public:
     int partonflav;
     UChar_t hadronflav;
     bool bflav;
+    //Prachu's additions:
+    float sip3d;
+    float reliso03;
+    float reliso04;
+    float deepBscore;
   };
   
 protected:

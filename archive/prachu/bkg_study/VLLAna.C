@@ -518,8 +518,9 @@ Bool_t VLLAna::Process(Long64_t entry)
 	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
 	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
 	float leading_pT = Muon.at(0).v.Pt();
+	bool baseSelection = dimuon_mass>20 && muon_dr>0.4 && leading_pT>26;
 	
-	if(dimuon_mass>20 && muon_dr>0.4 && leading_pT>26) Make2muPlots();
+	if(baseSelection) Make2muPlots();
       }
       
       //tt
@@ -973,49 +974,36 @@ void VLLAna::BookHistograms()
   for(int i=0;i<4;i++)h.sourabh[i]->Sumw2();*/
 
 
+  h.cutflow[0] = new TH1F("cutflow_SS","cutflow_SS", 15, 0, 15);
+  for(int i=0; i<1; i++) h.cutflow[i]->Sumw2();
+  
   //2L channel plots:
-  h.study2L[0] = new TH1F("2L_boxes",     "2L_boxes", 10, 0, 10);
-  h.study2L[1] = new TH1F("2L_llep0_Pt",  "2L_llep0_Pt", 1000, 0, 1000);
-  h.study2L[2] = new TH1F("2L_llep0_Eta", "2L_llep0_Eta", 200, -4, 4);
-  h.study2L[3] = new TH1F("2L_llep0_Phi", "2L_llep0_Phi", 200, -4, 4);
-  h.study2L[4] = new TH1F("2L_llep1_Pt",  "2L_llep1_Pt", 1000, 0, 1000);
-  h.study2L[5] = new TH1F("2L_llep1_Eta", "2L_llep1_Eta", 200, -4, 4);
-  h.study2L[6] = new TH1F("2L_llep1_Phi", "2L_llep1_Phi", 200, -4, 4);
-  h.study2L[7] = new TH1F("2L_llep_dEta", "2L_llep_dEta", 200, 0, 10);
-  h.study2L[8] = new TH1F("2L_llep_dPhi", "2L_llep_dPhi", 200, 0, 10);
-  h.study2L[9] = new TH1F("2L_llep_dR",   "2L_llep_dR",  1000, 0, 10);
-  h.study2L[10] = new TH1F("2L_dilep_mass", "2L_dilep_mass", 1000, 0, 1000);
-  h.study2L[11] = new TH1F("2L_met", "2L_met", 1000, 0, 1000);
-  h.study2L[12] = new TH1F("2L_metphi", "2L_met", 200, -4, 4);
-  h.study2L[13] = new TH1F("2L_llep0mT", "2L_llep0mT", 1000, 0, 1000);
-  h.study2L[14] = new TH1F("2L_llep1mT", "2L_llep1mT", 1000, 0, 1000);
-  h.study2L[15] = new TH1F("2L_sumcos", "2L_sumcos", 300, -3, 3);
-  for(int i=0; i<16; i++) h.study2L[i]->Sumw2();
-
-  /*
-   //2Mu plots:
-  h.study2mu[0] = new TH1F("2mu_boxes",   "2mu_boxes", 10, 0, 10);
-  h.study2mu[1] = new TH1F("2mu_mu0_Pt",  "mu0_Pt", 1000, 0, 1000);
-  h.study2mu[2] = new TH1F("2mu_mu0_Eta", "mu0_Eta", 200, -4, 4);
-  h.study2mu[3] = new TH1F("2mu_mu0_Phi", "mu0_Phi", 200, -4, 4);
-  h.study2mu[4] = new TH1F("2mu_mu1_Pt",  "mu1_Pt", 1000, 0, 1000);
-  h.study2mu[5] = new TH1F("2mu_mu1_Eta", "mu1_Eta", 200, -4, 4);
-  h.study2mu[6] = new TH1F("2mu_mu1_Phi", "mu1_Phi", 200, -4, 4);
-  h.study2mu[7] = new TH1F("2mu_muons_dEta", "mumu_dEta", 200, 0, 10);
-  h.study2mu[8] = new TH1F("2mu_muons_dPhi", "mumu_dPhi", 200, 0, 10);
-  h.study2mu[9] = new TH1F("2mu_muons_dR",   "mumu_dR",  1000, 0, 10);
-  h.study2mu[10] = new TH1F("2mu_dimuon_mass", "mumu_mass", 1000, 0, 1000);
-  h.study2mu[11] = new TH1F("2mu_met", "met", 1000, 0, 1000);
-  h.study2mu[12] = new TH1F("2mu_metphi", "metphi", 200, -4, 4);
-  h.study2mu[13] = new TH1F("2mu_mu0mT", "mu0mT", 1000, 0, 1000);
-  h.study2mu[14] = new TH1F("2mu_mu1mT", "mu1mT", 1000, 0, 1000);
-  h.study2mu[15] = new TH1F("2mu_dimuon_mass2", "mumu mass (2)", 200, 40, 140);
-  h.study2mu[16] = new TH1F("2mu_sumcos", "2mu_sumcos", 200, -2, 2);
-  for(int i=0; i<17; i++) h.study2mu[i]->Sumw2();*/
+  h.study2L[0] = new TH1F("2L_llep0_Pt",  "2L_llep0_Pt", 1000, 0, 1000);
+  h.study2L[1] = new TH1F("2L_llep0_Eta", "2L_llep0_Eta", 200, -4, 4);
+  h.study2L[2] = new TH1F("2L_llep0_Phi", "2L_llep0_Phi", 200, -4, 4);
+  h.study2L[3] = new TH1F("2L_llep1_Pt",  "2L_llep1_Pt", 1000, 0, 1000);
+  h.study2L[4] = new TH1F("2L_llep1_Eta", "2L_llep1_Eta", 200, -4, 4);
+  h.study2L[5] = new TH1F("2L_llep1_Phi", "2L_llep1_Phi", 200, -4, 4);
+  h.study2L[6] = new TH1F("2L_llep_dEta", "2L_llep_dEta", 200, 0, 10);
+  h.study2L[7] = new TH1F("2L_llep_dPhi", "2L_llep_dPhi", 200, 0, 10);
+  h.study2L[8] = new TH1F("2L_llep_dR",   "2L_llep_dR",  1000, 0, 10);
+  h.study2L[9] = new TH1F("2L_dilep_mass", "2L_dilep_mass", 1000, 0, 1000);
+  h.study2L[10] = new TH1F("2L_met", "2L_met", 1000, 0, 1000);
+  h.study2L[11] = new TH1F("2L_metphi", "2L_met", 200, -4, 4);
+  h.study2L[12] = new TH1F("2L_llep0mT", "2L_llep0mT", 1000, 0, 1000);
+  h.study2L[13] = new TH1F("2L_llep1mT", "2L_llep1mT", 1000, 0, 1000);
+  h.study2L[14] = new TH1F("2L_sumcos", "2L_sumcos", 300, -3, 3);
+  h.study2L[15] = new TH1F("2L_llep0_sip3d",    "2L_llep0_sip3d", 300, 0, 30);
+  h.study2L[16] = new TH1F("2L_llep0_reliso03", "2L_llep0_reliso03", 200, 0, 1);
+  h.study2L[17] = new TH1F("2L_llep0_reliso04", "2L_llep0_reliso04", 200, 0, 1);
+  h.study2L[18] = new TH1F("2L_llep1_sip3d",    "2L_llep1_sip3d", 300, 0, 30);
+  h.study2L[19] = new TH1F("2L_llep1_reliso03", "2L_llep1_reliso03", 200, 0, 1);
+  h.study2L[20] = new TH1F("2L_llep1_reliso04", "2L_llep1_reliso04", 200, 0, 1);
+  h.study2L[21] = new TH1F("2L_llep0_jetdeepB", "2L_llep0_jetdeepB", 400, -1, 3);
+  h.study2L[22] = new TH1F("2L_llep1_jetdeepB", "2L_llep1_jetdeepB", 400, -1, 3);
+  for(int i=0; i<23; i++) h.study2L[i]->Sumw2();
 
   //Studying SS events
-  //h.studySS[0] = new TH1F("nllep", "nllep", 10, 0, 10);
-  //h.studySS[1] = new TH1F("2L_OS_SS", "2L_OS_SS", 10, 0, 10);
   h.studySS[0] = new TH1F("SS_llep0_Pt",  "SS_llep0_Pt", 1000, 0, 1000);
   h.studySS[1] = new TH1F("SS_llep0_Eta", "SS_llep0_Eta", 200, -4, 4);
   h.studySS[2] = new TH1F("SS_llep0_Phi", "SS_llep0_Phi", 200, -4, 4);
@@ -1031,7 +1019,15 @@ void VLLAna::BookHistograms()
   h.studySS[12] = new TH1F("SS_llep0mT", "SS_llep0mT", 1000, 0, 1000);
   h.studySS[13] = new TH1F("SS_llep1mT", "SS_llep1mT", 1000, 0, 1000);
   h.studySS[14] = new TH1F("SS_sumcos", "SS_sumcos", 300, -3, 3);
-  for(int i=0; i<15; i++) h.studySS[i]->Sumw2();
+  h.studySS[15] = new TH1F("SS_llep0_sip3d",    "SS_llep0_sip3d", 300, 0, 30);
+  h.studySS[16] = new TH1F("SS_llep0_reliso03", "SS_llep0_reliso03", 200, 0, 1);
+  h.studySS[17] = new TH1F("SS_llep0_reliso04", "SS_llep0_reliso04", 200, 0, 1);
+  h.studySS[18] = new TH1F("SS_llep1_sip3d",    "SS_llep1_sip3d", 300, 0, 30);
+  h.studySS[19] = new TH1F("SS_llep1_reliso03", "SS_llep1_reliso03", 200, 0, 1);
+  h.studySS[20] = new TH1F("SS_llep1_reliso04", "SS_llep1_reliso04", 200, 0, 1);
+  h.studySS[21] = new TH1F("SS_llep0_jetdeepB", "SS_llep0_jetdeepB", 400, -1, 3);
+  h.studySS[22] = new TH1F("SS_llep1_jetdeepB", "SS_llep1_jetdeepB", 400, -1, 3);
+  for(int i=0; i<23; i++) h.studySS[i]->Sumw2();
 
   //Studying OS events
   h.studyOS[0] = new TH1F("OS_llep0_Pt",  "OS_llep0_Pt", 1000, 0, 1000);
@@ -1049,7 +1045,15 @@ void VLLAna::BookHistograms()
   h.studyOS[12] = new TH1F("OS_llep0mT", "OS_llep0mT", 1000, 0, 1000);
   h.studyOS[13] = new TH1F("OS_llep1mT", "OS_llep1mT", 1000, 0, 1000);
   h.studyOS[14] = new TH1F("OS_sumcos", "OS_sumcos", 300, -3, 3);
-  for(int i=0; i<15; i++) h.studyOS[i]->Sumw2();
+  h.studyOS[15] = new TH1F("OS_llep0_sip3d",    "OS_llep0_sip3d", 300, 0, 30);
+  h.studyOS[16] = new TH1F("OS_llep0_reliso03", "OS_llep0_reliso03", 200, 0, 1);
+  h.studyOS[17] = new TH1F("OS_llep0_reliso04", "OS_llep0_reliso04", 200, 0, 1);
+  h.studyOS[18] = new TH1F("OS_llep1_sip3d",    "OS_llep1_sip3d", 300, 0, 30);
+  h.studyOS[19] = new TH1F("OS_llep1_reliso03", "OS_llep1_reliso03", 200, 0, 1);
+  h.studyOS[20] = new TH1F("OS_llep1_reliso04", "OS_llep1_reliso04", 200, 0, 1);
+  h.studyOS[21] = new TH1F("OS_llep0_jetdeepB", "OS_llep0_jetdeepB", 400, -1, 3);
+  h.studyOS[22] = new TH1F("OS_llep1_jetdeepB", "OS_llep1_jetdeepB", 400, -1, 3);
+  for(int i=0; i<23; i++) h.studyOS[i]->Sumw2();
   
 }//end of BOOK HISTOS
 
