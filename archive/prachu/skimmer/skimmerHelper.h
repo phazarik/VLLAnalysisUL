@@ -5,11 +5,11 @@ void VLLAna::ActivateBranch(TTree *t){
   
   //cout<<"No of branches="<<activeBranch.size()<<endl;
   //for(auto activeBranchName : activeBranch){t->SetBranchStatus(activeBranchName, 1);}
-  for(auto activeBranchName : {"nMuon","Muon_*"})
+  for(auto activeBranchName : {"nMuon","Muon_*","nJet","Jet_*","MET_*","PuppiMET_*","btagWeight_DeepCSVB"})
     t->SetBranchStatus(activeBranchName, 1);
 
   //Other things that I am using:
-  for(auto activeBranchName : {"Flag_*", "HLT_*"})
+  for(auto activeBranchName :{"Flag_*","run","luminosityBlock","event","HLT_IsoMu24","HLT_IsoMu27","HLT_Ele32_WPTight_Gsf","HLT_Ele27_WPTight_Gsf"})
     t->SetBranchStatus(activeBranchName, 1);
   
   //Activate ONLY FOR MC
@@ -32,6 +32,78 @@ void VLLAna::ReadBranch(){
   *run;
   *luminosityBlock;
   *event;
+
+  //HLT;
+  *HLT_IsoMu24;
+  *HLT_IsoMu27;
+  *HLT_Ele32_WPTight_Gsf;
+  *HLT_Ele27_WPTight_Gsf;
+  
+  //Flags
+  *Flag_HBHENoiseFilter;
+  *Flag_HBHENoiseIsoFilter;
+  *Flag_CSCTightHaloFilter;
+  *Flag_CSCTightHaloTrkMuUnvetoFilter;
+  *Flag_CSCTightHalo2015Filter;
+  *Flag_globalTightHalo2016Filter;
+  *Flag_globalSuperTightHalo2016Filter;
+  *Flag_HcalStripHaloFilter;
+  *Flag_hcalLaserEventFilter;
+  *Flag_EcalDeadCellTriggerPrimitiveFilter;
+  *Flag_EcalDeadCellBoundaryEnergyFilter;
+  *Flag_ecalBadCalibFilter;
+  *Flag_goodVertices;
+  *Flag_eeBadScFilter;
+  *Flag_ecalLaserCorrFilter;
+  *Flag_trkPOGFilters;
+  *Flag_chargedHadronTrackResolutionFilter;
+  *Flag_muonBadTrackFilter;
+  *Flag_BadChargedCandidateFilter;
+  *Flag_BadPFMuonFilter;
+  *Flag_BadPFMuonDzFilter;
+  *Flag_hfNoisyHitsFilter;
+  *Flag_BadChargedCandidateSummer16Filter;
+  *Flag_BadPFMuonSummer16Filter;
+  *Flag_trkPOG_manystripclus53X;
+  *Flag_trkPOG_toomanystripclus53X;
+  *Flag_trkPOG_logErrorTooManyClusters;
+  *Flag_METFilters;
+
+  //btagWeight
+  if(_data==0)*btagWeight_DeepCSVB; //MC
+
+  //PFMET
+  *MET_MetUnclustEnUpDeltaX;
+  *MET_MetUnclustEnUpDeltaY;
+  *MET_covXX;
+  *MET_covXY;
+  *MET_covYY;
+  *MET_phi;
+  *MET_pt;
+  *MET_significance;
+  *MET_sumEt;
+  *MET_sumPtUnclustered;
+  if(_data==0){
+    *MET_fiducialGenPhi;
+    *MET_fiducialGenPt;
+  }
+
+  //PuppiMET
+  *PuppiMET_phi;
+  *PuppiMET_phiJERDown;
+  *PuppiMET_phiJERUp;
+  *PuppiMET_phiJESDown;
+  *PuppiMET_phiJESUp;
+  *PuppiMET_phiUnclusteredDown;
+  *PuppiMET_phiUnclusteredUp;
+  *PuppiMET_pt;
+  *PuppiMET_ptJERDown;
+  *PuppiMET_ptJERUp;
+  *PuppiMET_ptJESDown;
+  *PuppiMET_ptJESUp;
+  *PuppiMET_ptUnclusteredDown;
+  *PuppiMET_ptUnclusteredUp;
+  *PuppiMET_sumEt;
   
   //Muon Branches
   *nMuon;
@@ -95,5 +167,56 @@ void VLLAna::ReadBranch(){
       Muon_genPartFlav[i];
     }
     Muon_cleanmask[i];    
+  }
+
+  //Jets
+  *nJet;
+  for(unsigned int i=0; i<(*nJet);i++){
+    Jet_area[i];
+    Jet_btagCSVV2[i];
+    Jet_btagDeepB[i];
+    Jet_btagDeepCvB[i];
+    Jet_btagDeepCvL[i];
+    Jet_btagDeepFlavB[i];
+    Jet_btagDeepFlavCvB[i];
+    Jet_btagDeepFlavCvL[i];
+    Jet_btagDeepFlavQG[i];
+    Jet_chEmEF[i];
+    Jet_chFPV0EF[i];
+    Jet_chHEF[i];
+    Jet_eta[i];
+    Jet_hfsigmaEtaEta[i];
+    Jet_hfsigmaPhiPhi[i];
+    Jet_mass[i];
+    Jet_muEF[i];
+    Jet_muonSubtrFactor[i];
+    Jet_neEmEF[i];
+    Jet_neHEF[i];
+    Jet_phi[i];
+    Jet_pt[i];
+    Jet_puIdDisc[i];
+    Jet_qgl[i];
+    Jet_rawFactor[i];
+    Jet_bRegCorr[i];
+    Jet_bRegRes[i];
+    Jet_cRegCorr[i];
+    Jet_cRegRes[i];
+    Jet_electronIdx1[i];
+    Jet_electronIdx2[i];
+    Jet_hfadjacentEtaStripsSize[i];
+    Jet_hfcentralEtaStripSize[i];
+    Jet_jetId[i];
+    Jet_muonIdx1[i];
+    Jet_muonIdx2[i];
+    Jet_nElectrons[i];
+    Jet_nMuons[i];
+    Jet_puId[i];
+    Jet_nConstituents[i];
+    if(_data==0){
+      Jet_genJetIdx[i];
+      Jet_hadronFlavour[i];
+      Jet_partonFlavour[i];
+    }
+    Jet_cleanmask[i];
   }
 }

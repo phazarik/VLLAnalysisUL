@@ -2046,14 +2046,10 @@ void VLLAna::Init(TTree *tree)
   //For skimmer
   _SkimFile = new TFile(_SkimFileName,"recreate");
   skimTree = tree->CloneTree(0);
-  skimTree->Branch("nEvtTotal",&nEvtTotal);
-  skimTree->Branch("nEvtRan",&nEvtRan);
-  skimTree->Branch("nEvtTrig",&nEvtTrigger);
+  //skimTree->Branch("nEvtTotal",&nEvtTotal);
+  //skimTree->Branch("nEvtRan",&nEvtRan);
+  //skimTree->Branch("nEvtTrig",&nEvtTrigger);
 
-  /*
-  skimTree->SetBranchStatus("*",0);
-  skimTree->SetBranchStatus("nMuon", 1);
-  skimTree->SetBranchStatus("Muon_*", 1);*/
 }
 
 Bool_t VLLAna::Notify()

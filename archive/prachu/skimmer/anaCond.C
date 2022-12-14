@@ -6,7 +6,7 @@
 void anaCond( TString ifname , TString ofname, TString data, TString year, TString lep, TString era, TString MC)
 {
   gROOT->Time();  
-  const char *hstfilename;
+  const char *hstfilename,*skimfilename;
   TChain *chain = new TChain("Events");
   VLLAna m_selec;
   //cout<<"Declared chains"<<endl;
@@ -18,9 +18,11 @@ void anaCond( TString ifname , TString ofname, TString data, TString year, TStri
     input += "/*.root";
   }
   chain->Add(input);	
-  hstfilename = ofname;  
+  hstfilename = "hst_"+ofname;
+  skimfilename= ofname;
   //cout<<"Output files are "<<hstfilename<<endl;
   m_selec.SetHstFileName(hstfilename);
+  m_selec.SetSkimFileName(skimfilename);
   if(data=='0'&& MC=="wz")
     m_selec.SetNNFileName("/home/work/alaha/Work/FullRun2/VLLSROpt/wjetsScore_Binary_CombineType3.txt");
   if(data=='0'&& MC=="tt")

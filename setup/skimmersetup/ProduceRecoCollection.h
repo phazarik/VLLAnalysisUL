@@ -19,29 +19,33 @@ int nmu = 0, nel = 0, nph=0, n4l=0;
 
 //MUONS
 void VLLAna::RecoLightLepton(){
-  h.nlep[0]->Fill(*nMuon);
+  //h.nlep[0]->Fill(*nMuon);
   for(unsigned int i=0; i< (*nMuon); i++){
     Lepton temp; temp.v.SetPtEtaPhiM(Muon_pt[i],Muon_eta[i],Muon_phi[i],0.105); 
     temp.id = -13*Muon_charge[i]; temp.ind = i;  temp.charge = Muon_charge[i];
-    h.ptlep[0]->Fill(temp.v.Pt());
-    h.mucut->Fill(9);
+    temp.sip3d = Muon_sip3d[i];
+    temp.reliso03 = Muon_pfRelIso03_all[i];
+    temp.reliso04 = Muon_pfRelIso04_all[i];
     
+    //h.ptlep[0]->Fill(temp.v.Pt());
+    h.mucut->Fill(9);
+	
     bool passcut_loosemuon = temp.v.Pt()>10 && fabs(temp.v.Eta())<2.4 && Muon_pfRelIso04_all[i]<0.30 && Muon_looseId[i];
     if(passcut_loosemuon)
       LooseLep.push_back(temp),loosemuon.push_back(temp);
-    
+      
     bool is_promptmuon= fabs(Muon_dxy[i])<0.05 && fabs(Muon_dz[i])<0.1;
-    bool passcutmu = temp.v.Pt()>10 && fabs(temp.v.Eta())<2.4 && Muon_mediumId[i] && Muon_pfRelIso04_all[i]<0.15;
+    bool passcutmu = temp.v.Pt()>10 && fabs(temp.v.Eta())<2.4 && Muon_mediumId[i] && Muon_pfRelIso04_all[i]<0.25;
     bool sipCut = Muon_sip3d[i]<30.0;
-    
+	
     bool analysisCut= passcutmu && is_promptmuon;
 	
     if(analysisCut){
       nmu++;
       h.mucut->Fill(7);
-      h.ptlep[1]->Fill(temp.v.Pt());		
+      //h.ptlep[1]->Fill(temp.v.Pt());		
       Muon.push_back(temp);
-      llep.push_back(temp);
+      llep.push_back(temp);      
     }
 
     //cutflow(Debugging)
@@ -69,7 +73,7 @@ void VLLAna::RecoLightLepton(){
   //h.nlep[1]->Fill(nmu);
 
   //ELECTRONS      
-  h.nlep[2]->Fill(*nElectron);
+  //h.nlep[2]->Fill(*nElectron);
   for(unsigned int i=0; i< (*nElectron); i++){
     Lepton temp; temp.v.SetPtEtaPhiM(Electron_pt[i],Electron_eta[i],Electron_phi[i],0.000511); 
     temp.id = -11*Electron_charge[i]; temp.ind = i; temp.charge = Electron_charge[i];temp.muoncleaning=MuonCleaning(temp.v,0);//0=loosemuon,1=muon
@@ -82,7 +86,7 @@ void VLLAna::RecoLightLepton(){
       if(fabs(Electron_dxy[i])<0.1 && fabs(Electron_dz[i])<0.2)
 	isprompt = true;
     }
-    h.ptlep[2]->Fill(temp.v.Pt());
+    //h.ptlep[2]->Fill(temp.v.Pt());
     h.elcut->Fill(9);
     
     bool passcut_looseele = temp.v.Pt()>10 && fabs(temp.v.Eta())<2.4 && Electron_cutBased[i]>1; //Loose electron
@@ -96,7 +100,7 @@ void VLLAna::RecoLightLepton(){
     
     if(analysisCut){
       nel++;
-      h.ptlep[3]->Fill(temp.v.Pt());
+      //h.ptlep[3]->Fill(temp.v.Pt());
       Electron.push_back(temp);
       llep.push_back(temp);
     }
@@ -124,16 +128,16 @@ void VLLAna::RecoLightLepton(){
     }    
     
   } //electron loop ends
-  h.nlep[3]->Fill(nel);
+  //h.nlep[3]->Fill(nel);
 }      
-
+      
 
 void VLLAna:: RecoPhoton(){
-  h.nlep[6]->Fill(*nPhoton);
+  //h.nlep[6]->Fill(*nPhoton);
   for(unsigned int i=0; i< (*nPhoton); i++){ 
     Lepton temp; temp.v.SetPtEtaPhiM(Photon_pt[i],Photon_eta[i],Photon_phi[i],0); 
     temp.id = 22*Photon_charge[i]; temp.ind = i;
-    h.ptlep[7]->Fill(temp.v.Pt());
+    //h.ptlep[7]->Fill(temp.v.Pt());
 
     //CutFlow
     h.phocut->Fill(9);
@@ -147,7 +151,7 @@ void VLLAna:: RecoPhoton(){
 	  if(Photon_mvaID[i]){
 	    nph++;
 	    h.phocut->Fill(4);
-	    h.ptlep[8]->Fill(temp.v.Pt());
+	    //h.ptlep[8]->Fill(temp.v.Pt());
 	    //Photon.push_back(temp);
 	  }
 	}	    
@@ -157,7 +161,7 @@ void VLLAna:: RecoPhoton(){
 }
 
 void VLLAna:: RecoTau(){
-  h.nlep[4]->Fill(*nTau);
+  //h.nlep[4]->Fill(*nTau);
   for(unsigned int i=0; i< (*nTau); i++){
     h.taucut->Fill(0);
     if(Tau_decayMode[i]&&(Tau_decayMode[i]<3||Tau_decayMode[i]>9)){
@@ -192,27 +196,27 @@ void VLLAna:: RecoTau(){
 	  tlv_corr = 1;
       }
       Lepton temp; temp.v.SetPtEtaPhiM(Tau_pt[i],Tau_eta[i],Tau_phi[i],1.77);
-      h.ptlep[4]->Fill(temp.v.Pt());
+      //h.ptlep[4]->Fill(temp.v.Pt());
       temp.v *= tlv_corr; //energy correction
       temp.id = -15*Tau_charge[i]; temp.ind = i; temp.charge = Tau_charge[i];
       temp.lepcleaning = TaulepCleaning(temp.v); //haven't found any lepton in the direction of Tau
-      h.ptlep[5]->Fill(temp.v.Pt());
+      //h.ptlep[5]->Fill(temp.v.Pt());
       //h.taucut->Fill(9);
-      
+	  
       bool passcut=temp.v.Pt()>20 && fabs(temp.v.Eta())<2.3;
-      passcut = passcut && temp.lepcleaning && fabs(Tau_dz[i])<0.2;
+      passcut = passcut && temp.lepcleaning && fabs(Tau_dz[i]<0.2);
       bool DeepTauID= Tau_idDeepTau2017v2p1VSe[i]>15 && Tau_idDeepTau2017v2p1VSmu[i]>3 && Tau_idDeepTau2017v2p1VSjet[i]>127;
-      
+	  
       //bool passcut=true;
       //bool DeepTauID=true;
       //bool DeepTauID=Tau_idDeepTau2017v2p1VSjet[i]>15;//Just Loose DeepCSVAntiJet
       bool analysisCut= passcut && DeepTauID;
-      
+	  
       // bool analysisCut= true;
       //taus.push_back(temp);
       if(analysisCut){
 	taus.push_back(temp);
-	h.ptlep[6]->Fill(temp.v.Pt());
+	//h.ptlep[6]->Fill(temp.v.Pt());
       }
 	  
 	  
@@ -243,17 +247,18 @@ void VLLAna:: RecoTau(){
       }
     }
   }
-  h.nlep[5]->Fill((int)taus.size());
+  //h.nlep[5]->Fill((int)taus.size());
    
 }
 
 void VLLAna::RecoJetandBJets(){
-  //h.njet[0]->Fill(nJet);
+  // h.njet[0]->Fill(nJet);
   for(unsigned int i=0; i< (*nJet); i++){
     Lepton temp; temp.v.SetPtEtaPhiM(Jet_pt[i],Jet_eta[i],Jet_phi[i],Jet_mass[i]);
     temp.ind = i;temp.taucleaning=TaujetCleaning(temp.v);temp.lepcleaning=LepjetCleaning(temp.v); // No jet in the direction of tau
     //h.ptjet[0]->Fill(temp.v.Pt());
-    bool passcut =temp.v.Pt()>30 && fabs(temp.v.Eta())<2.4 && temp.taucleaning && temp.lepcleaning; //PF Tight Jet ID: bit 2
+    temp.deepBscore = Jet_btagDeepB[i];
+    bool passcut =temp.v.Pt()>20 && fabs(temp.v.Eta())<2.4 && temp.taucleaning && temp.lepcleaning; //PF Tight Jet ID: bit 2
     //if(passcut)
     //jets.push_back(temp);
     if(passcut){
@@ -265,7 +270,8 @@ void VLLAna::RecoJetandBJets(){
 	  }
       }
     }
-  }  
+  }
+
 }
 
 

@@ -16,7 +16,7 @@ void VLLAna::SignalCutflow(){
       }
     }
   }
-  
+	
   //lt
   if((int)llep.size()==1){
     if((abs(llep[0].id)==13)?llep.at(0).v.Pt()>26:llep.at(0).v.Pt()>32){//Lepton Pass Trigger
@@ -47,9 +47,9 @@ void VLLAna::SignalCutflow(){
     }
   }
       
-  
-  
-  
+      
+      
+      
   //tt
   if((int)taus.size()>0){
     n_t++;

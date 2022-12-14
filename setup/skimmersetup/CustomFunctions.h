@@ -120,7 +120,7 @@ bool VLLAna::IsbJet(TLorentzVector t)
 	result=true;
 	//cout<<"Lep Pt="<<t.Pt()<<endl;
 	//cout<<"b-quark Pt="<<temp.v.Pt()<<endl;
-	//h.fracpt->Fill(t.Pt()/temp.v.Pt());
+	h.fracpt->Fill(t.Pt()/temp.v.Pt());
       }
     }
   }
@@ -283,3 +283,10 @@ int VLLAna::NonBestOnZLeptonIndex()
 }
 
 
+float VLLAna::transv_mass(float lepE, float lepphi, float met, float metphi)
+{
+  float dphi = fabs(lepphi - metphi);
+  if(dphi>TMath::Pi()) dphi = 2*TMath::Pi() - dphi;
+  float mT = sqrt(2* lepE * met *(1-cos(dphi)));
+  return mT;
+}

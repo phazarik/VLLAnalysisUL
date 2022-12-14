@@ -8,11 +8,13 @@ import json
 #                                     USER DEFINED                                                  #
 ##--------------------------------------------------------------------------------------------------#
 #jsonfilename ="inputs/sample_ULdata.json"
-jsonfilename ="inputs/sample.json"
+jsonfilename ="inputs/sample_all.json"
 #jsonfilename ="inputs/sample_signalNanov8.json"
+bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
+#bkgbundle =["SingleMuon","QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
 #bkgbundle =["HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
-#bkgbundle =["TTBar","DYJetsToLL","WW","WZ","ZZ"]
-bkgbundle=["SingleMuon"]
+#bkgbundle=["SingleMuon"]
+#bkgbundle=["DYJetsToLL"]
 #bkgbundle=["QCD_MuEnriched"]
 #bkgbundle=["VLL"]
 
@@ -40,8 +42,8 @@ newjob.era ='Z'                #NOT IMPORTANT NOW
 #newjob.sampletag=''           #Made on FLY(DON'T WORRY)
 newjob.codedir = args.codedir  #Code Directory # user defined
 newjob.currentdir = os.getcwd()
-#newjob.anaConddir = "setup/skimmersetup"
-newjob.anaConddir = os.getcwd()
+newjob.anaConddir = "setup/skimmersetup"
+#newjob.anaConddir = os.getcwd()
 newjob.setup()
 
 runanaString = os.path.join(os.path.abspath(newjob.codedir),"runana.C")

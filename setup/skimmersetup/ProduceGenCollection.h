@@ -6,7 +6,7 @@
 void VLLAna::GenMuon()
 {
   int grandmomid=-1;
-  h.genPart[0]->Fill(*nGenPart);
+  //h.genPart[0]->Fill(*nGenPart);
   for(unsigned int i=0; i< (*nGenPart); i++){
     Lepton temp; temp.v.SetPtEtaPhiM(GenPart_pt[i],GenPart_eta[i],GenPart_phi[i],GenPart_mass[i]);temp.status = GenPart_status[i]; temp.ind = i;temp.pdgid = GenPart_pdgId[i];temp.momid=MotherID(i,GenPart_genPartIdxMother[i]);
     
@@ -28,10 +28,10 @@ void VLLAna::GenMuon()
       genMuon.push_back(temp);
       genllep.push_back(temp);
       //h.genPart[1]->Fill(genMuon.size());
-      h.genpltmu[1]->Fill(temp.v.Pt());
-      h.genpltmu[2]->Fill(temp.v.Eta());
-      h.genpltmu[3]->Fill(temp.v.Phi());
-      h.genpltmu[4]->Fill(MotherID(i,GenPart_genPartIdxMother[i]));
+      //h.genpltmu[1]->Fill(temp.v.Pt());
+      //h.genpltmu[2]->Fill(temp.v.Eta());
+      //h.genpltmu[3]->Fill(temp.v.Phi());
+      //h.genpltmu[4]->Fill(MotherID(i,GenPart_genPartIdxMother[i]));
     }
     
     
@@ -64,10 +64,10 @@ void VLLAna::GenElectron()
     if(passcutele){     	
       genElectron.push_back(temp);
       genllep.push_back(temp);
-      h.genpltele[1]->Fill(temp.v.Pt());
-      h.genpltele[2]->Fill(temp.v.Eta());
-      h.genpltele[3]->Fill(temp.v.Phi());
-      h.genpltele[4]->Fill(MotherID(i,GenPart_genPartIdxMother[i]));
+      //h.genpltele[1]->Fill(temp.v.Pt());
+      //h.genpltele[2]->Fill(temp.v.Eta());
+      //h.genpltele[3]->Fill(temp.v.Phi());
+      //h.genpltele[4]->Fill(MotherID(i,GenPart_genPartIdxMother[i]));
     }
   }
 }
@@ -82,10 +82,10 @@ void VLLAna::GenVisTau()
     bool passcut = temp.v.Pt()>5 && fabs(temp.v.Eta())<2.3;
     if(passcut){
       genHadronicTau.push_back(temp);
-      h.genplttau[1]->Fill(temp.v.Pt());
-      h.genplttau[2]->Fill(temp.v.Eta());
-      h.genplttau[3]->Fill(temp.v.Phi());
-      h.genplttau[4]->Fill(MotherID(i,GenPart_genPartIdxMother[i]));
+      //h.genplttau[1]->Fill(temp.v.Pt());
+      //h.genplttau[2]->Fill(temp.v.Eta());
+      //h.genplttau[3]->Fill(temp.v.Phi());
+      //h.genplttau[4]->Fill(MotherID(i,GenPart_genPartIdxMother[i]));
     }
   } 
 }
