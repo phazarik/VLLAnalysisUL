@@ -5,19 +5,14 @@ void VLLAna::ActivateBranch(TTree *t){
   
   //cout<<"No of branches="<<activeBranch.size()<<endl;
   //for(auto activeBranchName : activeBranch){t->SetBranchStatus(activeBranchName, 1);}
-  for(auto activeBranchName : {"nMuon","Muon_*","nJet","Jet_*","MET_*","PuppiMET_*","btagWeight_DeepCSVB"})
-    t->SetBranchStatus(activeBranchName, 1);
-
-  //Other things that I am using:
-  for(auto activeBranchName :{"Flag_*","run","luminosityBlock","event","HLT_IsoMu24","HLT_IsoMu27","HLT_Ele32_WPTight_Gsf","HLT_Ele27_WPTight_Gsf"})
+  for(auto activeBranchName : {"run","luminosityBlock","event","HLT_IsoMu20","HLT_IsoMu24","HLT_IsoMu27","HLT_Ele32_WPTight_Gsf","HLT_Ele27_WPTight_Gsf","Flag_*","nMuon","Muon_*","nElectron","Electron_*","nTau","Tau_*","nJet","Jet_*","MET_*","PuppiMET_*","nTrigObj","TrigObj_*", "nPhoton", "Photon_*"})
     t->SetBranchStatus(activeBranchName, 1);
   
   //Activate ONLY FOR MC
-  /*
   if(_data==0){
     for(auto activeBranchName : {"nGenPart","GenPart_*","nGenJet","GenJet_*","nGenVisTau","GenVisTau_*","btagWeight_DeepCSVB","GenMET_phi","GenMET_pt"})
       t->SetBranchStatus(activeBranchName, 1);
-      }*/
+  }
 }
 
 
