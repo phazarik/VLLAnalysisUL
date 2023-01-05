@@ -1,7 +1,7 @@
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
-void ana(int sample=2)
+void ana(int sample=0)
 {
   const char *hstfilename, *sumfilename;
   
@@ -33,7 +33,7 @@ void ana(int sample=2)
     //m_selec.SetNNFileName("/home/arnab/Arnab/Work/PhD2021/VLLSingletStudy/MultiClassifier/SignalScore_vllneuron.txt");
   }
   if(sample==-1){
-    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2muSkimmed_Dec19/UL2018Data/SingleMuon/SingleMuon_A/86281_SingleMuon_2018A_10_data.root");
+    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2muSkimmed_Dec19/UL2018Data/SingleMuon/SingleMuonA/86281_SingleMuon_2018A_10_data.root");
     hstfilename = "outputs/hst_data_skimmed.root";
     sumfilename = "outputs/sum_data_skimmed.txt";
     m_selec.SetData(1); //0 - running over MC, 1 - running over Data

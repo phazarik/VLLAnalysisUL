@@ -974,8 +974,9 @@ void VLLAna::BookHistograms()
   for(int i=0;i<4;i++)h.sourabh[i]->Sumw2();*/
 
 
-  h.cutflow[0] = new TH1F("cutflow_SS","cutflow_SS", 15, 0, 15);
-  for(int i=0; i<1; i++) h.cutflow[i]->Sumw2();
+  h.cutflow[0] = new TH1F("SS_cutflow","cutflow (SS)", 20, 0, 20);
+  h.cutflow[1] = new TH1F("OS_cutflow","cutflow (OS)", 20, 0, 20);
+  for(int i=0; i<2; i++) h.cutflow[i]->Sumw2();
   
   //2L channel plots:
   h.study2L[0] = new TH1F("2L_llep0_Pt",  "2L_llep0_Pt", 1000, 0, 1000);
@@ -1001,7 +1002,10 @@ void VLLAna::BookHistograms()
   h.study2L[20] = new TH1F("2L_llep1_reliso04", "2L_llep1_reliso04", 200, 0, 1);
   h.study2L[21] = new TH1F("2L_llep0_jetdeepB", "2L_llep0_jetdeepB", 400, -1, 3);
   h.study2L[22] = new TH1F("2L_llep1_jetdeepB", "2L_llep1_jetdeepB", 400, -1, 3);
-  for(int i=0; i<23; i++) h.study2L[i]->Sumw2();
+  h.study2L[23] = new TH1F("2L_llep_ptratio", "2L_llep_ptratio", 100, 0, 1);
+  h.study2L[24] = new TH1F("2L_ST", "2L_ST", 1000, 0, 1000);
+  h.study2L[25] = new TH1F("2L_HT", "2L_HT", 1000, 0, 1000);
+  for(int i=0; i<26; i++) h.study2L[i]->Sumw2();
 
   //Studying SS events
   h.studySS[0] = new TH1F("SS_llep0_Pt",  "SS_llep0_Pt", 1000, 0, 1000);
@@ -1027,7 +1031,10 @@ void VLLAna::BookHistograms()
   h.studySS[20] = new TH1F("SS_llep1_reliso04", "SS_llep1_reliso04", 200, 0, 1);
   h.studySS[21] = new TH1F("SS_llep0_jetdeepB", "SS_llep0_jetdeepB", 400, -1, 3);
   h.studySS[22] = new TH1F("SS_llep1_jetdeepB", "SS_llep1_jetdeepB", 400, -1, 3);
-  for(int i=0; i<23; i++) h.studySS[i]->Sumw2();
+  h.studySS[23] = new TH1F("SS_llep_ptratio", "SS_llep_ptratio", 100, 0, 1);
+  h.studySS[24] = new TH1F("SS_ST", "SS_ST", 1000, 0, 1000);
+  h.studySS[25] = new TH1F("SS_HT", "SS_HT", 1000, 0, 1000);
+  for(int i=0; i<26; i++) h.studySS[i]->Sumw2();
 
   //Studying OS events
   h.studyOS[0] = new TH1F("OS_llep0_Pt",  "OS_llep0_Pt", 1000, 0, 1000);
@@ -1053,7 +1060,10 @@ void VLLAna::BookHistograms()
   h.studyOS[20] = new TH1F("OS_llep1_reliso04", "OS_llep1_reliso04", 200, 0, 1);
   h.studyOS[21] = new TH1F("OS_llep0_jetdeepB", "OS_llep0_jetdeepB", 400, -1, 3);
   h.studyOS[22] = new TH1F("OS_llep1_jetdeepB", "OS_llep1_jetdeepB", 400, -1, 3);
-  for(int i=0; i<23; i++) h.studyOS[i]->Sumw2();
+  h.studyOS[23] = new TH1F("OS_llep_ptratio", "OS_llep_ptratio", 100, 0, 1);
+  h.studyOS[24] = new TH1F("OS_ST", "OS_ST", 1000, 0, 1000);
+  h.studyOS[25] = new TH1F("OS_HT", "OS_HT", 1000, 0, 1000);
+  for(int i=0; i<26; i++) h.studyOS[i]->Sumw2();
   
 }//end of BOOK HISTOS
 

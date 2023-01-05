@@ -10,10 +10,10 @@ import json
 #jsonfilename ="inputs/sample_ULdata.json"
 jsonfilename ="inputs/sample_all.json"
 #jsonfilename ="inputs/sample_signalNanov8.json"
-bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
+#bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
 #bkgbundle =["SingleMuon","QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
 #bkgbundle =["HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
-#bkgbundle=["SingleMuon"]
+bkgbundle=["SingleMuon"]
 #bkgbundle=["DYJetsToLL"]
 #bkgbundle=["QCD_MuEnriched"]
 #bkgbundle=["VLL"]

@@ -2031,9 +2031,9 @@ void VLLAna::Init(TTree *tree)
   // (once per file to be processed).
   
   fReader        .SetTree(tree); //fReader is used to read all the common branches.
-  if(_data == 0)                 //If the input file is MC, activate fReader_MC 
+  if(_data == 0)              //If the input file is MC, activate fReader_MC 
     fReader_MC   .SetTree(tree);
-  else if(_data == 1)            //If the input file is data, activate fReader_Data
+  else if(_data == 1)         //If the input file is data, activate fReader_Data
     fReader_Data .SetTree(tree);
 }
 

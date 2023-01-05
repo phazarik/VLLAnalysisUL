@@ -30,11 +30,11 @@
 
 class VLLAna : public TSelector {
 public :
-   TTreeReader     fReader;  //!the tree reader
+  TTreeReader     fReader;  //!the tree reader
   TTreeReader     fReader_MC;    //reads the MC branches
   TTreeReader     fReader_Data;  //reads the Data branches
-   TTree          *fChain = 0;   //!pointer to the analyzed TTree or TChain
-
+  TTree          *fChain = 0;   //!pointer to the analyzed TTree or TChain
+  
    // Readers to access the data (delete the ones you do not need).
    TTreeReaderValue<UInt_t> run = {fReader, "run"};
    TTreeReaderValue<UInt_t> luminosityBlock = {fReader, "luminosityBlock"};
