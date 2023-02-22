@@ -9,6 +9,11 @@ void VLLAna::GenMuon()
   //h.genPart[0]->Fill(*nGenPart);
   for(unsigned int i=0; i< (*nGenPart); i++){
     Lepton temp; temp.v.SetPtEtaPhiM(GenPart_pt[i],GenPart_eta[i],GenPart_phi[i],GenPart_mass[i]);temp.status = GenPart_status[i]; temp.ind = i;temp.pdgid = GenPart_pdgId[i];temp.momid=MotherID(i,GenPart_genPartIdxMother[i]);
+
+    int lepcharge=0;
+    if(GenPart_pdgId[i]>0) lepcharge = -1;
+    else lepcharge = 1;
+    temp.charge = lepcharge;
     
     bool passcutmu= abs(temp.pdgid)==13 && temp.status==1 && temp.v.Pt()>5 && fabs(temp.v.Eta())<2.4;
     bool motherisnotmu= abs(MotherID(i,GenPart_genPartIdxMother[i]))!=13 && GenPart_pdgId[GenPart_genPartIdxMother[i]]!=22;

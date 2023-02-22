@@ -28,7 +28,7 @@ void VLLAna::RecoLightLepton(){
     temp.reliso04 = Muon_pfRelIso04_all[i];
     
     //h.ptlep[0]->Fill(temp.v.Pt());
-    h.mucut->Fill(9);
+    //h.mucut->Fill(9);
 	
     bool passcut_loosemuon = temp.v.Pt()>10 && fabs(temp.v.Eta())<2.4 && Muon_pfRelIso04_all[i]<0.30 && Muon_looseId[i];
     if(passcut_loosemuon)
@@ -42,12 +42,13 @@ void VLLAna::RecoLightLepton(){
 	
     if(analysisCut){
       nmu++;
-      h.mucut->Fill(7);
+      //h.mucut->Fill(7);
       //h.ptlep[1]->Fill(temp.v.Pt());		
       Muon.push_back(temp);
       llep.push_back(temp);      
     }
 
+    /*
     //cutflow(Debugging)
     if(temp.v.Pt()>10){//pt
       h.mucut->Fill(0);
@@ -67,7 +68,7 @@ void VLLAna::RecoLightLepton(){
 	}
       }
     }
-    
+    */
 	
   }//End of Muon Loop
   //h.nlep[1]->Fill(nmu);
@@ -87,7 +88,7 @@ void VLLAna::RecoLightLepton(){
 	isprompt = true;
     }
     //h.ptlep[2]->Fill(temp.v.Pt());
-    h.elcut->Fill(9);
+    //h.elcut->Fill(9);
     
     bool passcut_looseele = temp.v.Pt()>10 && fabs(temp.v.Eta())<2.4 && Electron_cutBased[i]>1; //Loose electron
     if(passcut_looseele)
@@ -107,6 +108,7 @@ void VLLAna::RecoLightLepton(){
     
     
     //cutflow(Debugging)
+    /*
     if(temp.v.Pt()>10){//pt
       h.elcut->Fill(0);
       if(fabs(temp.v.Eta())<2.4){//eta
@@ -125,8 +127,8 @@ void VLLAna::RecoLightLepton(){
 	  }
 	}
       }
-    }    
-    
+    }
+    */
   } //electron loop ends
   //h.nlep[3]->Fill(nel);
 }      
@@ -138,19 +140,23 @@ void VLLAna:: RecoPhoton(){
     Lepton temp; temp.v.SetPtEtaPhiM(Photon_pt[i],Photon_eta[i],Photon_phi[i],0); 
     temp.id = 22*Photon_charge[i]; temp.ind = i;
     //h.ptlep[7]->Fill(temp.v.Pt());
-
+    
+    bool ptetacuts = temp.v.Pt()>10 && temp.v.Eta()<2.4;
+    bool passcuts = ptetacuts && Photon_pfRelIso03_all[i]<0.15;
+    if(passcuts) Photon.push_back(temp);
+  
     //CutFlow
-    h.phocut->Fill(9);
+    //h.phocut->Fill(9);
     if(temp.v.Pt()>10){
-      h.phocut->Fill(0);
+      //h.phocut->Fill(0);
       if(fabs(temp.v.Eta())<2.4){
-	h.phocut->Fill(1);
+	//h.phocut->Fill(1);
 	if(Photon_pfRelIso03_all[i]<0.15){
-	  h.phocut->Fill(3);
-	  Photon.push_back(temp);
+	  //h.phocut->Fill(3);
+	  //Photon.push_back(temp);
 	  if(Photon_mvaID[i]){
 	    nph++;
-	    h.phocut->Fill(4);
+	    //h.phocut->Fill(4);
 	    //h.ptlep[8]->Fill(temp.v.Pt());
 	    //Photon.push_back(temp);
 	  }
@@ -163,7 +169,7 @@ void VLLAna:: RecoPhoton(){
 void VLLAna:: RecoTau(){
   //h.nlep[4]->Fill(*nTau);
   for(unsigned int i=0; i< (*nTau); i++){
-    h.taucut->Fill(0);
+    //h.taucut->Fill(0);
     if(Tau_decayMode[i]&&(Tau_decayMode[i]<3||Tau_decayMode[i]>9)){
       //Tau energy scale correction
       float tlv_corr = 1.;
@@ -222,7 +228,7 @@ void VLLAna:: RecoTau(){
 	  
       //Tau FlowChart
       //Start With New DM finding Taus
-	  
+      /* 
       h.taucut->Fill(1);//Tau Satisfying New DecayMode
       if(Tau_idDeepTau2017v2p1VSjet[i]>15){//Loose DeepCSV
 	h.taucut->Fill(2);
@@ -245,6 +251,7 @@ void VLLAna:: RecoTau(){
 	  }
 	}
       }
+      */
     }
   }
   //h.nlep[5]->Fill((int)taus.size());
