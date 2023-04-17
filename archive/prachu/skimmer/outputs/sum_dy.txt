@@ -1,0 +1,4 @@
+Total events in the file = 32876
+Total events the code run on = 32868
+Total events that passed the trigger = 32868
+Total events after skimming = 9

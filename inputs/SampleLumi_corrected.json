@@ -1,0 +1,56 @@
+{
+    "HTbinnedWJets": {
+        "HTbinnedWJets_100to200": 41127.17,
+        "HTbinnedWJets_200to400": 172265.18,
+        "HTbinnedWJets_70to100": 52100.91,
+        "HTbinnedWJets_1200to2500": 5602003.46,
+        "HTbinnedWJets_2500toInf": 793962149.9,
+        "HTbinnedWJets_400to600": 163821.08,
+        "HTbinnedWJets_600to800": 708793.85,
+        "HTbinnedWJets_800to1200": 1481895.19
+    },
+    "QCD_MuEnriched": {
+        "QCD_MuEnriched_800to1000": 24060650.11,
+        "QCD_MuEnriched_20to30": 23.89,
+        "QCD_MuEnriched_30to50": 42.91,
+        "QCD_MuEnriched_50to80": 105.88,
+        "QCD_MuEnriched_80to120": 508.71,
+        "QCD_MuEnriched_120to170": 1802.85,
+        "QCD_MuEnriched_170to300": 10265.82,
+        "QCD_MuEnriched_300to470": 95249.24,
+        "QCD_MuEnriched_470to600": 656872.16,
+        "QCD_MuEnriched_600to800": 2060827.812,
+        "QCD_MuEnriched_20toInf": 523400000
+    },
+    "DYJetsToLL": {
+        "DYJetsToLL_M50": 30321.16,
+        "DYJetsToLL_M10to50": 5925.52
+    },
+    "SingleTop": {
+        "SingleTop_s-channel_LeptonDecays": 5456748.1,
+        "SingleTop_t-channel_AntiTop_InclusiveDecays": 1407728.54,
+        "SingleTop_t-channel_Top_InclusiveDecays": 1572627.87,
+        "SingleTop_tW_AntiTop_InclusiceDecays": 238357.43,
+        "SingleTop_tW_Top_InclusiveDecays": 245177.20
+    },
+    "TTBar": {
+        "TTBar_TTTo2L2Nu": 1642541.62,
+        "TTBar_TTToSemiLeptonic": 1304012.7
+    },
+    "ZZ": {
+        "ZZ_ZZTo4L": 74330566.04,
+        "ZZ_ZZTo2Q2L": 7928149.61,
+        "ZZ_ZZTo2L2Nu": 58416512.63,
+        "ZZ_ZZTo2Q2Nu": 4405016.45
+    },
+    "WZ": {
+        "WZ_WZTo3LNu": 1889798.54,
+        "WZ_WZTo2Q2L": 4499605.73,
+        "WZ_WZTo1L1Nu2Q": 805257.73
+    },
+    "WW": {
+        "WW_WWTo4Q": 773049.85,
+        "WW_WWTo1L1Nu2Q": 787485.59,
+	  "WW_WWTo2L2Nu": 901172.23
+    }
+}

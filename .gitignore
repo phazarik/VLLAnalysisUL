@@ -3,3 +3,5 @@
 *pcm
 *.root
 *.d
+*pyc
+*#
