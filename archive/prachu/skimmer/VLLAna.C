@@ -24,7 +24,7 @@ using namespace std;
 #include "MVAVar.h"
 
 #include "skimmerHelper.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy.h"
 
 void VLLAna::Begin(TTree * /*tree*/)
 {
@@ -320,7 +320,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       //                                          1L2J Analysis                                                               |
       //-----------------------------------------------------------------------------------------------------------------------
       
-      
+      /*
       if(is_l2j_event && (LooseLep.size()==1)){
 	n_l2j++,h.vllclass->Fill(4);
 	
@@ -370,14 +370,14 @@ Bool_t VLLAna::Process(Long64_t entry)
 	bool regC=l2jSelection_wjet_bkg && dijetMass>50 && (mtlep0>100)&&(mtlep0<150); 
 	bool regD=l2jSelection_wjet_bkg && dijetMass<50 && (mtlep0>100)&&(mtlep0<150);
 
-	/*
+	
 	//Produce Histos
 	if(MuonChannel){
 	  if(regA)VLL_wjetsEstimation(2);
 	  if(regB)VLL_wjetsEstimation(3);
 	  if(regC)VLL_wjetsEstimation(4);
 	  if(regD)VLL_wjetsEstimation(5);
-	}*/
+	}
 	
 
 	//Fill the MVA Variables
@@ -432,35 +432,53 @@ Bool_t VLLAna::Process(Long64_t entry)
 	if(highMVA){
 	  VLL_wjetsEstimation(1);
 	}
-      }
+      }*/
       
       //###########################
       // Analysis of 2Mu events
       //###########################
       if((int)Muon.size()>1){
+	/*
 	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
 	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
 	float leading_pT = Muon.at(0).v.Pt();
-	bool baseSelection = dimuon_mass>20 && muon_dr>0.4 && leading_pT>26;
+	bool baseSelection = dimuon_mass>20 && muon_dr>0.4 && leading_pT>26;*/
+
+	//New Skimmer definition:
+	float leading_pT = Muon.at(0).v.Pt();
+	bool samesign = false;
+	float samesign_dimuon_mass = 0;
+	for(int i=1; i<(int)Muon.size(); i++){
+	  if(Muon.at(0).charge == Muon.at(i).charge){
+	    samesign = true;
+	    samesign_dimuon_mass = (Muon.at(0).v+Muon.at(i).v).M();
+	    break;
+	  }
+	}
+
+	
+	bool baseSelection = (samesign_dimuon_mass>15
+			      && leading_pT>26
+			      && samesign);
 	
 	if(baseSelection){
-	  Make2muPlots();
+	  //Make2muPlots();
 	  nEvtSkim++;
 	  skimTree->Fill();
 	}
       }
-
      
-      
+
+      /*
       //tt
       if(is_tt_event){
 	//VLLPlots(2,14);
 	n_tt++,h.vllclass->Fill(3);//tt plots
-      }
+	}*/
 
       
       // Signal CutFlow
-      SignalCutflow();
+      //SignalCutflow();
       
       //--------------------END OF EVENT ENTRY-----------------------------// 
     }
@@ -889,5 +907,3 @@ void VLLAna::BookHistograms()
   for(int i=0; i<23; i++) h.studyOS[i]->Sumw2();
   
 }//end of BOOK HISTOS
-
-
