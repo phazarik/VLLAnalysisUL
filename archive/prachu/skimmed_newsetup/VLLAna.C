@@ -8,7 +8,10 @@
 #include <iomanip>
 using namespace std;
 
-//Include SF correction header files
+//Note: Include the following setup direactory to the c++ library
+//before compiling the script. 
+//INCLUDE "/work/VLLAnalysis/new_setup/setup/anaCodesetup/";
+
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/IISERLogo.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/MuonScaleFactor.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/ElectronScaleFactor.h"
@@ -23,8 +26,8 @@ using namespace std;
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
 
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/ChargeStudy.h"
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy_newsetup.h"
+//#include "../../../setup/anaCodesetup/ChargeStudy.h"
 
 void VLLAna::Begin(TTree * /*tree*/)
 {
@@ -84,67 +87,6 @@ void VLLAna::SlaveTerminate()
   cout<<"Total Triggered events = "<< nEvtTrigger <<endl;
   cout<<"Total events ran = "<<nEvtRan<<endl;
   cout<<"Total events = "<<nEvtTotal<<endl;
-  /*cout<<"No of 3L events="<<n3L<<endl;
-    cout<<"No of 3LonZ events="<<n3LonZ<<endl;
-    cout<<"No of ttbarCR satisfied event="<<n_ttbarcr<<endl;
-    cout<<"No of ttbarCR satisfied event(2L+Fake)="<<n_ttbar2Lplus1Fake<<endl;
-    cout<<"===============--------------==============="<<endl;
-    cout<<"No of good leptons(analysisCut)="<<n_mu_anlys<<endl;
-    cout<<"No of good leptons(NNScoreCut)="<<n_mu_NNScore<<endl;
-    cout<<"No of true b-fake(jethadronflav) leptons="<<n_mu_bfake<<endl;
-    cout<<"No of true b-fake(partonflav) leptons="<<n_mu_bfake_flav<<endl;
-    cout<<"No of true b-fake(matching) leptons="<<n_bfake_matching<<endl;
-    cout<<"No of true prompt good leptons="<<n_mu_prompt<<endl;
-  */
-
-  cout<<"No of 2L Events="<<n_ll<<endl;
-  cout<<"No of LTau Events="<<n_lt<<endl;
-  cout<<"No of TauTau Events="<<n_tt<<endl;
-  cout<<"No of L+2j Events="<<n_l2j<<endl;
-  cout<<"_______________________________________________"<<endl;
-  
-  cout<<"2L OSSF events="<<n_ll_OSSF<<endl;
-  cout<<"2L OSOF events="<<n_ll_OSOF<<endl;
-  cout<<"2L SSSF events="<<n_ll_SSSF<<endl;
-  cout<<"2L SSOF events="<<n_ll_SSOF<<endl;
-  
-  cout<<"2L:OSSF+OSOF+SSSF+SSOF="<<n_ll_OSSF+n_ll_OSOF+n_ll_SSSF+n_ll_SSOF<<endl;
-  cout<<"_______________________________________________"<<endl;
-  cout<<"                CutFlow                      "<<endl;
-  cout<<"_______________________________________________"<<endl;
-  cout<<"Events has atleast 1 light lepton(N_evt >=1l)="<<n_l<<endl;
-  cout<<"l PT>15 GeV="<<n_l15GeV<<endl;
-  cout<<"Satisfy Trigger="<<n_trigg<<endl;
-  cout<<"Events has atleast two llep(2nd lep pt>10 GeV)="<<n_2l<<endl;
-  
-  cout<<"_______________________________________________"<<endl;
-  cout<<"               1L + >=1T events                "<<endl;
-  cout<<"_______________________________________________"<<endl;
-  cout<<"No of 1L + >=1T events       ="<<n_1l1t<<endl;
-  cout<<"1L1T: Tau pass loose deepcsv ="<<n_1l1tloose<<endl;
-  cout<<"1L1T: Tau pass |n|<2.3 cut   ="<<n_1l1tpassEta<<endl;
-  cout<<"1L1T: Tau pass Loose AntiEle ="<<n_1l1tpassAntiEle<<endl;
-  cout<<"1L1T: Tau pass Loose AntiMu  ="<<n_1l1tpassAntiMu<<endl;
-  cout<<"1L1T: Tau pass dz cut        ="<<n_1l1tprompt<<endl;
-  cout<<"1L1T: Tau pass lep cleaned   ="<<n_1l1tlepclean<<endl;
-  cout<<"1L1T: Tau pass PT cut        ="<<n_1l1tpassPt<<endl;
-  
-  cout<<"_______________________________________________"<<endl;
-  cout<<"               >=2Tau events                "<<endl;
-  cout<<"_______________________________________________"<<endl;
-  cout<<"No of >= 1 hadronic tau events="<<n_t<<endl;
-  cout<<"No of >= 2 hadronic tau events="<<n_2t<<endl;
-  cout<<"Leading tau pT >35 GeV="<<n_t35GeV<<endl;
-  cout<<"Leading tau pT >70 GeV="<<n_tautrigg<<endl;
-
-  cout<<"_______________________________________________"<<endl;
-  cout<<"Prachu's counts in 2L channel                 "<<endl;
-  cout<<"Events with OS leptons = "<<n_os;
-  cout<<"  (OSSF : "<<n_ossf<< " and OSOF : "<<n_osof <<" )"<<endl;
-  cout<<"Events with SS leptons = "<<n_ss;
-  cout<<"  (SSSF : "<<n_sssf<< " and SSOF : "<<n_ssof <<" )"<<endl;
-  cout<<"_______________________________________________\n"<<endl;
-  
   
   //Open the text output file
   ofstream fout(_SumFileName);
@@ -494,25 +436,6 @@ Bool_t VLLAna::Process(Long64_t entry)
       // Analysis of 2L events
       //###########################
 
-      /*
-      if(is_ll_event){
-	//Putting a singleMuon trigger:
-	bool singleMuonTrigger = false;
-	if(_data == 1) singleMuonTrigger = true;
-	else if(_data == 0){
-	  if(fabs(llep.at(0).id) == 13 && llep.at(0).v.Pt()>24) singleMuonTrigger=true;
-	  else if(fabs(llep.at(1).id) == 13 && llep.at(1).v.Pt()>24) singleMuonTrigger=true;
-	}
-	//Selecting well separated leptons:
-	float dRllep = llep.at(0).v.DeltaR(llep.at(1).v);
-	
-	//if the leading lepton or the subleading lepton triggers the event,
-	//and they are separated by a dR of atleast 0.4
-	if(singleMuonTrigger && dRllep>0.4){
-	  Make2LPlots();
-	  MakeSSPlots();
-	}
-	}*/
       
       //###########################
       // Analysis of 2Mu events
@@ -527,7 +450,21 @@ Bool_t VLLAna::Process(Long64_t entry)
 	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
 	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
 	float leading_pT = Muon.at(0).v.Pt();
-	bool baseSelection = dimuon_mass>20 && muon_dr>0.4 && leading_pT>26;
+
+	//Definition of same-sign events:
+	bool samesign = false;
+	float samesign_dimuon_mass = 0;
+	for(int i=1; i<(int)Muon.size(); i++){
+	  if(Muon.at(0).charge == Muon.at(i).charge){
+	    samesign = true;
+	    samesign_dimuon_mass = (Muon.at(0).v+Muon.at(i).v).M();
+	    break;
+	  }
+	}
+	
+	bool baseSelection = (samesign_dimuon_mass>15
+			      && leading_pT>26
+			      && samesign);
 
 	//ScaleFactors and efficiencies:
 	float scalefactor = 1.0;
@@ -562,7 +499,7 @@ Bool_t VLLAna::Process(Long64_t entry)
 	h.weight[3]->Fill(wt*global_sf);
 
 	//cout<<wt*global_sf<<endl;
-	if(baseSelection) Make2muPlots(wt*global_sf);
+	if(baseSelection) Make2muPlots(1);
       }
       
       //tt
@@ -872,102 +809,35 @@ void VLLAna::BookHistograms()
   h.cutflow[0] = new TH1F("SS_cutflow","cutflow (SS)", 20, 0, 20);
   h.cutflow[1] = new TH1F("OS_cutflow","cutflow (OS)", 20, 0, 20);
   for(int i=0; i<2; i++) h.cutflow[i]->Sumw2();
-  
-  //2L channel plots:
-  h.study2L[0] = new TH1F("2L_llep0_Pt",  "2L_llep0_Pt", 1000, 0, 1000);
-  h.study2L[1] = new TH1F("2L_llep0_Eta", "2L_llep0_Eta", 200, -4, 4);
-  h.study2L[2] = new TH1F("2L_llep0_Phi", "2L_llep0_Phi", 200, -4, 4);
-  h.study2L[3] = new TH1F("2L_llep1_Pt",  "2L_llep1_Pt", 1000, 0, 1000);
-  h.study2L[4] = new TH1F("2L_llep1_Eta", "2L_llep1_Eta", 200, -4, 4);
-  h.study2L[5] = new TH1F("2L_llep1_Phi", "2L_llep1_Phi", 200, -4, 4);
-  h.study2L[6] = new TH1F("2L_llep_dEta", "2L_llep_dEta", 200, 0, 10);
-  h.study2L[7] = new TH1F("2L_llep_dPhi", "2L_llep_dPhi", 200, 0, 10);
-  h.study2L[8] = new TH1F("2L_llep_dR",   "2L_llep_dR",  1000, 0, 10);
-  h.study2L[9] = new TH1F("2L_dilep_mass", "2L_dilep_mass", 1000, 0, 1000);
-  h.study2L[10] = new TH1F("2L_met", "2L_met", 1000, 0, 1000);
-  h.study2L[11] = new TH1F("2L_metphi", "2L_met", 200, -4, 4);
-  h.study2L[12] = new TH1F("2L_llep0mT", "2L_llep0mT", 1000, 0, 1000);
-  h.study2L[13] = new TH1F("2L_llep1mT", "2L_llep1mT", 1000, 0, 1000);
-  h.study2L[14] = new TH1F("2L_sumcos", "2L_sumcos", 300, -3, 3);
-  h.study2L[15] = new TH1F("2L_llep0_sip3d",    "2L_llep0_sip3d", 300, 0, 30);
-  h.study2L[16] = new TH1F("2L_llep0_reliso03", "2L_llep0_reliso03", 200, 0, 1);
-  h.study2L[17] = new TH1F("2L_llep0_reliso04", "2L_llep0_reliso04", 200, 0, 1);
-  h.study2L[18] = new TH1F("2L_llep1_sip3d",    "2L_llep1_sip3d", 300, 0, 30);
-  h.study2L[19] = new TH1F("2L_llep1_reliso03", "2L_llep1_reliso03", 200, 0, 1);
-  h.study2L[20] = new TH1F("2L_llep1_reliso04", "2L_llep1_reliso04", 200, 0, 1);
-  h.study2L[21] = new TH1F("2L_llep0_jetdeepB", "2L_llep0_jetdeepB", 400, -1, 3);
-  h.study2L[22] = new TH1F("2L_llep1_jetdeepB", "2L_llep1_jetdeepB", 400, -1, 3);
-  h.study2L[23] = new TH1F("2L_llep_ptratio", "2L_llep_ptratio", 100, 0, 1);
-  h.study2L[24] = new TH1F("2L_ST", "2L_ST", 1000, 0, 1000);
-  h.study2L[25] = new TH1F("2L_HT", "2L_HT", 1000, 0, 1000);
-  for(int i=0; i<26; i++) h.study2L[i]->Sumw2();
 
   //Studying SS events
-  h.studySS[0] = new TH1F("SS_llep0_Pt",  "SS_llep0_Pt", 1000, 0, 1000);
-  h.studySS[1] = new TH1F("SS_llep0_Eta", "SS_llep0_Eta", 200, -4, 4);
-  h.studySS[2] = new TH1F("SS_llep0_Phi", "SS_llep0_Phi", 200, -4, 4);
-  h.studySS[3] = new TH1F("SS_llep1_Pt",  "SS_llep1_Pt", 1000, 0, 1000);
-  h.studySS[4] = new TH1F("SS_llep1_Eta", "SS_llep1_Eta", 200, -4, 4);
-  h.studySS[5] = new TH1F("SS_llep1_Phi", "SS_llep1_Phi", 200, -4, 4);
-  h.studySS[6] = new TH1F("SS_llep_dEta", "SS_llep_dEta", 200, 0, 10);
-  h.studySS[7] = new TH1F("SS_llep_dPhi", "SS_llep_dPhi", 200, 0, 10);
-  h.studySS[8] = new TH1F("SS_llep_dR",   "SS_llep_dR",  1000, 0, 10);
-  h.studySS[9] = new TH1F("SS_dilep_mass", "SS_dilep_mass", 1000, 0, 1000);
-  h.studySS[10] = new TH1F("SS_met", "SS_met", 1000, 0, 1000);
-  h.studySS[11] = new TH1F("SS_metphi", "SS_met", 200, -4, 4);
-  h.studySS[12] = new TH1F("SS_llep0mT", "SS_llep0mT", 1000, 0, 1000);
-  h.studySS[13] = new TH1F("SS_llep1mT", "SS_llep1mT", 1000, 0, 1000);
-  h.studySS[14] = new TH1F("SS_sumcos", "SS_sumcos", 300, -3, 3);
-  h.studySS[15] = new TH1F("SS_llep0_sip3d",    "SS_llep0_sip3d", 300, 0, 30);
-  h.studySS[16] = new TH1F("SS_llep0_reliso03", "SS_llep0_reliso03", 200, 0, 1);
-  h.studySS[17] = new TH1F("SS_llep0_reliso04", "SS_llep0_reliso04", 200, 0, 1);
-  h.studySS[18] = new TH1F("SS_llep1_sip3d",    "SS_llep1_sip3d", 300, 0, 30);
-  h.studySS[19] = new TH1F("SS_llep1_reliso03", "SS_llep1_reliso03", 200, 0, 1);
-  h.studySS[20] = new TH1F("SS_llep1_reliso04", "SS_llep1_reliso04", 200, 0, 1);
-  h.studySS[21] = new TH1F("SS_llep0_jetdeepB", "SS_llep0_jetdeepB", 400, -1, 3);
-  h.studySS[22] = new TH1F("SS_llep1_jetdeepB", "SS_llep1_jetdeepB", 400, -1, 3);
-  h.studySS[23] = new TH1F("SS_llep_ptratio", "SS_llep_ptratio", 100, 0, 1);
-  h.studySS[24] = new TH1F("SS_ST", "SS_ST", 1000, 0, 1000);
-  h.studySS[25] = new TH1F("SS_HT", "SS_HT", 1000, 0, 1000);
-  for(int i=0; i<26; i++) h.studySS[i]->Sumw2();
-
-  //Studying OS events
-  h.studyOS[0] = new TH1F("OS_llep0_Pt",  "OS_llep0_Pt", 1000, 0, 1000);
-  h.studyOS[1] = new TH1F("OS_llep0_Eta", "OS_llep0_Eta", 200, -4, 4);
-  h.studyOS[2] = new TH1F("OS_llep0_Phi", "OS_llep0_Phi", 200, -4, 4);
-  h.studyOS[3] = new TH1F("OS_llep1_Pt",  "OS_llep1_Pt", 1000, 0, 1000);
-  h.studyOS[4] = new TH1F("OS_llep1_Eta", "OS_llep1_Eta", 200, -4, 4);
-  h.studyOS[5] = new TH1F("OS_llep1_Phi", "OS_llep1_Phi", 200, -4, 4);
-  h.studyOS[6] = new TH1F("OS_llep_dEta", "OS_llep_dEta", 200, 0, 10);
-  h.studyOS[7] = new TH1F("OS_llep_dPhi", "OS_llep_dPhi", 200, 0, 10);
-  h.studyOS[8] = new TH1F("OS_llep_dR",   "OS_llep_dR",  1000, 0, 10);
-  h.studyOS[9] = new TH1F("OS_dilep_mass", "OS_dilep_mass", 1000, 0, 1000);
-  h.studyOS[10] = new TH1F("OS_met", "OS_met", 1000, 0, 1000);
-  h.studyOS[11] = new TH1F("OS_metphi", "OS_met", 200, -4, 4);
-  h.studyOS[12] = new TH1F("OS_llep0mT", "OS_llep0mT", 1000, 0, 1000);
-  h.studyOS[13] = new TH1F("OS_llep1mT", "OS_llep1mT", 1000, 0, 1000);
-  h.studyOS[14] = new TH1F("OS_sumcos", "OS_sumcos", 300, -3, 3);
-  h.studyOS[15] = new TH1F("OS_llep0_sip3d",    "OS_llep0_sip3d", 300, 0, 30);
-  h.studyOS[16] = new TH1F("OS_llep0_reliso03", "OS_llep0_reliso03", 200, 0, 1);
-  h.studyOS[17] = new TH1F("OS_llep0_reliso04", "OS_llep0_reliso04", 200, 0, 1);
-  h.studyOS[18] = new TH1F("OS_llep1_sip3d",    "OS_llep1_sip3d", 300, 0, 30);
-  h.studyOS[19] = new TH1F("OS_llep1_reliso03", "OS_llep1_reliso03", 200, 0, 1);
-  h.studyOS[20] = new TH1F("OS_llep1_reliso04", "OS_llep1_reliso04", 200, 0, 1);
-  h.studyOS[21] = new TH1F("OS_llep0_jetdeepB", "OS_llep0_jetdeepB", 400, -1, 3);
-  h.studyOS[22] = new TH1F("OS_llep1_jetdeepB", "OS_llep1_jetdeepB", 400, -1, 3);
-  h.studyOS[23] = new TH1F("OS_llep_ptratio", "OS_llep_ptratio", 100, 0, 1);
-  h.studyOS[24] = new TH1F("OS_ST", "OS_ST", 1000, 0, 1000);
-  h.studyOS[25] = new TH1F("OS_HT", "OS_HT", 1000, 0, 1000);
-  for(int i=0; i<26; i++) h.studyOS[i]->Sumw2();
-
-  //plots for measuring charge misID:
-  h.studyCharge[0] = new TH1F("SS_genlep0_charge", "gen0 charge", 4, -2, 2);
-  h.studyCharge[1] = new TH1F("SS_genlep1_charge", "gen1 charge", 4, -2, 2);
-  h.studyCharge[2] = new TH1F("SS_charge_prod_matching", "Product of charges (matching gen)", 4, -2, 2);
-  h.studyCharge[3] = new TH1F("SS_charge_prod_gen", "Product of charges (gen)", 4, -2, 2);
-  h.studyCharge[4] = new TH1F("SS_charge_prod_reco", "Product of charges (reco)", 4, -2, 2);
-  for(int i=0; i<5; i++) h.studyCharge[i]->Sumw2();
-
+  h.studySS[0] = new TH1F("SS_mu0_Pt",  "SS_mu0_Pt", 1000, 0, 1000);
+  h.studySS[1] = new TH1F("SS_mu0_Eta", "SS_mu0_Eta", 200, -4, 4);
+  h.studySS[2] = new TH1F("SS_mu0_Phi", "SS_mu0_Phi", 200, -4, 4);
+  h.studySS[3] = new TH1F("SS_mu0_mT",  "SS_mu0_mT", 1000, 0, 1000);
+  h.studySS[4] = new TH1F("SS_mu0_reliso03",  "SS_mu0_reliso03", 200, 0, 10);
+  h.studySS[5] = new TH1F("SS_mu0_reliso04",  "SS_mu0_reliso04", 200, 0, 10);
+  h.studySS[6] = new TH1F("SS_mu0_sip3d",  "SS_mu0_sip3d", 1000, 0, 50);
+  h.studySS[7] = new TH1F("SS_mu1_Pt",  "SS_mu1_Pt", 1000, 0, 1000);
+  h.studySS[8] = new TH1F("SS_mu1_Eta", "SS_mu1_Eta", 200, -4, 4);
+  h.studySS[9] = new TH1F("SS_mu1_Phi", "SS_mu1_Phi", 200, -4, 4);
+  h.studySS[10] = new TH1F("SS_mu1_mT",  "SS_mu1_mT", 1000, 0, 1000);
+  h.studySS[11] = new TH1F("SS_mu1_reliso03",  "SS_mu1_reliso03", 200, 0, 10);
+  h.studySS[12] = new TH1F("SS_mu1_reliso04",  "SS_mu1_reliso04", 200, 0, 10);
+  h.studySS[13] = new TH1F("SS_mu1_sip3d",  "SS_mu1_sip3d", 1000, 0, 50);
+  h.studySS[14] = new TH1F("SS_dimuon_mass",  "SS_dimuon_mass", 1000, 0, 1000);
+  h.studySS[15] = new TH1F("SS_dEta_muons", "SS_dEta_muons", 600, 0, 6);
+  h.studySS[16] = new TH1F("SS_dPhi_muons", "SS_dPhi_muons", 600, 0, 6);
+  h.studySS[17] = new TH1F("SS_dR_muons", "SS_dR_muons", 600, 0, 6);
+  h.studySS[18] = new TH1F("SS_ptratio", "SS_ptratio", 200, 0, 1);
+  h.studySS[19] = new TH1F("SS_met",  "SS_met", 1000, 0, 1000);
+  h.studySS[20] = new TH1F("SS_metphi", "SS_metphi", 200, -4, 4);
+  h.studySS[21] = new TH1F("SS_LT",  "SS_LT", 1000, 0, 1000);
+  h.studySS[22] = new TH1F("SS_HT",  "SS_HT", 1000, 0, 1000);
+  h.studySS[23] = new TH1F("SS_nJet",  "SS_nJet", 10, 0, 10);
+  h.studySS[24] = new TH1F("SS_nbJet",  "SS_nbJet", 10, 0, 10);
+  for(int i=0; i<25; i++) h.studySS[i]->Sumw2();
+  
   //For event weights (Prachu)
   h.weight[0] = new TH1F("ew_scalefactor", "Scale Factor", 150, 0, 1.5);
   h.weight[1] = new TH1F("ew_triggeff", "Trigger Efficiency", 150, 0, 1.5);

@@ -23,8 +23,10 @@ using namespace std;
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
 
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2LStudy.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/ChargeStudy.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/SSStudy.h"
 
 void VLLAna::Begin(TTree * /*tree*/)
 {
@@ -182,26 +184,25 @@ Bool_t VLLAna::Process(Long64_t entry)
   nEvtTotal++;
   h.nevt->Fill(0);
   
-  /*h.metfilter[0]->Fill(*Flag_goodVertices);
+  h.metfilter[0]->Fill(*Flag_goodVertices);
   h.metfilter[1]->Fill(*Flag_globalSuperTightHalo2016Filter);
   h.metfilter[2]->Fill(*Flag_HBHENoiseFilter);
   h.metfilter[3]->Fill(*Flag_HBHENoiseIsoFilter);
   h.metfilter[4]->Fill(*Flag_EcalDeadCellTriggerPrimitiveFilter);
   h.metfilter[5]->Fill(*Flag_BadPFMuonFilter);
-  h.metfilter[6]->Fill(*Flag_eeBadScFilter);*/
+  h.metfilter[6]->Fill(*Flag_eeBadScFilter);
 
   GoodEvt2018 = (_year==2018 ? *Flag_goodVertices && *Flag_globalSuperTightHalo2016Filter && *Flag_HBHENoiseFilter && *Flag_HBHENoiseIsoFilter && *Flag_EcalDeadCellTriggerPrimitiveFilter && *Flag_BadPFMuonFilter && (_data ? *Flag_eeBadScFilter : 1) : 1);
   GoodEvt2017 = (_year==2017 ? *Flag_goodVertices && *Flag_globalSuperTightHalo2016Filter && *Flag_HBHENoiseFilter && *Flag_HBHENoiseIsoFilter && *Flag_EcalDeadCellTriggerPrimitiveFilter && *Flag_BadPFMuonFilter && (_data ? *Flag_eeBadScFilter : 1) : 1);
   GoodEvt2016 = (_year==2016 ? *Flag_goodVertices && *Flag_globalSuperTightHalo2016Filter && *Flag_HBHENoiseFilter && *Flag_HBHENoiseIsoFilter && *Flag_EcalDeadCellTriggerPrimitiveFilter && *Flag_BadPFMuonFilter && (_data ? *Flag_eeBadScFilter : 1) : 1);
   
-  /*h.metfilter[7]->Fill(GoodEvt2016);
+  h.metfilter[7]->Fill(GoodEvt2016);
   h.metfilter[8]->Fill(GoodEvt2017);
-  h.metfilter[9]->Fill(GoodEvt2018);*/
+  h.metfilter[9]->Fill(GoodEvt2018);
   
-  //GoodEvt = GoodEvt2018 && GoodEvt2017 && GoodEvt2016;
-  GoodEvt = true;
+  GoodEvt = GoodEvt2018 && GoodEvt2017 && GoodEvt2016;
 
-  //h.metfilter[10]->Fill(GoodEvt);
+  h.metfilter[10]->Fill(GoodEvt);
 
   if(GoodEvt){
     
@@ -217,8 +218,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       trigger2016 = (_year==2016 ? (_lep==1 ? (*HLT_IsoMu24==1) : _lep==0 && *HLT_Ele27_WPTight_Gsf) : 1);
       
       
-      //triggerRes = trigger2018 && trigger2017 && trigger2016;
-      triggerRes = true;
+      triggerRes = trigger2018 && trigger2017 && trigger2016;
       
     }
     if(triggerRes){
@@ -284,7 +284,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       RecoTau();         //hadronictaus : taus()
       RecoJetandBJets(); // jets and bjets : jets(),BTaggedJet();
       
-      //h.nlep[1]->Fill(Muon.size());
+      h.nlep[1]->Fill(Muon.size());
       
       
       //Sorting Function
@@ -360,8 +360,6 @@ Bool_t VLLAna::Process(Long64_t entry)
 	evtwt=1.0;
       
       h.evtwt[0]->Fill(evtwt);
-
-      
 
 
       //-----------------------------------------------------------------------------------------------------------------------
@@ -517,13 +515,13 @@ Bool_t VLLAna::Process(Long64_t entry)
       //###########################
       // Analysis of 2Mu events
       //###########################
-   
-      //Event Weights (Prachu)
-      float wt = 1.0;
-      float global_sf = 1.0;
-      //These two are 1.0 by default (for data)
-      
       if((int)Muon.size()>1){
+
+	//Event Weight (Prachu)
+	float wt = 1.0;
+	float global_sf = 1.0;
+	//These two are 1.0 by default (for data)
+	
 	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
 	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
 	float leading_pT = Muon.at(0).v.Pt();
@@ -534,7 +532,7 @@ Bool_t VLLAna::Process(Long64_t entry)
 	float triggeff = 1.0;
 	if(_data==0){
 	  //Setting the global scale factor (for MC only)
-	  //global_sf = 0.8697;
+	  global_sf = 0.8697;
 	  //Finding other scale factors:
 	  if((int)Muon.size()==2){
 	    float mu0sf = LeptonID_SF(Muon.at(0).id, Muon.at(0).v.Pt(), Muon.at(0).v.Eta());
@@ -560,8 +558,7 @@ Bool_t VLLAna::Process(Long64_t entry)
 	h.weight[1]->Fill(triggeff);
 	h.weight[2]->Fill(wt);
 	h.weight[3]->Fill(wt*global_sf);
-
-	//cout<<wt*global_sf<<endl;
+	
 	if(baseSelection) Make2muPlots(wt*global_sf);
       }
       
@@ -841,11 +838,48 @@ void VLLAna::BookHistograms()
 {
   //  cout<<"Inside BookHist()"<<endl;
   h.nevt = new TH1F("nEvents","0-Total events, 1-Total events ran, 2-Total events with trigger applied",5,-1,4);
+  h.metfilter[0] = new TH1F("METfilter_goodVertices","METfilter_goodVertices",5,-1,4);
+  h.metfilter[1] = new TH1F("METfilter_globalSuperTightHalo2016Filter","METfilter_globalSuperTightHalo2016Filter",5,-1,4);
+  h.metfilter[2] = new TH1F("METfilter_HBHENoiseFilter","METfilter_HBHENoiseFilter",5,-1,4);
+  h.metfilter[3] = new TH1F("METfilter_HBHENoiseIsoFilter","METfilter_HBHENoiseIsoFilter",5,-1,4);
+  h.metfilter[4] = new TH1F("METfilter_EcalDeadCellTriggerPrimitiveFilter","METfilter_EcalDeadCellTriggerPrimitiveFilter",5,-1,4);
+  h.metfilter[5] = new TH1F("METfilter_BadPFMuonFilter","METfilter_BadPFMuonFilter",5,-1,4);
+  h.metfilter[6] = new TH1F("METfilter_eeBadScFilter","METfilter_eeBadScFilter",5,-1,4);
+  h.metfilter[7] = new TH1F("METfilter_GoodEvt2016","METfilter_GoodEvt2016",5,-1,4);
+  h.metfilter[8] = new TH1F("METfilter_GoodEvt2017","METfilter_GoodEvt2017",5,-1,4);
+  h.metfilter[9] = new TH1F("METfilter_GoodEvt2018","METfilter_GoodEvt2018",5,-1,4);
+  h.metfilter[10] = new TH1F("METfilter_GoodEvt","METfilter_GoodEvt",5,-1,4);
+
+
+  //Basic plots starts
+  //lepton(ele,mu,tau)
+  h.nlep[0] = new TH1F("nMu","Number of Muon Candidates",20,0,20);
+  h.nlep[1] = new TH1F("ngoodMu","Number of good Muon Candidates",20,0,20);
+  h.nlep[2] = new TH1F("nEl","Number of Electron Candidates",20,0,20);
+  h.nlep[3] = new TH1F("ngoodEl","Number of good Electron Candidates",20,0,20);
+  h.nlep[4] = new TH1F("nTau","Number of Tau Candidates",20,0,20);
+  h.nlep[5] = new TH1F("ngoodTau","Number of good Tau Candidates",20,0,20);
+  h.nlep[6] = new TH1F("nPho","Number of Photon Candidates",20,0,20);
+  
+  for(int i=0; i<7; i++) h.nlep[i]->Sumw2();
   
   //jets
   h.nJet[0]= new TH1F("njet","No of goodjets",20,0,20);
   h.nJet[1]= new TH1F("nbjet","No of good b-tagged jets",20,0,20);
   for(int i=0;i<2;i++) h.nJet[i]->Sumw2();
+  
+  
+  //lepton properties
+  h.ptlep[0] = new TH1F("Mu_pt","Muon candidate p_{T}",1000,0,1000);
+  h.ptlep[1] = new TH1F("goodMu_pt","Muon p_{T}",1000,0,1000);
+  h.ptlep[2] = new TH1F("El_pt","Electron candidate p_{T}",1000,0,1000);
+  h.ptlep[3] = new TH1F("goodEl_pt","Electron p_{T}",1000,0,1000);
+  h.ptlep[4] = new TH1F("Tau_pt","Tau candidate p_{T}",1000,0,1000);
+  h.ptlep[5] = new TH1F("Tau_corrpt","Tau candidate p_{T}",1000,0,1000);
+  h.ptlep[6] = new TH1F("goodTau_pt","Tau p_{T}",1000,0,1000);
+  h.ptlep[7] = new TH1F("Pho_pt","Photon candidate p_{T}",1000,0,1000);
+  h.ptlep[8] = new TH1F("goodPho_pt","Photon p_{T}",1000,0,1000);
+  for(int i=0; i<9; i++) h.ptlep[i]->Sumw2();
   
   //missing ET of the event
   h.etmiss= new TH1F("etmiss_beforeMTcut","Missing E_{T}",1000,0,1000); h.etmiss->Sumw2();
@@ -856,17 +890,127 @@ void VLLAna::BookHistograms()
   h.taucut = new TH1F("taucut","0=All,1=NewDM,2=DeepCSV,3=AntiEle,4=AntiMu,5=Prompt,6=LepClean,7=Eta,8=PT",10,0,10);h.taucut->Sumw2();
   h.phocut = new TH1F("phocut","phocuts",10,0,10);
   
+  
+  //////////////////////////////   GEN PARTICLE BLOCK STARTS   /////////////////////////////////////////////////
+  
+  /*
+  //GEN MUON BLOCK//
+  h.genpltmu[0] = new TH1F("ngenMu","no of genMuon",10,0,10);
+  h.genpltmu[1] = new TH1F("genMu_pt","genMuon Pt",1000,0,1000);
+  h.genpltmu[2] = new TH1F("genMu_Eta","Eta of genMuon",200,-10,10);
+  h.genpltmu[3] = new TH1F("genMu_phi","Phi of genMuon",80,-4,4);
+  h.genpltmu[4] = new TH1F("genMu_mom","Mother of genMuon",2000,-1000,1000);
+
+  for(int i=0; i<5; i++) h.genpltmu[i]->Sumw2();
+
+  //GEN ELE BLOCK//
+  h.genpltele[0] = new TH1F("ngenEle","no of genElectron",10,0,10);
+  h.genpltele[1] = new TH1F("genEle_pt","genElectron Pt",1000,0,1000);
+  h.genpltele[2] = new TH1F("genEle_Eta","Eta of genElectron",200,-10,10);
+  h.genpltele[3] = new TH1F("genEle_phi","Phi of genElectron",80,-4,4);
+  h.genpltele[4] = new TH1F("genEle_mom","Mother of genElectron",2000,-1000,1000);
+
+  for(int i=0; i<5; i++) h.genpltele[i]->Sumw2();
+
+  //GEN TAU BLOCK//
+  h.genplttau[0] = new TH1F("ngentau","no of genTau",10,0,10);
+  h.genplttau[1] = new TH1F("gentau_pt","genTau Pt",1000,0,1000);
+  h.genplttau[2] = new TH1F("gentau_Eta","Eta of genTau",200,-10,10);
+  h.genplttau[3] = new TH1F("gentau_phi","Phi of genTau",80,-4,4);
+  h.genplttau[4] = new TH1F("gentau_mom","Mother of genTau",2000,-1000,1000);
+
+  for(int i=0; i<5; i++) h.genplttau[i]->Sumw2();
+
+  //genlightlepton
+  h.genPart[0]=new TH1F("ngenPart0","no of gen Particles",200,0,200);
+  h.genPart[1]=new TH1F("ngenllep","no of gen lightlepton",10,0,10);
+  h.genPart[2]=new TH1F("genpdgid","Pdgid of genllep",100,-50,50);
+  for(int i=0; i<3; i++) h.genPart[i]->Sumw2();
+  
+  //genjet
+  h.genjet[0] = new TH1F("nbgenjet_partflav","No of true b-jet by part flav",10,0,10);
+  h.genjet[1] = new TH1F("nbgenjet_hadflav","No of true b-jet by had flav",10,0,10);
+  h.genjet[2] = new TH1F("nbgenjet_bflav","No of true b-jet by manual matching",10,0,10);
+  for(int i=0;i<3;i++)h.genjet[i]->Sumw2();*/
+  
   //Lep Pt/b-quark Pt//                                                    
   h.fracpt = new TH1F("fracPt"        ,"Lep Pt/ b quark Pt",1000,0,10);h.fracpt->Sumw2();
 
+
+
   //evtwt
   h.evtwt[0] = new TH1F("evtwt"        ,"EventWeight",100,0,1);
-  h.evtwt[1] = new TH1F("evtwt_mu"        ,"EventWeight after mumu selection",100,0,1);
+  h.evtwt[1] = new TH1F("evtwt_mu"        ,"EventWeight after mumumu selection",100,0,1);
   h.evtwt[2] = new TH1F("triggereff"        ,"Trigger Efficiency",100,0,1);
   h.evtwt[3] = new TH1F("totwt"        ,"Trigger Eff x evtwt",100,0,1);
   for(int i=0;i<4;i++) h.evtwt[i]->Sumw2();
   
+  /* //VLL Plots
+  TString vllreg[3]={"ll","ltau","tautau"};
+  TString vllplot[35]={"FirstLeptonPt","SecondLeptonPt","FirstLeptonEta","SecondLeptonEta","FirstLeptonPhi","SecondLeptonPhi","dRlep01","dPhilep0met","dPhilep1met","dRlep0jet0","dRlep1jet0","dPhijetmet","Mass","OSMass","SSMass","mtlep0","mtlep1","LT","MET","HT","ST","njet","nbjet","dilepPt","dilepMT","lep0jet0Pt","lep1jet0Pt","lep01jet0Pt","lepjetMT","lep0jet01Pt","lep1jet01Pt","lep01jet01Pt","lep01jet0MT","lep01jet1MT","lep01jet01MT"};
+  float vllnbins[35]={1000,1000,100,100,100,100,100,100,100,100,100,100,1000,1000,1000,1000,1000,1000,1000,1000,1000,10,10,1000,1000,1000,1000,1000,2000,1000,1000,1000,2000,2000,2000};
+  float vllxlow[35]= {0,0,-5,-5,-5,-5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  float vllxhi[35] = {1000,1000,5,5,5,5,5,5,5,5,5,5,1000,1000,1000,1000,1000,1000,1000,1000,1000,10,10,1000,1000,1000,1000,1000,2000,1000,1000,1000,2000,2000,2000};
+  TString vllbin[15]={"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"};
+  
+  for(int i=0;i<3;i++){
+    for(int k=0;k<15;k++){
+      for(int j=0;j<35;j++){
+	TString title=vllreg[i]+"_"+vllplot[j]+"_bin"+vllbin[k];
+	h.vllplot[j][i][k]=new TH1F(title,title,vllnbins[j],vllxlow[j],vllxhi[j]);h.vllplot[j][i][k]->Sumw2();
+      }
+    }
+  }
+  */
   h.vllclass = new TH1F("vll_event","VLL event: 1=ll,2=lt,3=tt",5,0,5);h.vllclass->Sumw2();
+  
+  h.region[0]=new TH1F("llchannel","ll decomp",15,0,15);
+  h.region[1]=new TH1F("ltchannel","lt decomp",15,0,15);
+  for(int i=0;i<2;i++)h.region[i]->Sumw2();
+
+
+  //1L1T Acceptance PT plots
+  h.tauacc[0]=new TH1F("pt_base","Baseic 1L1T events Pt",1000,0,1000);
+  h.tauacc[1]=new TH1F("pt_loose","Pt: Tau Pass loose deepcsv",1000,0,1000);
+  h.tauacc[2]=new TH1F("pt_passEta","Pt: Tau Pass Eta cut",1000,0,1000);
+  h.tauacc[3]=new TH1F("pt_passAntiEle","Pt: Tau Pass Loose Anti Ele",1000,0,1000);
+  h.tauacc[4]=new TH1F("pt_passAntiMu","Pt: Tau Pass Loose Anti Mu",1000,0,1000);
+  h.tauacc[5]=new TH1F("pt_prompt","Pt: Tau Pass prompt cut",1000,0,1000);
+  h.tauacc[6]=new TH1F("pt_lepclean","Pt: Tau Pass lep cleaning",1000,0,1000);
+  h.tauacc[7]=new TH1F("pt_passPt","Pt: Tau Pass Pt cut",1000,0,1000);
+  for(int i=0;i<8;i++)h.tauacc[i]->Sumw2();
+  
+  
+  //l2j events histos
+  /*
+  TString l2jplot[22]={"ptlep0","ptjet0","ptjet1","mtlep0","mtjet0","mtjet1","dijetmass","drjet01","dijetPT","dijetMT","MET","HT","ST","njet","nbjet","dphimetjet0","dphimetjet1","dphimetlep0","dphijet0lep0","dphijet1lep0","dphidijetlep0","dphimetdijet"};
+  TString l2jfancyname[22]={"Lepton PT","Leading Jet PT","SubLeading Jet PT","Lepton MT","Leading Jet MT","SubLeading Jet MT","Dijet Inv Mass","DR(jet0,jet1)","Dijet System PT","Dijet System MT","MET in 1L2J events","HT in 1L2J events","ST in 1L2J events","No of Jets","No of b-jets","dphimetjet0","dphimetjet1","dphimetlep0","dphijet0lep0","dphijet1lep0","dphidijetlep0","dphimetdijet"};
+  TString type[6]={"","_highMVA","_regA","_regB","_regC","_regD"};
+  float l2jbin[22]={1000,1000,1000,1000,1000,1000,1000,100,1000,1000,1000,1000,1000,10,10,100,100,100,100,100,100,100};
+  float l2jbinlow[22]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  float l2jbinhi[22]={1000,1000,1000,1000,1000,1000,1000,10,1000,1000,1000,1000,1000,10,10,10,10,10,10,10,10,10};  
+  
+  for(int i=0;i<22;i++){
+    for(int j=0;j<6;j++){
+      TString plottitle= l2jplot[i]+"_l2j"+type[j];
+      TString title= l2jfancyname[i]+type[j];
+      h.vllplotl2j[i][j]=new TH1F(plottitle,title,l2jbin[i],l2jbinlow[i],l2jbinhi[i]);h.vllplotl2j[i][j]->Sumw2();
+      }
+      }*/
+  
+  
+  //NNScore
+  h.nnprob[0] = new TH1F("nnscore","NN score at signal Neuron",120,0,1.2);
+  h.nnprob[1] = new TH1F("nnscore1","ttjets score",120,0,1.2);
+  for(int i=0;i<2;i++)h.nnprob[i]->Sumw2();
+
+  /*
+  //For Sourabh(July18,2022)
+  h.sourabh[0] = new TH1F("mtlep_PFMET","Leading Lepton MT (PF)",1000,0,1000);
+  h.sourabh[1] = new TH1F("mtlep_PuppiMET","Leading Lepton MT (Puppi)",1000,0,1000);
+  h.sourabh[2] = new TH1F("mtlep_PFMET_cut","Leading Lepton MT after PFMET>30 GeV",1000,0,1000);
+  h.sourabh[3] = new TH1F("mtlep_PuppiMET_cut","Leading Lepton MT after PuppiMet>30 GeV",1000,0,1000);
+  for(int i=0;i<4;i++)h.sourabh[i]->Sumw2();*/
 
 
   h.cutflow[0] = new TH1F("SS_cutflow","cutflow (SS)", 20, 0, 20);

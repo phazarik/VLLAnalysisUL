@@ -23,6 +23,8 @@ using namespace std;
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
 
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy_newsetup.h"
+
 void VLLAna::Begin(TTree * /*tree*/)
 {
   iiserlogo();
@@ -259,8 +261,37 @@ Bool_t VLLAna::Process(Long64_t entry)
       EventSelection();
 
       //#####################
-      // Fake rate estimation
+      // 2mu SS events
       //#####################
+      //Event Weights (Prachu)
+      float wt = 1.0;
+      float global_sf = 1.0;
+      //These two are 1.0 by default (for data)
+      
+      if((int)Muon.size()>1){
+	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
+	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
+	float leading_pT = Muon.at(0).v.Pt();
+	
+	//Definition of same-sign events:
+	bool samesign = false;
+	float samesign_dimuon_mass = 0;
+	for(int i=1; i<(int)Muon.size(); i++){
+	  if(Muon.at(0).charge == Muon.at(i).charge){
+	    samesign = true;
+	    samesign_dimuon_mass = (Muon.at(0).v+Muon.at(i).v).M();
+	    break;
+	  }
+	}
+	
+	bool baseSelection = (samesign_dimuon_mass>15
+			      && leading_pT>26
+			      && samesign);
+	
+	//cout<<wt*global_sf<<endl;
+	if(baseSelection) Make2muPlots(1);
+      }
+
 
       
       //--------------------END OF EVENT ENTRY-----------------------------// 
@@ -383,6 +414,33 @@ void VLLAna::BookHistograms()
   h.evtwt[2] = new TH1F("triggereff"        ,"Trigger Efficiency",100,0,1);
   h.evtwt[3] = new TH1F("totwt"        ,"Trigger Eff x evtwt",100,0,1);
   for(int i=0;i<4;i++) h.evtwt[i]->Sumw2();
+
+  h.studySS[0] = new TH1F("SS_mu0_Pt",  "SS_mu0_Pt", 1000, 0, 1000);
+  h.studySS[1] = new TH1F("SS_mu0_Eta", "SS_mu0_Eta", 200, -4, 4);
+  h.studySS[2] = new TH1F("SS_mu0_Phi", "SS_mu0_Phi", 200, -4, 4);
+  h.studySS[3] = new TH1F("SS_mu0_mT",  "SS_mu0_mT", 1000, 0, 1000);
+  h.studySS[4] = new TH1F("SS_mu0_reliso03",  "SS_mu0_reliso03", 200, 0, 10);
+  h.studySS[5] = new TH1F("SS_mu0_reliso04",  "SS_mu0_reliso04", 200, 0, 10);
+  h.studySS[6] = new TH1F("SS_mu0_sip3d",  "SS_mu0_sip3d", 1000, 0, 50);
+  h.studySS[7] = new TH1F("SS_mu1_Pt",  "SS_mu1_Pt", 1000, 0, 1000);
+  h.studySS[8] = new TH1F("SS_mu1_Eta", "SS_mu1_Eta", 200, -4, 4);
+  h.studySS[9] = new TH1F("SS_mu1_Phi", "SS_mu1_Phi", 200, -4, 4);
+  h.studySS[10] = new TH1F("SS_mu1_mT",  "SS_mu1_mT", 1000, 0, 1000);
+  h.studySS[11] = new TH1F("SS_mu1_reliso03",  "SS_mu1_reliso03", 200, 0, 10);
+  h.studySS[12] = new TH1F("SS_mu1_reliso04",  "SS_mu1_reliso04", 200, 0, 10);
+  h.studySS[13] = new TH1F("SS_mu1_sip3d",  "SS_mu1_sip3d", 1000, 0, 50);
+  h.studySS[14] = new TH1F("SS_dimuon_mass",  "SS_dimuon_mass", 1000, 0, 1000);
+  h.studySS[15] = new TH1F("SS_dEta_muons", "SS_dEta_muons", 600, 0, 6);
+  h.studySS[16] = new TH1F("SS_dPhi_muons", "SS_dPhi_muons", 600, 0, 6);
+  h.studySS[17] = new TH1F("SS_dR_muons", "SS_dR_muons", 600, 0, 6);
+  h.studySS[18] = new TH1F("SS_ptratio", "SS_ptratio", 200, 0, 1);
+  h.studySS[19] = new TH1F("SS_met",  "SS_met", 1000, 0, 1000);
+  h.studySS[20] = new TH1F("SS_metphi", "SS_metphi", 200, -4, 4);
+  h.studySS[21] = new TH1F("SS_LT",  "SS_LT", 1000, 0, 1000);
+  h.studySS[22] = new TH1F("SS_HT",  "SS_HT", 1000, 0, 1000);
+  h.studySS[23] = new TH1F("SS_nJet",  "SS_nJet", 10, 0, 10);
+  h.studySS[24] = new TH1F("SS_nbJet",  "SS_nbJet", 10, 0, 10);
+  for(int i=0; i<25; i++) h.studySS[i]->Sumw2();
   
   
 }//end of BOOK HISTOS

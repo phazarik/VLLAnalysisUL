@@ -1,5 +1,5 @@
 #!/bin/sh
-JOBNAME="Skimmed2mu_Basic_Jan05"
+JOBNAME="Skimmed2mu_Feb02_allcut"
 SAMPLE=(
     "A"
     "B"

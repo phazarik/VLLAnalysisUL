@@ -1920,7 +1920,7 @@ public :
   void InitializeMVATreeBranch();
 
   void Make2LPlots();
-  void Make2muPlots();
+  void Make2muPlots(float wt);
   void MakeSSPlots();
   float transv_mass(float lepE, float lepphi, float met, float metphi);
   

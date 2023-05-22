@@ -63,7 +63,7 @@ void VLLAna::SlaveBegin(TTree *tree /*tree*/)
   n_os=0, n_ss=0, n_ossf=0, n_osof=0, n_sssf=0, n_ssof=0;
 
   //Create the histogram file
-  _HstFile = new TFile(_HstFileName,"recreate");
+  //_HstFile = new TFile(_HstFileName,"recreate");
   //Call the function to book the histograms we declared in Hists.
   BookHistograms();
   //ReadNNWeights();
@@ -81,11 +81,11 @@ void VLLAna::SlaveTerminate()
 {
   //   cout<<"Inside SlaveTerminate()"<<endl;
   //Write histograms and close histogram file
-  _mvaFile->Write();
-  _mvaFile->Close();
-  _HstFile->Write();
-  _HstFile->Close();
-  cout<<"Writing MVA Tree...."<<endl;
+  //_mvaFile->Write();
+  //_mvaFile->Close();
+  //_HstFile->Write();
+  //_HstFile->Close();
+  //cout<<"Writing MVA Tree...."<<endl;
 
   //For skimmer
   cout<<"Writing Skim File....";
@@ -99,14 +99,15 @@ void VLLAna::SlaveTerminate()
   cout<<"Total events the code run on = "<<nEvtRan<<endl;
   cout<<"Total events that passed the trigger = "<< nEvtTrigger <<endl;
   cout<<"Total events after skimming = "<< nEvtSkim <<endl;
-  
+
+  /*
   //Open the text output file
   ofstream fout(_SumFileName);
   //Put text output in the summary file.
   fout<<"Total events in the file = "<<nEvtTotal<<endl;
   fout<<"Total events the code run on = "<<nEvtRan<<endl;
   fout<<"Total events that passed the trigger = "<< nEvtTrigger <<endl;
-  fout<<"Total events after skimming = "<< nEvtSkim <<endl;
+  fout<<"Total events after skimming = "<< nEvtSkim <<endl;*/
 
   time(&end);
 
@@ -132,8 +133,8 @@ Bool_t VLLAna::Process(Long64_t entry)
     fReader_Data.SetLocalEntry(entry);
   
   //Verbosity determines the number of processed events after which the root prompt is supposed to display a status update.
-  if(_verbosity==0 && nEvtTotal%10000==0)cout<<"Processed "<<nEvtTotal<<" event..."<<endl;      
-  else if(_verbosity>0 && nEvtTotal%10000==0)cout<<"Processed "<<nEvtTotal<<" event..."<<endl;
+  if(_verbosity==0 && nEvtTotal%100000==0)cout<<"Processed "<<nEvtTotal<<" event..."<<endl;      
+  else if(_verbosity>0 && nEvtTotal%100000==0)cout<<"Processed "<<nEvtTotal<<" event..."<<endl;
   
   nEvtTotal++;
   h.nevt->Fill(0);
@@ -455,7 +456,6 @@ Bool_t VLLAna::Process(Long64_t entry)
 	    break;
 	  }
 	}
-
 	
 	bool baseSelection = (samesign_dimuon_mass>15
 			      && leading_pT>26

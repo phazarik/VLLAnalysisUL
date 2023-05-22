@@ -35,9 +35,11 @@ void VLLAna::RecoLightLepton(){
       LooseLep.push_back(temp),loosemuon.push_back(temp);
       
     bool is_promptmuon= fabs(Muon_dxy[i])<0.05 && fabs(Muon_dz[i])<0.1;
-    bool passcutmu = temp.v.Pt()>10 && fabs(temp.v.Eta())<2.4 && Muon_mediumId[i] && Muon_pfRelIso04_all[i]<0.25;
-    bool sipCut = Muon_sip3d[i]<30.0;
-	
+    bool passcutmu = temp.v.Pt()>10 && fabs(temp.v.Eta())<2.4 && Muon_mediumId[i];
+    //&& Muon_pfRelIso04_all[i]<0.25;
+    //bool sipCut = Muon_sip3d[i]<30.0;
+    //Isolation on the muon is removed.
+    
     bool analysisCut= passcutmu && is_promptmuon;
 	
     if(analysisCut){
@@ -141,7 +143,7 @@ void VLLAna:: RecoPhoton(){
     temp.id = 22*Photon_charge[i]; temp.ind = i;
     //h.ptlep[7]->Fill(temp.v.Pt());
     
-    bool ptetacuts = temp.v.Pt()>10 && temp.v.Eta()<2.4;
+    bool ptetacuts = temp.v.Pt()>50 && temp.v.Eta()<2.4;
     bool passcuts = ptetacuts && Photon_pfRelIso03_all[i]<0.15;
     if(passcuts) Photon.push_back(temp);
   

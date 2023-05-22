@@ -10,7 +10,7 @@ import json
 jsonfilename ="inputs/sample_skimmed.json"
 #bkgbundle =["SingleMuon"]
 #bkgbundle =["DYJetsToLL"]
-bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
+bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ", "SingleMuon"]
 
 ##--------------------------------------------------------------------------------------------------#
 #                                  DON'T TOUCH BELOW                                                #
@@ -27,7 +27,7 @@ DRYRUN= args.dryrun
 newjob = cset.CondorJob()     
 newjob.dataset='mu'
 newjob.era ='Z'
-newjob.codedir = "archive/prachu/skimmed_study/"
+newjob.codedir = "archive/prachu/skimmed_study"
 newjob.currentdir = os.getcwd()
 newjob.anaConddir = os.getcwd()
 newjob.setup()
@@ -58,7 +58,7 @@ with open(jsonfilename,'r') as infile:
     bkglist = json.load(infile)
 
 #Path to input files:
-skimmed_dir = "/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2muSkimmed_Dec19/"
+skimmed_dir = "/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2muSSskimmed_Apr12/"
 
 ## Run over samples
 samplesummary=[]

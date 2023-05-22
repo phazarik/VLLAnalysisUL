@@ -42,8 +42,9 @@ newjob.era ='Z'                #NOT IMPORTANT NOW
 #newjob.sampletag=''           #Made on FLY(DON'T WORRY)
 newjob.codedir = args.codedir  #Code Directory # user defined
 newjob.currentdir = os.getcwd()
-newjob.anaConddir = "setup/skimmersetup"
-#newjob.anaConddir = os.getcwd()
+#newjob.anaConddir = "setup/skimmersetup"
+newjob.anaConddir = os.getcwd()
+#newjob.anaConddir = "archive/prachu/basic"
 newjob.setup()
 
 runanaString = os.path.join(os.path.abspath(newjob.codedir),"runana.C")

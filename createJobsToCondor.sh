@@ -31,7 +31,8 @@ inSampleDir=$3
 MAINDIR=`pwd`
 SCRIPTDIR=`pwd`
 #LOGDIR="/home/work/alaha1/work/FullRun2/VLLAnalysisUL/CondorOutput"
-LOGDIR="/home/work/phazarik1/work/VLLanalysis/SkimmedSamples"
+#LOGDIR="/home/work/phazarik1/work/VLLanalysis/SkimmedSamples"
+LOGDIR="/home/work/phazarik1/work/VLLanalysis/CondorOutput"
 #`pwd`
 #CMSDIR="/home/work/alaha1/work/FullRun2/CMSSW_10_3_1/src"
 CMSDIR="/home/work/phazarik1/work/VLLanalysis/CMSSW_10_3_1/src"
