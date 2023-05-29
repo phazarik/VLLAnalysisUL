@@ -23,8 +23,8 @@ using namespace std;
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
 
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/ChargeStudy.h"
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy_newsetup.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/ChargeStudy.h"
 
 void VLLAna::Begin(TTree * /*tree*/)
 {
@@ -95,56 +95,7 @@ void VLLAna::SlaveTerminate()
     cout<<"No of true b-fake(partonflav) leptons="<<n_mu_bfake_flav<<endl;
     cout<<"No of true b-fake(matching) leptons="<<n_bfake_matching<<endl;
     cout<<"No of true prompt good leptons="<<n_mu_prompt<<endl;
-  */
-
-  cout<<"No of 2L Events="<<n_ll<<endl;
-  cout<<"No of LTau Events="<<n_lt<<endl;
-  cout<<"No of TauTau Events="<<n_tt<<endl;
-  cout<<"No of L+2j Events="<<n_l2j<<endl;
-  cout<<"_______________________________________________"<<endl;
-  
-  cout<<"2L OSSF events="<<n_ll_OSSF<<endl;
-  cout<<"2L OSOF events="<<n_ll_OSOF<<endl;
-  cout<<"2L SSSF events="<<n_ll_SSSF<<endl;
-  cout<<"2L SSOF events="<<n_ll_SSOF<<endl;
-  
-  cout<<"2L:OSSF+OSOF+SSSF+SSOF="<<n_ll_OSSF+n_ll_OSOF+n_ll_SSSF+n_ll_SSOF<<endl;
-  cout<<"_______________________________________________"<<endl;
-  cout<<"                CutFlow                      "<<endl;
-  cout<<"_______________________________________________"<<endl;
-  cout<<"Events has atleast 1 light lepton(N_evt >=1l)="<<n_l<<endl;
-  cout<<"l PT>15 GeV="<<n_l15GeV<<endl;
-  cout<<"Satisfy Trigger="<<n_trigg<<endl;
-  cout<<"Events has atleast two llep(2nd lep pt>10 GeV)="<<n_2l<<endl;
-  
-  cout<<"_______________________________________________"<<endl;
-  cout<<"               1L + >=1T events                "<<endl;
-  cout<<"_______________________________________________"<<endl;
-  cout<<"No of 1L + >=1T events       ="<<n_1l1t<<endl;
-  cout<<"1L1T: Tau pass loose deepcsv ="<<n_1l1tloose<<endl;
-  cout<<"1L1T: Tau pass |n|<2.3 cut   ="<<n_1l1tpassEta<<endl;
-  cout<<"1L1T: Tau pass Loose AntiEle ="<<n_1l1tpassAntiEle<<endl;
-  cout<<"1L1T: Tau pass Loose AntiMu  ="<<n_1l1tpassAntiMu<<endl;
-  cout<<"1L1T: Tau pass dz cut        ="<<n_1l1tprompt<<endl;
-  cout<<"1L1T: Tau pass lep cleaned   ="<<n_1l1tlepclean<<endl;
-  cout<<"1L1T: Tau pass PT cut        ="<<n_1l1tpassPt<<endl;
-  
-  cout<<"_______________________________________________"<<endl;
-  cout<<"               >=2Tau events                "<<endl;
-  cout<<"_______________________________________________"<<endl;
-  cout<<"No of >= 1 hadronic tau events="<<n_t<<endl;
-  cout<<"No of >= 2 hadronic tau events="<<n_2t<<endl;
-  cout<<"Leading tau pT >35 GeV="<<n_t35GeV<<endl;
-  cout<<"Leading tau pT >70 GeV="<<n_tautrigg<<endl;
-
-  cout<<"_______________________________________________"<<endl;
-  cout<<"Prachu's counts in 2L channel                 "<<endl;
-  cout<<"Events with OS leptons = "<<n_os;
-  cout<<"  (OSSF : "<<n_ossf<< " and OSOF : "<<n_osof <<" )"<<endl;
-  cout<<"Events with SS leptons = "<<n_ss;
-  cout<<"  (SSSF : "<<n_sssf<< " and SSOF : "<<n_ssof <<" )"<<endl;
-  cout<<"_______________________________________________\n"<<endl;
-  
+  */  
   
   //Open the text output file
   ofstream fout(_SumFileName);
@@ -523,7 +474,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       float global_sf = 1.0;
       //These two are 1.0 by default (for data)
       
-      if((int)Muon.size()>1){
+      /*if((int)Muon.size()>1){
 	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
 	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
 	float leading_pT = Muon.at(0).v.Pt();
@@ -563,17 +514,35 @@ Bool_t VLLAna::Process(Long64_t entry)
 
 	//cout<<wt*global_sf<<endl;
 	if(baseSelection) Make2muPlots(wt*global_sf);
-      }
-      
-      //tt
-      if(is_tt_event){
-	//VLLPlots(2,14);
-	n_tt++,h.vllclass->Fill(3);//tt plots
-      }
+	}*/
 
+      //#####################
+      // 2mu SS study
+      //#####################
+      if((int)Muon.size()>1){
+	
+	float leading_pT = Muon.at(0).v.Pt();
+	bool samesign = false;
+	float samesign_dimuon_mass = 0;
+	for(int i=1; i<(int)Muon.size(); i++){
+	  if(Muon.at(0).charge == Muon.at(i).charge){
+	    samesign = true;
+	    samesign_dimuon_mass = (Muon.at(0).v+Muon.at(i).v).M();
+	    break;
+	  }
+	}
+	
+	bool baseSelection = (samesign_dimuon_mass>15
+			      && leading_pT>26
+			      && samesign);
+	
+	if(baseSelection){
+	  //Make2muPlots();
+	  cout<<"test"<<endl;
+	}
+      }
       
-      // Signal CutFlow
-      SignalCutflow();
+      
       
       //--------------------END OF EVENT ENTRY-----------------------------// 
     }

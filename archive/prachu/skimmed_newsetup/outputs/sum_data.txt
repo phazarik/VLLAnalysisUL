@@ -1,2 +1,0 @@
-Total events ran = 153503
-Total events  = 153503

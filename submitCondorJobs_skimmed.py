@@ -8,9 +8,9 @@ import json
 #                                     USER DEFINED                                                  #
 ##--------------------------------------------------------------------------------------------------#
 jsonfilename ="inputs/sample_skimmed.json"
-#bkgbundle =["SingleMuon"]
+bkgbundle =["SingleMuon"]
 #bkgbundle =["DYJetsToLL"]
-bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ", "SingleMuon"]
+#bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
 
 ##--------------------------------------------------------------------------------------------------#
 #                                  DON'T TOUCH BELOW                                                #
@@ -27,7 +27,7 @@ DRYRUN= args.dryrun
 newjob = cset.CondorJob()     
 newjob.dataset='mu'
 newjob.era ='Z'
-newjob.codedir = "archive/prachu/skimmed_study"
+newjob.codedir = "archive/prachu/skimmed_newsetup"
 newjob.currentdir = os.getcwd()
 newjob.anaConddir = os.getcwd()
 newjob.setup()
@@ -58,7 +58,7 @@ with open(jsonfilename,'r') as infile:
     bkglist = json.load(infile)
 
 #Path to input files:
-skimmed_dir = "/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2muSSskimmed_Apr12/"
+skimmed_dir = "/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2muSSskimmed_May22/"
 
 ## Run over samples
 samplesummary=[]
@@ -68,8 +68,14 @@ for background in bkgbundle:
             #print(samplegroup)
             samplesummary.append(samplegroup)
             for samplename,samplevalue in groupvalue.items():
+                if samplegroup == "SingleMuon":
+                    dataname = samplename.split("_")[1]+"_"+samplename.split("_")[2]
+                    print(dataname)
+                    
                 samplename_list = samplename.split(samplegroup+"_")
                 samplename = samplename_list[1]
+                if(samplegroup == "SingleMuon") : samplename = dataname
+                print(f"samplename after cropped={samplename}")
 
                 newjob.jobname=args.jobname+"_"+samplegroup+"_"+samplename+"_sample"
                 newjob.sampleinputdir= skimmed_dir+samplegroup+"/"+samplename

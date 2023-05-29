@@ -214,4 +214,40 @@ void VLLAna::ReadBranch(){
     }
     Jet_cleanmask[i];
   }
+
+  //Photons:
+  *nPhoton;
+  for(unsigned int i=0; i<(*nPhoton);i++){
+    Photon_dEscaleDown[i];
+    Photon_dEscaleUp[i];
+    Photon_dEsigmaDown[i];
+    Photon_dEsigmaUp[i];
+    Photon_eCorr[i];
+    Photon_energyErr[i];
+    Photon_eta[i];
+    Photon_hoe[i];
+    Photon_mass[i];
+    Photon_mvaID[i];
+    Photon_mvaID_Fall17V1p1[i];
+    Photon_pfRelIso03_all[i];
+    Photon_pfRelIso03_chg[i];
+    Photon_phi[i];
+    Photon_pt[i];
+    Photon_r9[i];
+    Photon_sieie[i];
+    Photon_charge[i];
+    Photon_cutBased[i];
+    Photon_cutBased_Fall17V1Bitmap[i];
+    Photon_electronIdx[i];
+    Photon_jetIdx[i];
+    Photon_pdgId[i];
+    Photon_vidNestedWPBitmap[i];
+    Photon_electronVeto[i];
+    Photon_isScEtaEB[i];
+    Photon_isScEtaEE[i];
+    Photon_mvaID_WP80[i];
+    Photon_mvaID_WP90[i];
+    Photon_pixelSeed[i];
+    Photon_seedGain[i];
+  }
 }

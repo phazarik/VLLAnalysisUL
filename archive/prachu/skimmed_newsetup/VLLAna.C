@@ -318,7 +318,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       //                                          1L2J Analysis                                                               |
       //-----------------------------------------------------------------------------------------------------------------------
       
-      
+      /*
       if(is_l2j_event && (LooseLep.size()==1)){
 	n_l2j++,h.vllclass->Fill(4);
 	
@@ -368,14 +368,14 @@ Bool_t VLLAna::Process(Long64_t entry)
 	bool regC=l2jSelection_wjet_bkg && dijetMass>50 && (mtlep0>100)&&(mtlep0<150); 
 	bool regD=l2jSelection_wjet_bkg && dijetMass<50 && (mtlep0>100)&&(mtlep0<150);
 
-	/*
+	
 	//Produce Histos
 	if(MuonChannel){
 	  if(regA)VLL_wjetsEstimation(2);
 	  if(regB)VLL_wjetsEstimation(3);
 	  if(regC)VLL_wjetsEstimation(4);
 	  if(regD)VLL_wjetsEstimation(5);
-	}*/
+	}
 	
 
 	//Fill the MVA Variables
@@ -430,8 +430,8 @@ Bool_t VLLAna::Process(Long64_t entry)
 	if(highMVA){
 	  VLL_wjetsEstimation(1);
 	}
-      }
-
+      }*/
+      
       //########################### 
       // Analysis of 2L events
       //###########################
@@ -466,6 +466,7 @@ Bool_t VLLAna::Process(Long64_t entry)
 			      && leading_pT>26
 			      && samesign);
 
+	/*
 	//ScaleFactors and efficiencies:
 	float scalefactor = 1.0;
 	float triggeff = 1.0;
@@ -496,21 +497,12 @@ Bool_t VLLAna::Process(Long64_t entry)
 	h.weight[0]->Fill(scalefactor);
 	h.weight[1]->Fill(triggeff);
 	h.weight[2]->Fill(wt);
-	h.weight[3]->Fill(wt*global_sf);
+	h.weight[3]->Fill(wt*global_sf);*/
 
 	//cout<<wt*global_sf<<endl;
 	if(baseSelection) Make2muPlots(1);
       }
-      
-      //tt
-      if(is_tt_event){
-	//VLLPlots(2,14);
-	n_tt++,h.vllclass->Fill(3);//tt plots
-      }
 
-      
-      // Signal CutFlow
-      SignalCutflow();
       
       //--------------------END OF EVENT ENTRY-----------------------------// 
     }
@@ -638,6 +630,8 @@ void VLLAna::ReadNNWeights()
     nnop1.insert({event,prob1});
   }
 }
+
+/*
 void VLLAna::VLLPlots(int opt,int index)
 {
   Lepton lep0,lep1;
@@ -771,7 +765,7 @@ void VLLAna::VLL_wjetsEstimation(int index)  //index: Apply different cut and ca
   h.vllplotl2j[20][index]->Fill(dphidijetlep0,evtwt);
   h.vllplotl2j[21][index]->Fill(dphimetdijet,evtwt);
   
-}
+}*/
 
 
 void VLLAna::BookHistograms()
@@ -806,8 +800,9 @@ void VLLAna::BookHistograms()
   h.vllclass = new TH1F("vll_event","VLL event: 1=ll,2=lt,3=tt",5,0,5);h.vllclass->Sumw2();
 
 
-  h.cutflow[0] = new TH1F("SS_cutflow","cutflow (SS)", 20, 0, 20);
-  h.cutflow[1] = new TH1F("OS_cutflow","cutflow (OS)", 20, 0, 20);
+  h.cutflow[0] = new TH1F("SS_cutflow_obj",   "cutflow (Object level)", 20, 0, 20);
+  h.cutflow[1] = new TH1F("SS_cutflow_dimuon","cutflow (Dimuon system level)", 20, 0, 20);
+  h.cutflow[2] = new TH1F("SS_cutflow_evt",   "cutflow (Event level)", 20, 0, 20);
   for(int i=0; i<2; i++) h.cutflow[i]->Sumw2();
 
   //Studying SS events
