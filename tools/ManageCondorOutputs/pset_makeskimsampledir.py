@@ -35,7 +35,7 @@ def move_bkgs(jobname, bkggroup, dirlist):
                 flag = not os.listdir("output/"+item)
                 if flag : list_of_empty_dirs.append(item)
                 files = "output/"+item+"/*"+subsamplename+"*.root"
-                processline= "cp -r "+files+" "+outdir+"/"
+                processline= "mv "+files+" "+outdir+"/"
                 if flag==False :
                     make_directory = "mkdir -p "+outdir
                     os.system(make_directory)
@@ -46,8 +46,8 @@ def move_bkgs(jobname, bkggroup, dirlist):
                 
         print(samplegroup+" files have been moved sucessfully.\n")
 
-    print("The following directories were empty.")
-    #for dirname in list_of_empty_dirs : print(dirname)
+    print("The following (background) directories were empty.")
+    for dirname in list_of_empty_dirs : print(dirname)
 
 def move_data(dataset, datagroup, dirlist):
     for data in datagroup:
@@ -62,7 +62,7 @@ def move_data(dataset, datagroup, dirlist):
                 if flag==False:
                     make_directory = "mkdir -p "+outdir
                     os.system(make_directory)
-                    processline="cp -r "+files+" "+outdir+"/"
+                    processline="mv "+files+" "+outdir+"/"
                     if DRYRUN==True : print(processline)
                     else : os.system(processline)
                 else:

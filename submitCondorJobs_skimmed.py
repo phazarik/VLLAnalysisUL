@@ -8,9 +8,9 @@ import json
 #                                     USER DEFINED                                                  #
 ##--------------------------------------------------------------------------------------------------#
 jsonfilename ="inputs/sample_skimmed.json"
-bkgbundle =["SingleMuon"]
+#bkgbundle =["SingleMuon"]
 #bkgbundle =["DYJetsToLL"]
-#bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ"]
+bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ","SingleMuon"]
 
 ##--------------------------------------------------------------------------------------------------#
 #                                  DON'T TOUCH BELOW                                                #
@@ -70,10 +70,11 @@ for background in bkgbundle:
             for samplename,samplevalue in groupvalue.items():
                 if samplegroup == "SingleMuon":
                     dataname = samplename.split("_")[1]+"_"+samplename.split("_")[2]
-                    print(dataname)
+                    #print(dataname)
                     
                 samplename_list = samplename.split(samplegroup+"_")
                 samplename = samplename_list[1]
+                #Special case for SingleMuon:
                 if(samplegroup == "SingleMuon") : samplename = dataname
                 print(f"samplename after cropped={samplename}")
 

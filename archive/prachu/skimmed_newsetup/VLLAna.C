@@ -34,7 +34,7 @@ void VLLAna::Begin(TTree * /*tree*/)
   iiserlogo();
   //   cout<<"Inside Begin()"<<endl;
   TString option = GetOption();
-  ReadNNWeights();
+  //ReadNNWeights();
 
   //NEW MVA TTree
   InitializeMVATreeBranch();
@@ -242,8 +242,8 @@ Bool_t VLLAna::Process(Long64_t entry)
       
       
       //Some jets plots
-      h.nJet[0]->Fill((int)jets.size());
-      h.nJet[1]->Fill((int)BTaggedJet.size());
+      //h.nJet[0]->Fill((int)jets.size());
+      //h.nJet[1]->Fill((int)BTaggedJet.size());
       
       /*==========================
 	       MET
@@ -251,7 +251,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       metpt = *MET_pt;
       metphi = *MET_phi;
       
-      h.etmiss->Fill(metpt);//fill a histogram with the missing Et of the event.
+      //h.etmiss->Fill(metpt);//fill a histogram with the missing Et of the event.
       
       //  cout<<"jet & met stored"<<endl;
       
@@ -278,9 +278,9 @@ Bool_t VLLAna::Process(Long64_t entry)
 	  float e2=SingleLepTrigger_eff(llep.at(1).id,llep.at(1).v.Pt(),llep.at(1).v.Eta());
 	  float e3=SingleLepTrigger_eff(llep.at(2).id,llep.at(2).v.Pt(),llep.at(2).v.Eta());
 	  float triggeff=1-((1-e1)*(1-e2)*(1-e3));
-	  h.evtwt[2]->Fill(triggeff);
+	  //h.evtwt[2]->Fill(triggeff);
 	  evtwt = evtwt * triggeff;
-	  h.evtwt[3]->Fill(triggeff*evtwt);
+	  //h.evtwt[3]->Fill(triggeff*evtwt);
 	  //check
 	  //cout<<"Event Weight 3L="<<evtwt<<endl;
 	}
@@ -301,7 +301,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       else
 	evtwt=1.0;
       
-      h.evtwt[0]->Fill(evtwt);
+      //h.evtwt[0]->Fill(evtwt);
 
       
 
@@ -313,128 +313,6 @@ Bool_t VLLAna::Process(Long64_t entry)
       
       EventSelection();
        
-
-      //-----------------------------------------------------------------------------------------------------------------------
-      //                                          1L2J Analysis                                                               |
-      //-----------------------------------------------------------------------------------------------------------------------
-      
-      /*
-      if(is_l2j_event && (LooseLep.size()==1)){
-	n_l2j++,h.vllclass->Fill(4);
-	
-	//Properties
-	float HT=-1.0;
-	for(int i=0;i<(int)jets.size();i++)
-	  HT=HT+jets.at(i).v.Pt();
-  
-	float mtlep0=sqrt(2.0*llep[0].v.Pt()*metpt*(1-cos(delta_phi(llep[0].v.Phi(),metphi))));
-	float mtjet0=sqrt(2.0*jets[0].v.Pt()*metpt*(1-cos(delta_phi(jets[0].v.Phi(),metphi))));
-	float mtjet1=sqrt(2.0*jets[1].v.Pt()*metpt*(1-cos(delta_phi(jets[1].v.Phi(),metphi))));
-	float MET=metpt;
-	float ST=llep[0].v.Pt()+MET+HT;
-	float dijetMass=getInvMass(jets[0].v,jets[1].v);
-	float drjet01=jets[0].v.DeltaR(jets[1].v);
-	float dijetMT=sqrt(2.0*(jets[0].v+jets[1].v).Pt()*metpt*(1-cos(delta_phi((jets[0].v+jets[1].v).Phi(),metphi))));
-	float dijetPT=(jets[0].v+jets[1].v).Pt();
-	int njet=jets.size();
-	int nbjet=BTaggedJet.size();
-	float dphimetjet0=delta_phi(jets[0].v.Phi(),metphi);
-	float dphimetjet1=delta_phi(jets[1].v.Phi(),metphi);
-	float dphimetlep0=delta_phi(llep[0].v.Phi(),metphi);
-	float dphijet0lep0=delta_phi(llep[0].v.Phi(),jets[0].v.Phi());
-	float dphijet1lep0=delta_phi(llep[0].v.Phi(),jets[1].v.Phi());
-	float dphidijetlep0=delta_phi(llep[0].v.Phi(),(jets[0].v+jets[1].v).Phi());
-	float dphimetdijet=delta_phi(metphi,(jets[0].v+jets[1].v).Phi());
-	float LeadingJetPt=jets[0].v.Pt();
-	float drjet0lep0=llep[0].v.DeltaR(jets[0].v);
-	float drjet1lep0=llep[0].v.DeltaR(jets[1].v);
-	
-	//bool l2jSelection=BTaggedJet.size()==0 && (LooseLep.size()==1);//No medium b-jets in events, No 2nd loose lepton
-	bool l2jSelection=true;
-	bool l2jSelection_global=jets.at(0).v.Pt()>30 && drjet01>0.4 && drjet0lep0>0.4 && drjet1lep0>0.4;
-	bool l2jSelection_dijetmasscut=(dijetMass<110) && (dijetMass>60);
-	bool l2jSelection_drjetcut= (drjet01<1.5);
-	bool wjet_bkg=(mtlep0>50)&&(mtlep0<150) && nbjet==0 &&l2jSelection_drjetcut;
-	bool l2jSelection_wjet_bkg=l2jSelection_global && wjet_bkg;
-	
-	bool MuonChannel= (abs(llep[0].id)==13);
-
-	//if(l2jSelection_global && MuonChannel)
-	//VLL_wjetsEstimation(0);
-	
-	//ABCD Method
-	bool regA=l2jSelection_wjet_bkg && dijetMass>50 && (mtlep0>50)&&(mtlep0<100); 
-	bool regB=l2jSelection_wjet_bkg && dijetMass<50 && (mtlep0>50)&&(mtlep0<100);
-	bool regC=l2jSelection_wjet_bkg && dijetMass>50 && (mtlep0>100)&&(mtlep0<150); 
-	bool regD=l2jSelection_wjet_bkg && dijetMass<50 && (mtlep0>100)&&(mtlep0<150);
-
-	
-	//Produce Histos
-	if(MuonChannel){
-	  if(regA)VLL_wjetsEstimation(2);
-	  if(regB)VLL_wjetsEstimation(3);
-	  if(regC)VLL_wjetsEstimation(4);
-	  if(regD)VLL_wjetsEstimation(5);
-	}
-	
-
-	//Fill the MVA Variables
-	nEvt = nEvtTotal;
-	lep0_flavor=llep[0].id; 
-	lep0_pt=llep[0].v.Pt();
-	jet0_pt=jets[0].v.Pt();
-	jet1_pt=jets[1].v.Pt();
-	lep0_mt = mtlep0;
-	jet0_mt =mtjet0;
-	jet1_mt =mtjet1;
-	dijet_mass = dijetMass;
-	deltaR_jet01 = drjet01;
-	deltaPhi_metjet0 = dphimetjet0;
-	deltaPhi_metjet1 = dphimetjet1;
-	deltaPhi_metlep0 = dphimetlep0;
-	deltaPhi_jet0lep0 = dphijet0lep0;
-	deltaPhi_jet1lep0 = dphijet1lep0;
-	deltaPhi_dijetlep0 = dphidijetlep0;
-	deltaPhi_metdijet = dphimetdijet;
-	dijet_pt = dijetPT;
-	dijet_mt = dijetMT;
-	event_MET = MET;
-	event_HT = HT;
-	event_ST = ST;
-	n_Jet = njet;
-	n_bJet = nbjet;
-	
-	//Fill MVA Tree
-	//tree->Fill();
-
-	//Text File output method
-	//ofstream fout;fout.open("VLLM100_InputVar_Jul5.txt",ios::app);
-	//printout the variables
-	//fout<<"Arnab"<<" "<<nEvtTotal<<" "<<mtlep0<<" "<<mtjet0<<" "<<mtjet1<<" "<<dijetMass<<" "<<drjet01<<" "<<MET<<" "<<HT<<" "<<dphimetjet0<<" "<<dphimetjet1<<" "<<dphimetlep0<<" "<<njet<<" "<<nbjet<<" "<<dijetPT<<" "<<dijetMT<<" "<<dphijet0lep0<<" "<<dphijet1lep0<<" "<<dphidijetlep0<<" "<<dphimetdijet<<" "<<ST<<" "<<llep[0].v.Pt()<<" "<<jets[0].v.Pt()<<" "<<jets[1].v.Pt()<<endl;
-	//fout.close();
-	
-	
-	
-	//Get the NNScore and Analyze
-	auto itr=nnop.find(nEvtTotal);
-	prob=itr->second;
-	auto itr1=nnop1.find(nEvtTotal);
-	prob1=itr1->second;
-	//cout<<"prob of event "<<nEvtTotal<<" is="<<prob<<endl;
-	h.nnprob[0]->Fill(prob,evtwt);
-	h.nnprob[1]->Fill(prob1,evtwt);
-	bool highMVA= prob>0.1 && prob1>0.2;
-	bool mediumMVA= (prob>0.2 && prob<0.4);	  
-	bool lowMVA=prob<0.2;
-	
-	if(highMVA){
-	  VLL_wjetsEstimation(1);
-	}
-      }*/
-      
-      //########################### 
-      // Analysis of 2L events
-      //###########################
 
       
       //###########################
@@ -466,7 +344,7 @@ Bool_t VLLAna::Process(Long64_t entry)
 			      && leading_pT>26
 			      && samesign);
 
-	/*
+	
 	//ScaleFactors and efficiencies:
 	float scalefactor = 1.0;
 	float triggeff = 1.0;
@@ -497,10 +375,10 @@ Bool_t VLLAna::Process(Long64_t entry)
 	h.weight[0]->Fill(scalefactor);
 	h.weight[1]->Fill(triggeff);
 	h.weight[2]->Fill(wt);
-	h.weight[3]->Fill(wt*global_sf);*/
+	h.weight[3]->Fill(wt*global_sf);
 
 	//cout<<wt*global_sf<<endl;
-	if(baseSelection) Make2muPlots(1);
+	if(baseSelection) Make2muPlots(wt);
       }
 
       
@@ -590,6 +468,7 @@ void VLLAna::Sort(int opt)
   }
 }
 
+/*
 //DebugMC Function
 void VLLAna::TruthLevelInfo()
 {
@@ -629,143 +508,7 @@ void VLLAna::ReadNNWeights()
     nnop.insert({event,prob});
     nnop1.insert({event,prob1});
   }
-}
-
-/*
-void VLLAna::VLLPlots(int opt,int index)
-{
-  Lepton lep0,lep1;
-  if(opt==0) lep0=llep.at(0), lep1=llep.at(1);//ll
-  if(opt==1) lep0=llep.at(0), lep1=taus.at(0);//lt
-  if(opt==2) lep0=taus.at(0), lep1=taus.at(1);//tt
-  //if(opt==3) lep0=jets.at(0), lep1=jets.at(1);//tt
-
-  
-  float LT=lep0.v.Pt()+lep1.v.Pt();
-  float MET=metpt;
-  float HT=-1.0;
-  for(int i=0;i<(int)jets.size();i++)
-    HT=HT+jets.at(i).v.Pt();
-  float ST=LT+MET+HT;
-  float mtlep0=sqrt(2.0*lep0.v.Pt()*metpt*(1-cos(delta_phi(lep0.v.Phi(),metphi))));
-  float mtlep1=sqrt(2.0*lep1.v.Pt()*metpt*(1-cos(delta_phi(lep1.v.Phi(),metphi))));
-  float dileppt=(lep0.v+lep1.v).Pt();
-  float mtlep01=sqrt(2.0*dileppt*metpt*(1-cos(delta_phi((lep0.v+lep1.v).Phi(),metphi))));
-  float Mass=getInvMass(lep0.v,lep1.v);
-  float OSMass=-1.0,SSMass=-1.0;
-  if(lep0.charge != lep1.charge)OSMass=getInvMass(lep0.v,lep1.v);
-  if(lep0.charge == lep1.charge)SSMass=getInvMass(lep0.v,lep1.v);
-  float dPhijetmet=-1.0,dRlep0jet0=-1.0,dRlep1jet0=-1.0;
-  if((int)jets.size()>0){
-    dPhijetmet=delta_phi(jets.at(0).v.Phi(),metphi);
-    dRlep0jet0=lep0.v.DeltaR(jets.at(0).v);
-    dRlep1jet0=lep1.v.DeltaR(jets.at(0).v);    
-  }
-  float njet=(int)jets.size();
-  float nbjet=(int)BTaggedJet.size();
-  
-  h.vllplot[0][opt][index]->Fill(lep0.v.Pt(),evtwt);
-  h.vllplot[1][opt][index]->Fill(lep1.v.Pt(),evtwt);
-  h.vllplot[2][opt][index]->Fill(lep0.v.Eta(),evtwt);
-  h.vllplot[3][opt][index]->Fill(lep1.v.Eta(),evtwt);
-  h.vllplot[4][opt][index]->Fill(lep0.v.Phi(),evtwt);
-  h.vllplot[5][opt][index]->Fill(lep1.v.Phi(),evtwt);
-  h.vllplot[6][opt][index]->Fill(lep0.v.DeltaR(lep1.v),evtwt);
-  h.vllplot[7][opt][index]->Fill(delta_phi(lep0.v.Phi(),metphi),evtwt);
-  h.vllplot[8][opt][index]->Fill(delta_phi(lep1.v.Phi(),metphi),evtwt);
-  h.vllplot[9][opt][index]->Fill(dRlep0jet0,evtwt);
-  h.vllplot[10][opt][index]->Fill(dRlep1jet0,evtwt);
-  h.vllplot[11][opt][index]->Fill(dPhijetmet,evtwt);
-  h.vllplot[12][opt][index]->Fill(Mass,evtwt);
-  if(lep0.charge != lep1.charge)
-    h.vllplot[13][opt][index]->Fill(getInvMass(lep0.v,lep1.v),evtwt);
-  if(lep0.charge == lep1.charge)
-    h.vllplot[14][opt][index]->Fill(getInvMass(lep0.v,lep1.v),evtwt);
-  h.vllplot[15][opt][index]->Fill(mtlep0,evtwt);
-  h.vllplot[16][opt][index]->Fill(mtlep1,evtwt);
-  h.vllplot[17][opt][index]->Fill(LT,evtwt);
-  h.vllplot[18][opt][index]->Fill(MET,evtwt);
-  h.vllplot[19][opt][index]->Fill(HT,evtwt);
-  h.vllplot[20][opt][index]->Fill(ST,evtwt);
-  h.vllplot[21][opt][index]->Fill(njet,evtwt);
-  h.vllplot[22][opt][index]->Fill(nbjet,evtwt);
-  
-  //unusual variables
-  h.vllplot[23][opt][index]->Fill((lep0.v+lep1.v).Pt(),evtwt);
-  h.vllplot[24][opt][index]->Fill(mtlep01,evtwt);
-  if((int)jets.size()>0){
-    h.vllplot[25][opt][index]->Fill((lep0.v+jets[0].v).Pt(),evtwt);
-    h.vllplot[26][opt][index]->Fill((lep1.v+jets[0].v).Pt(),evtwt);
-    h.vllplot[27][opt][index]->Fill((lep0.v+lep1.v+jets[0].v).Pt(),evtwt);
-    float lepjetpt=(lep0.v+lep1.v+jets[0].v).Pt();
-    h.vllplot[28][opt][index]->Fill(2.0*lepjetpt*metpt*(1-cos(delta_phi((lep0.v+lep1.v+jets[0].v).Phi(),metphi))),evtwt);}
-  if((int)jets.size()>1){
-    h.vllplot[29][opt][index]->Fill((lep0.v+jets[0].v+jets[1].v).Pt(),evtwt);
-    h.vllplot[30][opt][index]->Fill((lep1.v+jets[0].v+jets[1].v).Pt(),evtwt);
-    h.vllplot[31][opt][index]->Fill((lep0.v+lep1.v+jets[0].v+jets[1].v).Pt(),evtwt);
-    float lepjet0pt=(lep0.v+lep1.v+jets[0].v).Pt();
-    float lepjet1pt=(lep0.v+lep1.v+jets[1].v).Pt();
-    float lepjet01pt=(lep0.v+lep1.v+jets[0].v+jets[1].v).Pt();
-    h.vllplot[32][opt][index]->Fill(2.0*lepjet0pt*metpt*(1-cos(delta_phi((lep0.v+lep1.v+jets[0].v).Phi(),metphi))),evtwt);
-    h.vllplot[33][opt][index]->Fill(2.0*lepjet1pt*metpt*(1-cos(delta_phi((lep0.v+lep1.v+jets[1].v).Phi(),metphi))),evtwt);
-    h.vllplot[34][opt][index]->Fill(2.0*lepjet01pt*metpt*(1-cos(delta_phi((lep0.v+lep1.v+jets[1].v+jets[1].v).Phi(),metphi))),evtwt);
-  }
-  
-}
-
-void VLLAna::VLL_wjetsEstimation(int index)  //index: Apply different cut and call this function
-{
-  //Properties
-  float HT=-1.0;
-  for(int i=0;i<(int)jets.size();i++)
-    HT=HT+jets.at(i).v.Pt();
-  
-  float mtlep0=sqrt(2.0*llep[0].v.Pt()*metpt*(1-cos(delta_phi(llep[0].v.Phi(),metphi))));
-  float mtjet0=sqrt(2.0*jets[0].v.Pt()*metpt*(1-cos(delta_phi(jets[0].v.Phi(),metphi))));
-  float mtjet1=sqrt(2.0*jets[1].v.Pt()*metpt*(1-cos(delta_phi(jets[1].v.Phi(),metphi))));
-  float MET=metpt;
-  float ST=llep[0].v.Pt()+MET+HT;
-  float dijetMass=getInvMass(jets[0].v,jets[1].v);
-  float drjet01=jets[0].v.DeltaR(jets[1].v);
-  float dijetMT=sqrt(2.0*(jets[0].v+jets[1].v).Pt()*metpt*(1-cos(delta_phi((jets[0].v+jets[1].v).Phi(),metphi))));
-  float dijetPT=(jets[0].v+jets[1].v).Pt();
-  int njet=jets.size();
-  int nbjet=BTaggedJet.size();
-  float dphimetjet0=delta_phi(jets[0].v.Phi(),metphi);
-  float dphimetjet1=delta_phi(jets[1].v.Phi(),metphi);
-  float dphimetlep0=delta_phi(llep[0].v.Phi(),metphi);
-  float dphijet0lep0=delta_phi(llep[0].v.Phi(),jets[0].v.Phi());
-  float dphijet1lep0=delta_phi(llep[0].v.Phi(),jets[1].v.Phi());
-  float dphidijetlep0=delta_phi(llep[0].v.Phi(),(jets[0].v+jets[1].v).Phi());
-  float dphimetdijet=delta_phi(metphi,(jets[0].v+jets[1].v).Phi());
-  float LeadingJetPt=jets[0].v.Pt();
-  float drjet0lep0=llep[0].v.DeltaR(jets[0].v);
-  float drjet1lep0=llep[0].v.DeltaR(jets[1].v);
-	  
-  h.vllplotl2j[0][index]->Fill(llep[0].v.Pt(),evtwt);
-  h.vllplotl2j[1][index]->Fill(jets[0].v.Pt(),evtwt);
-  h.vllplotl2j[2][index]->Fill(jets[1].v.Pt(),evtwt);
-  h.vllplotl2j[3][index]->Fill(mtlep0,evtwt);
-  h.vllplotl2j[4][index]->Fill(mtjet0,evtwt);
-  h.vllplotl2j[5][index]->Fill(mtjet1,evtwt);
-  h.vllplotl2j[6][index]->Fill(dijetMass,evtwt);
-  h.vllplotl2j[7][index]->Fill(drjet01,evtwt);
-  h.vllplotl2j[8][index]->Fill(dijetPT,evtwt);
-  h.vllplotl2j[9][index]->Fill(dijetMT,evtwt);
-  h.vllplotl2j[10][index]->Fill(MET,evtwt);
-  h.vllplotl2j[11][index]->Fill(HT,evtwt);
-  h.vllplotl2j[12][index]->Fill(ST,evtwt);
-  h.vllplotl2j[13][index]->Fill(njet,evtwt);
-  h.vllplotl2j[14][index]->Fill(nbjet,evtwt);
-  h.vllplotl2j[15][index]->Fill(dphimetjet0,evtwt);
-  h.vllplotl2j[16][index]->Fill(dphimetjet1,evtwt);
-  h.vllplotl2j[17][index]->Fill(dphimetlep0,evtwt);
-  h.vllplotl2j[18][index]->Fill(dphijet0lep0,evtwt);
-  h.vllplotl2j[19][index]->Fill(dphijet1lep0,evtwt);
-  h.vllplotl2j[20][index]->Fill(dphidijetlep0,evtwt);
-  h.vllplotl2j[21][index]->Fill(dphimetdijet,evtwt);
-  
-}*/
+  }*/
 
 
 void VLLAna::BookHistograms()
@@ -774,36 +517,38 @@ void VLLAna::BookHistograms()
   h.nevt = new TH1F("nEvents","0-Total events, 1-Total events ran, 2-Total events with trigger applied",5,-1,4);
   
   //jets
-  h.nJet[0]= new TH1F("njet","No of goodjets",20,0,20);
-  h.nJet[1]= new TH1F("nbjet","No of good b-tagged jets",20,0,20);
-  for(int i=0;i<2;i++) h.nJet[i]->Sumw2();
+  // h.nJet[0]= new TH1F("njet","No of goodjets",20,0,20);
+  //h.nJet[1]= new TH1F("nbjet","No of good b-tagged jets",20,0,20);
+  //for(int i=0;i<2;i++) h.nJet[i]->Sumw2();
   
   //missing ET of the event
-  h.etmiss= new TH1F("etmiss_beforeMTcut","Missing E_{T}",1000,0,1000); h.etmiss->Sumw2();
+  //h.etmiss= new TH1F("etmiss_beforeMTcut","Missing E_{T}",1000,0,1000); h.etmiss->Sumw2();
   
   //object cutflow
+  /*
   h.mucut = new TH1F("mucut","0=pt,1=eta,2=dxydz,3=loose,4=Medium,5=Iso:0.25",10,0,10);h.mucut->Sumw2();
   h.elcut = new TH1F("elcut","0=pt,1=eta,2=dxydz,3=loose,4=Medium,5=muoncleaning",10,0,10);h.elcut->Sumw2();
   h.taucut = new TH1F("taucut","0=All,1=NewDM,2=DeepCSV,3=AntiEle,4=AntiMu,5=Prompt,6=LepClean,7=Eta,8=PT",10,0,10);h.taucut->Sumw2();
-  h.phocut = new TH1F("phocut","phocuts",10,0,10);
+  h.phocut = new TH1F("phocut","phocuts",10,0,10);*/
   
   //Lep Pt/b-quark Pt//                                                    
   h.fracpt = new TH1F("fracPt"        ,"Lep Pt/ b quark Pt",1000,0,10);h.fracpt->Sumw2();
 
   //evtwt
+  /*
   h.evtwt[0] = new TH1F("evtwt"        ,"EventWeight",100,0,1);
   h.evtwt[1] = new TH1F("evtwt_mu"        ,"EventWeight after mumu selection",100,0,1);
   h.evtwt[2] = new TH1F("triggereff"        ,"Trigger Efficiency",100,0,1);
   h.evtwt[3] = new TH1F("totwt"        ,"Trigger Eff x evtwt",100,0,1);
-  for(int i=0;i<4;i++) h.evtwt[i]->Sumw2();
-  
-  h.vllclass = new TH1F("vll_event","VLL event: 1=ll,2=lt,3=tt",5,0,5);h.vllclass->Sumw2();
-
+  for(int i=0;i<4;i++) h.evtwt[i]->Sumw2();*/
+ 
+  //h.vllclass = new TH1F("vll_event","VLL event: 1=ll,2=lt,3=tt",5,0,5);h.vllclass->Sumw2();
 
   h.cutflow[0] = new TH1F("SS_cutflow_obj",   "cutflow (Object level)", 20, 0, 20);
   h.cutflow[1] = new TH1F("SS_cutflow_dimuon","cutflow (Dimuon system level)", 20, 0, 20);
   h.cutflow[2] = new TH1F("SS_cutflow_evt",   "cutflow (Event level)", 20, 0, 20);
-  for(int i=0; i<2; i++) h.cutflow[i]->Sumw2();
+  h.cutflow[3] = new TH1F("SS_cutflow_combined",   "cutflow (combined)", 20, 0, 20);
+  for(int i=0; i<4; i++) h.cutflow[i]->Sumw2();
 
   //Studying SS events
   h.studySS[0] = new TH1F("SS_mu0_Pt",  "SS_mu0_Pt", 1000, 0, 1000);
