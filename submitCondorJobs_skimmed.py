@@ -8,9 +8,9 @@ import json
 #                                     USER DEFINED                                                  #
 ##--------------------------------------------------------------------------------------------------#
 jsonfilename ="inputs/sample_skimmed.json"
-#bkgbundle =["SingleMuon"]
-#bkgbundle =["DYJetsToLL"]
 bkgbundle =["QCD_MuEnriched","HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ","SingleMuon"]
+#bkgbundle =["QCD_MuEnriched"]
+#bkgbundle =["HTbinnedWJets","DYJetsToLL","SingleTop","TTBar","WW","WZ","ZZ","SingleMuon"]
 
 ##--------------------------------------------------------------------------------------------------#
 #                                  DON'T TOUCH BELOW                                                #
@@ -76,7 +76,7 @@ for background in bkgbundle:
                 samplename = samplename_list[1]
                 #Special case for SingleMuon:
                 if(samplegroup == "SingleMuon") : samplename = dataname
-                print(f"samplename after cropped={samplename}")
+                #print(f"samplename after cropped={samplename}")
 
                 newjob.jobname=args.jobname+"_"+samplegroup+"_"+samplename+"_sample"
                 newjob.sampleinputdir= skimmed_dir+samplegroup+"/"+samplename

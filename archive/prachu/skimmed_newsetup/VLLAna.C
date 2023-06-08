@@ -99,8 +99,6 @@ void VLLAna::SlaveTerminate()
   double time_taken = double(end-start);
   cout<<"Time taken by the programe is= "<<fixed<<time_taken<<setprecision(5);
   cout<<"sec"<<endl;
-
-  
 }
 
 
