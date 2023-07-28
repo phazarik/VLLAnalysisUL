@@ -66,6 +66,7 @@ void VLLAna::Make2muPlots(float wt)
 
   if(isQCDsample) wt=wt*globalsf;
 
+  /*
   //Cutflow:
   //The first bin contains the original number of events with basic selections:
   h.cutflow[0]->Fill((int)0, wt);
@@ -79,18 +80,9 @@ void VLLAna::Make2muPlots(float wt)
      Muon.at(0).v.Pt() > 30,
      Muon.at(0).reliso03 < 0.2,
      Muon.at(ss_ind).v.Pt() > 20,
+     Muon.at(0).sip3d < 2.5
     };
   for(int i=0; i<(int)cut_obj.size(); i++){if(cut_obj[i] == true) h.cutflow[0]->Fill(i+1, wt);}
-  
-  //dimuon (ss) level cuts:
-  /*
-  vector<bool> cut_ss =
-    {
-     deta_ss_muons < 2,
-     dR_ss_muons < 3,
-     dphi_ss_muons < 2.5
-    };
-  for(int i=0; i<(int)cut_ss.size(); i++){if(cut_ss[i] == true) h.cutflow[1]->Fill(i+1, wt);}*/
 
   //event level cuts:
   vector<bool> cut_evt =
@@ -100,15 +92,27 @@ void VLLAna::Make2muPlots(float wt)
   for(int i=0; i<(int)cut_evt.size(); i++){if(cut_evt[i] == true) h.cutflow[2]->Fill(i+1, wt);}
 
   bool noniso = 0.25<Muon.at(0).reliso04 && Muon.at(0).reliso04<1;
-  bool iso = Muon.at(0).reliso04<0.15;
+  bool iso = Muon.at(0).reliso04<0.15 && Muon.at(0).sip3d < 2.5;
   bool ptcuts = cut_obj[0] && cut_obj[2];
 
   if(iso)                    h.cutflow[3]->Fill((int)1, wt);
   if(ptcuts)                 h.cutflow[3]->Fill((int)2, wt);
   if(iso && ptcuts)          h.cutflow[3]->Fill((int)3, wt);
-  if(iso && ptcuts && LT>40) h.cutflow[3]->Fill((int)4, wt);
+  if(iso && ptcuts && LT>40) h.cutflow[3]->Fill((int)4, wt);*/
+
+  //-------------------------------------------------------------------------
+  //Selecting good events:
+  bool isolated_muons =
+    Muon.at(0).reliso04      < 0.15 && Muon.at(0).sip3d      < 2.5 &&
+    Muon.at(ss_ind).reliso04 < 0.20 && Muon.at(ss_ind).sip3d < 3.0;
+
+  bool ptcuts =
+    Muon.at(0).v.Pt()      > 30 &&
+    Muon.at(ss_ind).v.Pt() > 15; 
   
-  if(iso && ptcuts){//Put selections here.
+  //-------------------------------------------------------------------------
+  
+  if(isolated_muons && ptcuts){//Put selections here.
     //Object level plots:    
     h.studySS[0]->Fill(Muon.at(0).v.Pt(), wt);
     h.studySS[1]->Fill(Muon.at(0).v.Eta(), wt);

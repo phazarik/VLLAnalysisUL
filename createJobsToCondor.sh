@@ -106,7 +106,7 @@ do
   echo "queue" >> $condorFile
   echo "" >> $condorFile
 done < $tmplist
-rm -rf $tmplist
+#rm -rf $tmplist
 cp $condorFile $LOGDIR/
 cp $runScript $LOGDIR/
 cp ./createJobsToCondor.sh $LOGDIR/

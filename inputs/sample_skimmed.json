@@ -262,5 +262,13 @@
 	    "xsec": 1,
 	    "year": 2018
 	}
+    },
+    "TTW": {
+	"TTW_TTWToLNu": {
+	    "data": 0,
+	    "samplepath": "/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2muSSskimmed_May22/TTW/TTWToLNu",
+	    "xsec": 1,
+	    "year": 2018
+	}
     }
 }

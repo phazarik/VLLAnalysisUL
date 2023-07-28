@@ -302,5 +302,13 @@
 	    "xsec": 1,
 	    "year": 2018
 	}
+    },
+    "TTW": {
+	"TTW_TTWToLNu": {
+	    "data": 0,
+	    "samplepath":"/home/work/alaha1/public/RunII_ULSamples/2018/TTW/TTWToLNu",
+	    "xsec": 1,
+	    "year": 2018
+	}
     }
 }
