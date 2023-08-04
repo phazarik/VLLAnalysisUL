@@ -12,7 +12,8 @@ dryrun= args.dryrun
 jobname= args.jobname
 
 #Samples that I want to move:
-samples =["DYJetsToLL", "HTbinnedWJets", "QCD_MuEnriched", "SingleTop", "TTBar", "WW", "WZ", "ZZ", "TTW"]
+samples =["DYJetsToLL", "HTbinnedWJets", "QCD_MuEnriched", "SingleTop", "TTBar", "WW", "WZ", "ZZ", "TTW", "SingleMuon"]
+#samples = ["SingleMuon"]
 
 #dumped_dir = '/home/work/phazarik1/work/VLLanalysis/CondorOutput/hists'
 dumped_dir = '/home/work/phazarik1/work/VLLanalysis/CondorOutput/output/'+jobname
@@ -32,6 +33,12 @@ for sample in samples:
             subsample = item.split('_')[1]
             if sample == 'QCD_MuEnriched' : subsample = item.split('_')[2]
             elif sample == 'SingleTop' : subsample = item.split('_')[1]+item.split('_')[2]
+
+            if(item.startswith('SingleMuon')):
+                print(item)
+                subsample = item[10]
+                sample = item[0:10]
+                print(sample+'_'+subsample)
 
             #handling inputs:
             indir = dumped_dir+'/'+item
