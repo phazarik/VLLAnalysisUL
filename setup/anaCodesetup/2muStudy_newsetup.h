@@ -50,12 +50,12 @@ void VLLAna::Make2muPlots(float wt)
     Muon.at(ss_ind).v.Pt() > 15;
 
   bool working_region = isolated_muons && ptcuts && nbjet==0;
-  bool signal_region = working_region && deta_ss_muons<2.5 && HT<300;
-  bool control_region = working_region && (deta_ss_muons>2.5 || HT>300);
+  bool signal_region = deta_ss_muons<2.5 && HT<300;
+  bool control_region = deta_ss_muons>2.5 || HT>300;
   
   //-------------------------------------------------------------------------
   
-  if(!control_region){//Put selections here.
+  if(working_region && control_region){//Put selections here.
 
     nEvtPass ++; //no of events that pass my selections
     
