@@ -55,6 +55,16 @@ void ana(int sample=0)
     m_selec.SetLep(1); //0-electron dataset, 1-muon dataset
     //m_selec.SetNNFileName("/home/arnab/Arnab/Work/PhD2021/VLLSingletStudy/MultiClassifier/SignalScore_vllneuron.txt");
   }
+  if(sample==150){
+    chain->Add("/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/archive/prachu/skimmer/skimmed_signal/VLL150_skimmed.root");
+    hstfilename = "outputs/hst_VLL150.root";
+    sumfilename = "outputs/sum_VLL150.txt";
+    m_selec.SetData(0); //0 - running over MC, 1 - running over Data
+    m_selec.SetYear(2018);
+    m_selec.SetMCwt(1);
+    m_selec.SetLep(1); //0-electron dataset, 1-muon dataset
+    //m_selec.SetNNFileName("/home/arnab/Arnab/Work/PhD2021/VLLSingletStudy/MultiClassifier/SignalScore_vllneuron.txt");
+  }
   
   std::cout<<"Output files are "<<hstfilename<<" and "<<sumfilename<<std::endl;
   m_selec.SetHstFileName(hstfilename);

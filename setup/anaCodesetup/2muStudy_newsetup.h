@@ -35,70 +35,9 @@ void VLLAna::Make2muPlots(float wt)
   //QCD HT-binned_scaling:
   bool isQCDsample = false;
   float qcdsf= 1;
-  float globalsf = 0.0242004;
-  /*
-    Calculating HT binned sf for QCD ...
-    bin     range   nqcd    ndata   nothers sf
-    1       0-100   535473  36008   3165    0.0672452
-    2       100-200 1563348 57866   13590   0.0370141
-    3       200-300 611866  24947   19942   0.040772
-    4       300-400 210541  11219   13601   0.0532865
-    5       400-500 75370   5110    7311    0.0677984
-    6       500-600 31615   2568    3847    0.0812271
-    7       600-700 14247   1462    2179    0.102612
-    8       700-800 7156    777     1265    0.108568
-    9       800-900 3850    493     774     0.128028
-    10      900-1000        5154    882     1632    0.171124
-    11      overflow        3140    584     1117    0.185978
-  */
-  /*
-  if(HT<100) qcdsf = 0.031921;
-  else if(100<HT && HT<200) qcdsf = 0.0122274;
-  else if(200<HT && HT<300) qcdsf = 0.0124822;
-  else if(300<HT && HT<400) qcdsf = 0.016445;
-  else if(400<HT && HT<500) qcdsf = 0.019735;
-  else if(500<HT && HT<600) qcdsf = 0.0242182;
-  else if(600<HT && HT<700) qcdsf = 0.0269579;
-  else if(700<HT && HT<800) qcdsf = 0.0286833;
-  else if(800<HT && HT<900) qcdsf = 0.0302548;
-  else if(900<HT && HT<1000)qcdsf = 0.0381407;
-  else qcdsf = 0.0391593; //overflow*/
+  float globalsf = 0.0242004; //Not needed. I am doing it in the stack-maker
 
   if(isQCDsample) wt=wt*globalsf;
-
-  /*
-  //Cutflow:
-  //The first bin contains the original number of events with basic selections:
-  h.cutflow[0]->Fill((int)0, wt);
-  h.cutflow[1]->Fill((int)0, wt);
-  h.cutflow[2]->Fill((int)0, wt);
-  h.cutflow[3]->Fill((int)0, wt);
-
-  //Object level cuts:
-  vector<bool> cut_obj =
-    {
-     Muon.at(0).v.Pt() > 30,
-     Muon.at(0).reliso03 < 0.2,
-     Muon.at(ss_ind).v.Pt() > 20,
-     Muon.at(0).sip3d < 2.5
-    };
-  for(int i=0; i<(int)cut_obj.size(); i++){if(cut_obj[i] == true) h.cutflow[0]->Fill(i+1, wt);}
-
-  //event level cuts:
-  vector<bool> cut_evt =
-    {
-     LT > 40
-    };
-  for(int i=0; i<(int)cut_evt.size(); i++){if(cut_evt[i] == true) h.cutflow[2]->Fill(i+1, wt);}
-
-  bool noniso = 0.25<Muon.at(0).reliso04 && Muon.at(0).reliso04<1;
-  bool iso = Muon.at(0).reliso04<0.15 && Muon.at(0).sip3d < 2.5;
-  bool ptcuts = cut_obj[0] && cut_obj[2];
-
-  if(iso)                    h.cutflow[3]->Fill((int)1, wt);
-  if(ptcuts)                 h.cutflow[3]->Fill((int)2, wt);
-  if(iso && ptcuts)          h.cutflow[3]->Fill((int)3, wt);
-  if(iso && ptcuts && LT>40) h.cutflow[3]->Fill((int)4, wt);*/
 
   //-------------------------------------------------------------------------
   //Selecting good events:
@@ -108,11 +47,18 @@ void VLLAna::Make2muPlots(float wt)
 
   bool ptcuts =
     Muon.at(0).v.Pt()      > 30 &&
-    Muon.at(ss_ind).v.Pt() > 15; 
+    Muon.at(ss_ind).v.Pt() > 15;
+
+  bool working_region = isolated_muons && ptcuts && nbjet==0;
+  bool signal_region = working_region && deta_ss_muons<2.5 && HT<300;
+  bool control_region = working_region && (deta_ss_muons>2.5 || HT>300);
   
   //-------------------------------------------------------------------------
   
-  if(isolated_muons && ptcuts){//Put selections here.
+  if(!control_region){//Put selections here.
+
+    nEvtPass ++; //no of events that pass my selections
+    
     //Object level plots:    
     h.studySS[0]->Fill(Muon.at(0).v.Pt(), wt);
     h.studySS[1]->Fill(Muon.at(0).v.Eta(), wt);
@@ -143,6 +89,10 @@ void VLLAna::Make2muPlots(float wt)
     h.studySS[22]->Fill(HT, wt);
     h.studySS[23]->Fill(njet, wt);
     h.studySS[24]->Fill(nbjet, wt);
+
+    h.regions[0]->Fill(HT, metpt);
+    h.regions[1]->Fill(HT, deta_ss_muons);
+    h.regions[2]->Fill(HT, njet);
   }
 
 }

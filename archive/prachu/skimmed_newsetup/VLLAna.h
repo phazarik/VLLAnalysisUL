@@ -514,6 +514,7 @@ public:
     TH1F *cutflow[10];
     TH1F *studyCharge[50];
     TH1F *weight[10];
+    TH2F *regions[10];
   };
   struct Lepton {//The struct 'Lepton' can store the following variables:
     TLorentzVector v;
@@ -552,6 +553,7 @@ private:
   const char *NNFileName;
   int _verbosity,_exclude,_sample;
   int nEvtTotal,nEvtRan,nEvtTrigger,n3L,n3LonZ,n_mu_anlys,n_mu_NNScore,n_mu_bfake,n_mu_prompt,n_mu_bfake_flav,n_bfake_matching,n_ttbarcr,n_ttbar2Lplus1Fake,n_ll,n_lt,n_tt,n_l2j;
+  int nEvtPass;
   int n_l,n_l15GeV,n_trigg,n_2l,n_1l1t,n_t,n_2t,n_t35GeV,n_tautrigg,n_ll_OSSF,n_ll_OSOF,n_ll_SSSF,n_ll_SSOF;
   int n_1l1tloose,n_1l1tpassEta,n_1l1tpassAntiEle,n_1l1tpassAntiMu,n_1l1tprompt,n_1l1tlepclean,n_1l1tpassPt;
   int n_1lep,n_1mu,n_1ele,n_mupt26,n_mupt28,n_mupt30,n_elept30,n_elept32,n_elept35;

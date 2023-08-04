@@ -49,6 +49,7 @@ void VLLAna::SlaveBegin(TTree * /*tree*/)
   nEvtTotal = 0;
   nEvtRan = 0;
   nEvtTrigger=0;
+  nEvtPass = 0;
   n3L=0; n3LonZ=0; n_mu_anlys=0;      n_mu_NNScore=0;
   n_mu_bfake=0;    n_mu_bfake_flav=0; n_mu_prompt=0;
   n_bfake_matching=0;n_ttbarcr=0;n_ttbar2Lplus1Fake=0;
@@ -84,15 +85,18 @@ void VLLAna::SlaveTerminate()
   cout<<"Writing MVA Tree...."<<endl;
   //tree->Write();
   //Output to screen.
-  cout<<"Total Triggered events = "<< nEvtTrigger <<endl;
-  cout<<"Total events ran = "<<nEvtRan<<endl;
   cout<<"Total events = "<<nEvtTotal<<endl;
+  cout<<"Total events ran = "<<nEvtRan<<endl;
+  cout<<"Total triggered events = "<< nEvtTrigger <<endl;
+  cout<<"Total events that passed my selections= "<< nEvtPass <<endl;
   
   //Open the text output file
   ofstream fout(_SumFileName);
   //Put text output in the summary file.
+  fout<<"Total events = "<<nEvtTotal<<endl;
   fout<<"Total events ran = "<<nEvtRan<<endl;
-  fout<<"Total events  = "<<nEvtTotal<<endl;
+  fout<<"Total triggered events = "<< nEvtTrigger <<endl;
+  fout<<"Total events that passed my selections= "<< nEvtPass <<endl;
 
   time(&end);
 
@@ -582,6 +586,10 @@ void VLLAna::BookHistograms()
   h.weight[2] = new TH1F("ew_sfandeff", "SF * TriggerEff", 150, 0, 1.5);
   h.weight[3] = new TH1F("ew_global", "SF * TriggerEff * GLobalSF", 150, 0, 1.5);
   for(int i=0; i<4; i++) h.weight[i]->Sumw2();
+
+  h.regions[0] = new TH2F("region_ht_met",  "region_ht_met",  1000, 0, 1000, 1000, 0, 1000);
+  h.regions[1] = new TH2F("region_ht_deta", "region_ht_deta", 1000, 0, 1000,  600, 0,    6);
+  h.regions[2] = new TH2F("region_ht_njet", "region_ht_njet", 1000, 0, 1000,   10, 0,   10);
   
 }//end of BOOK HISTOS
 
