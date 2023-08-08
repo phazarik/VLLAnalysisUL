@@ -50,12 +50,15 @@ void VLLAna::Make2muPlots(float wt)
     Muon.at(ss_ind).v.Pt() > 15;
 
   bool working_region = isolated_muons && ptcuts && nbjet==0;
-  bool signal_region = deta_ss_muons<2.5 && HT<300;
+  bool signal_region = deta_ss_muons<2.5 && HT<300; //bottom-left box in the HT-dEta plane
   bool control_region = deta_ss_muons>2.5 || HT>300;
+  bool cr1 = deta_ss_muons > 2.5 && HT < 300; //top-left box in the HT-dEta plane
+  bool cr2 = deta_ss_muons > 2.5 && HT > 300; //top-right box in the HT-dEta plane
+  bool cr3 = deta_ss_muons < 2.5 && HT > 300; //bottom-right box in the HT dEta plan
   
   //-------------------------------------------------------------------------
   
-  if(working_region && control_region){//Put selections here.
+  if(working_region && signal_region){//Put selections here.
 
     nEvtPass ++; //no of events that pass my selections
     
@@ -95,4 +98,63 @@ void VLLAna::Make2muPlots(float wt)
     h.regions[2]->Fill(HT, njet);
   }
 
+  //Cutflow:
+  h.cutflow[0]->Fill((int)0, wt); //for all events passing basic event selections.
+  h.cutflow[1]->Fill((int)0, wt); //for all events passing basic event selections.
+  h.cutflow[2]->Fill((int)0, wt); //for all events passing basic event selections.
+
+  //Overall event selection:
+  if(nbjet==0){
+    h.cutflow[0]->Fill((int)1, wt);
+    if(Muon.at(0).v.Pt() > 30){
+      h.cutflow[0]->Fill((int)2, wt);
+      if(Muon.at(0).reliso04 < 0.15){
+	h.cutflow[0]->Fill((int)3, wt);
+	if(Muon.at(0).sip3d < 2.5){
+	  h.cutflow[0]->Fill((int)4, wt);
+	  if(Muon.at(ss_ind).v.Pt() > 15){
+	    h.cutflow[0]->Fill((int)5, wt);
+	    if(Muon.at(ss_ind).reliso04 < 0.20){
+	      h.cutflow[0]->Fill((int)6, wt);
+	      if(Muon.at(ss_ind).sip3d < 3.0){
+		h.cutflow[0]->Fill((int)7, wt);
+	      }
+	    }
+	  }
+	}
+      }
+    }
+  }
+  
+  //Investigating cuts on the leading muon:
+  if(Muon.at(0).v.Pt() > 5)           h.cutflow[1]->Fill((int)1, wt);
+  if(Muon.at(0).v.Pt() > 10)     h.cutflow[1]->Fill((int)2, wt);
+  if(Muon.at(0).v.Pt() > 15)     h.cutflow[1]->Fill((int)3, wt);
+  if(Muon.at(0).v.Pt() > 20)     h.cutflow[1]->Fill((int)4, wt);
+  
+  if(Muon.at(0).reliso04 < 0.50)      h.cutflow[1]->Fill((int)5, wt);
+  if(Muon.at(0).reliso04 < 0.30) h.cutflow[1]->Fill((int)6, wt);
+  if(Muon.at(0).reliso04 < 0.20) h.cutflow[1]->Fill((int)7, wt);
+  if(Muon.at(0).reliso04 < 0.15) h.cutflow[1]->Fill((int)8, wt);
+
+  if(Muon.at(0).sip3d < 10)           h.cutflow[1]->Fill((int)9, wt);
+  if(Muon.at(0).sip3d < 5.0)     h.cutflow[1]->Fill((int)10, wt);
+  if(Muon.at(0).sip3d < 3.0)     h.cutflow[1]->Fill((int)11, wt);
+  if(Muon.at(0).sip3d < 2.5)     h.cutflow[1]->Fill((int)12, wt);
+
+  //Investigating cuts on the ss muon:
+  if(Muon.at(ss_ind).v.Pt() > 5)           h.cutflow[2]->Fill((int)1, wt);
+  if(Muon.at(ss_ind).v.Pt() > 10)     h.cutflow[2]->Fill((int)2, wt);
+  if(Muon.at(ss_ind).v.Pt() > 15)     h.cutflow[2]->Fill((int)3, wt);
+  if(Muon.at(ss_ind).v.Pt() > 20)     h.cutflow[2]->Fill((int)4, wt);
+  
+  if(Muon.at(ss_ind).reliso04 < 0.50)      h.cutflow[2]->Fill((int)5, wt);
+  if(Muon.at(ss_ind).reliso04 < 0.30) h.cutflow[2]->Fill((int)6, wt);
+  if(Muon.at(ss_ind).reliso04 < 0.20) h.cutflow[2]->Fill((int)7, wt);
+  if(Muon.at(ss_ind).reliso04 < 0.15) h.cutflow[2]->Fill((int)8, wt);
+
+  if(Muon.at(ss_ind).sip3d < 10)           h.cutflow[2]->Fill((int)9, wt);
+  if(Muon.at(ss_ind).sip3d < 5.0)     h.cutflow[2]->Fill((int)10, wt);
+  if(Muon.at(ss_ind).sip3d < 3.0)     h.cutflow[2]->Fill((int)11, wt);
+  if(Muon.at(ss_ind).sip3d < 2.5)     h.cutflow[2]->Fill((int)12, wt);
 }

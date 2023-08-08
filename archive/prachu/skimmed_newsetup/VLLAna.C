@@ -546,11 +546,11 @@ void VLLAna::BookHistograms()
  
   //h.vllclass = new TH1F("vll_event","VLL event: 1=ll,2=lt,3=tt",5,0,5);h.vllclass->Sumw2();
 
-  h.cutflow[0] = new TH1F("SS_cutflow_obj",   "cutflow (Object level)", 20, 0, 20);
-  h.cutflow[1] = new TH1F("SS_cutflow_dimuon","cutflow (Dimuon system level)", 20, 0, 20);
-  h.cutflow[2] = new TH1F("SS_cutflow_evt",   "cutflow (Event level)", 20, 0, 20);
-  h.cutflow[3] = new TH1F("SS_cutflow_combined",   "cutflow (combined)", 20, 0, 20);
-  for(int i=0; i<4; i++) h.cutflow[i]->Sumw2();
+  h.cutflow[0] = new TH1F("SS_cutflow",   "cutflow", 10, 0, 10);
+  h.cutflow[1] = new TH1F("SS_cutflow_leading","cutflow (leading muon)", 20, 0, 20);
+  h.cutflow[2] = new TH1F("SS_cutflow_ssmuon",   "cutflow (ss muon)", 20, 0, 20);
+  //h.cutflow[3] = new TH1F("SS_cutflow_combined",   "cutflow (combined)", 20, 0, 20);
+  for(int i=0; i<3; i++) h.cutflow[i]->Sumw2();
 
   //Studying SS events
   h.studySS[0] = new TH1F("SS_mu0_Pt",  "SS_mu0_Pt", 1000, 0, 1000);
