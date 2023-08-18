@@ -26,8 +26,7 @@ using namespace std;
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
 
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy_newsetup.h"
-//#include "../../../setup/anaCodesetup/ChargeStudy.h"
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2LSSstudy.h"
 
 void VLLAna::Begin(TTree * /*tree*/)
 {
@@ -325,62 +324,46 @@ Bool_t VLLAna::Process(Long64_t entry)
       float wt = 1.0;
       float global_sf = 1.0;
       //These two are 1.0 by default (for data)
-      
-      if((int)Muon.size()>1){
-	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
-	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
-	float leading_pT = Muon.at(0).v.Pt();
 
-	//Definition of same-sign events:
+      //Appplying trigger:
+      bool singlemuontrigger = (int)Muon.size()>0 && Muon.at(0).v.Pt()>26;
+      
+       //2L same-sign inclusive:
+      if((int)llep.size()>1 && singlemuontrigger){
+	
+	//defining flags:
 	bool samesign = false;
-	float samesign_dimuon_mass = 0;
-	for(int i=1; i<(int)Muon.size(); i++){
-	  if(Muon.at(0).charge == Muon.at(i).charge){
+	bool leading_pt_cut = llep.at(0).v.Pt()>30;
+	
+	float samesign_dilep_mass = 0;
+	for(int i=1; i<(int)llep.size(); i++){
+	  if(llep.at(0).charge == llep.at(i).charge){
 	    samesign = true;
-	    samesign_dimuon_mass = (Muon.at(0).v+Muon.at(i).v).M();
+	    samesign_dilep_mass = (llep.at(0).v+llep.at(i).v).M();
 	    break;
 	  }
 	}
-	
-	bool baseSelection = (samesign_dimuon_mass>15
-			      && leading_pT>26
-			      && samesign);
 
+	bool dilep_mass_cut = samesign_dilep_mass > 15;
+	bool baseSelection = samesign && dilep_mass_cut && leading_pt_cut;
+	
 	
 	//ScaleFactors and efficiencies:
 	float scalefactor = 1.0;
 	float triggeff = 1.0;
-	if(_data==0){
-	  //Setting the global scale factor (for MC only)
-	  //global_sf = 0.8697;
-	  //Finding other scale factors:
-	  if((int)Muon.size()==2){
-	    float mu0sf = LeptonID_SF(Muon.at(0).id, Muon.at(0).v.Pt(), Muon.at(0).v.Eta());
-	    float mu1sf = LeptonID_SF(Muon.at(1).id, Muon.at(1).v.Pt(), Muon.at(1).v.Eta());
-	    scalefactor = mu0sf * mu1sf;
-	    float eff0=SingleLepTrigger_eff(Muon.at(0).id, Muon.at(0).v.Pt(), Muon.at(0).v.Eta());
-	    float eff1=SingleLepTrigger_eff(Muon.at(1).id, Muon.at(1).v.Pt(), Muon.at(1).v.Eta());
-	    triggeff = 1-((1-eff0)*(1-eff1));
-	  }
-	  else if((int)Muon.size()==3){
-	    float mu0sf = LeptonID_SF(Muon.at(0).id, Muon.at(0).v.Pt(), Muon.at(0).v.Eta());
-	    float mu1sf = LeptonID_SF(Muon.at(1).id, Muon.at(1).v.Pt(), Muon.at(1).v.Eta());
-	    float mu2sf = LeptonID_SF(Muon.at(2).id, Muon.at(2).v.Pt(), Muon.at(2).v.Eta());
-	    scalefactor = mu0sf * mu1sf * mu2sf;
-	    float eff0=SingleLepTrigger_eff(Muon.at(0).id, Muon.at(0).v.Pt(), Muon.at(0).v.Eta());
-	    float eff1=SingleLepTrigger_eff(Muon.at(1).id, Muon.at(1).v.Pt(), Muon.at(1).v.Eta());
-	    float eff2=SingleLepTrigger_eff(Muon.at(2).id, Muon.at(2).v.Pt(), Muon.at(2).v.Eta());
-	    triggeff = 1-((1-eff0)*(1-eff1)*(1-eff2));
-	  }
+
+	if(_data==0){  
+	  //Do something here to properly estimate the event weight.
 	  wt = scalefactor * triggeff;
 	}
+	
 	h.weight[0]->Fill(scalefactor);
 	h.weight[1]->Fill(triggeff);
 	h.weight[2]->Fill(wt);
 	h.weight[3]->Fill(wt*global_sf);
 
 	//cout<<wt*global_sf<<endl;
-	if(baseSelection) Make2muPlots(wt);
+	if(baseSelection) Make2LSSPlots(wt);
       }
 
       
@@ -552,36 +535,47 @@ void VLLAna::BookHistograms()
   //h.cutflow[3] = new TH1F("SS_cutflow_combined",   "cutflow (combined)", 20, 0, 20);
   for(int i=0; i<3; i++) h.cutflow[i]->Sumw2();
 
+  //---------------------------------------------------------------------------------
   //Studying SS events
-  h.studySS[0] = new TH1F("SS_mu0_Pt",  "SS_mu0_Pt", 1000, 0, 1000);
-  h.studySS[1] = new TH1F("SS_mu0_Eta", "SS_mu0_Eta", 200, -4, 4);
-  h.studySS[2] = new TH1F("SS_mu0_Phi", "SS_mu0_Phi", 200, -4, 4);
-  h.studySS[3] = new TH1F("SS_mu0_mT",  "SS_mu0_mT", 1000, 0, 1000);
-  h.studySS[4] = new TH1F("SS_mu0_reliso03",  "SS_mu0_reliso03", 200, 0, 10);
-  h.studySS[5] = new TH1F("SS_mu0_reliso04",  "SS_mu0_reliso04", 200, 0, 10);
-  h.studySS[6] = new TH1F("SS_mu0_sip3d",  "SS_mu0_sip3d", 1000, 0, 50);
-  h.studySS[7] = new TH1F("SS_mu1_Pt",  "SS_mu1_Pt", 1000, 0, 1000);
-  h.studySS[8] = new TH1F("SS_mu1_Eta", "SS_mu1_Eta", 200, -4, 4);
-  h.studySS[9] = new TH1F("SS_mu1_Phi", "SS_mu1_Phi", 200, -4, 4);
-  h.studySS[10] = new TH1F("SS_mu1_mT",  "SS_mu1_mT", 1000, 0, 1000);
-  h.studySS[11] = new TH1F("SS_mu1_reliso03",  "SS_mu1_reliso03", 200, 0, 10);
-  h.studySS[12] = new TH1F("SS_mu1_reliso04",  "SS_mu1_reliso04", 200, 0, 10);
-  h.studySS[13] = new TH1F("SS_mu1_sip3d",  "SS_mu1_sip3d", 1000, 0, 50);
-  h.studySS[14] = new TH1F("SS_dimuon_mass",  "SS_dimuon_mass", 1000, 0, 1000);
+  //------------------
+  //Leading lepton:
+  h.studySS[0] = new TH1F("SS_llep0_Pt",       "SS_llep0_Pt",       1000,  0, 1000);
+  h.studySS[1] = new TH1F("SS_llep0_Eta",      "SS_llep0_Eta",       200, -4,    4);
+  h.studySS[2] = new TH1F("SS_llep0_Phi",      "SS_llep0_Phi",       200, -4,    4);
+  h.studySS[3] = new TH1F("SS_llep0_mT",       "SS_llep0_mT",       1000,  0, 1000);
+  h.studySS[4] = new TH1F("SS_llep0_reliso03", "SS_llep0_reliso03",  200,  0,   10);
+  h.studySS[5] = new TH1F("SS_llep0_reliso04", "SS_llep0_reliso04",  200,  0,   10);
+  h.studySS[6] = new TH1F("SS_llep0_sip3d",    "SS_llep0_sip3d",    1000,  0,   50);
+  //Samesign lepton:
+  h.studySS[7] = new TH1F("SS_llepss_Pt",      "SS_llepss_Pt",      1000,  0, 1000);
+  h.studySS[8] = new TH1F("SS_llepss_Eta",     "SS_llepss_Eta",      200, -4,    4);
+  h.studySS[9] = new TH1F("SS_llepss_Phi",     "SS_llepss_Phi",      200, -4,    4);
+  h.studySS[10]= new TH1F("SS_llepss_mT",      "SS_llepss_mT",      1000,  0, 1000);
+  h.studySS[11]= new TH1F("SS_llepss_reliso03","SS_llepss_reliso03", 200,  0,   10);
+  h.studySS[12]= new TH1F("SS_llepss_reliso04","SS_llepss_reliso04", 200,  0,   10);
+  h.studySS[13]= new TH1F("SS_llepss_sip3d",   "SS_llepss_sip3d",   1000,  0,   50);
+  //dilepton system:
+  h.studySS[14] = new TH1F("SS__mass",  "SS_dimuon_mass", 1000, 0, 1000);
   h.studySS[15] = new TH1F("SS_dEta_muons", "SS_dEta_muons", 600, 0, 6);
   h.studySS[16] = new TH1F("SS_dPhi_muons", "SS_dPhi_muons", 600, 0, 6);
   h.studySS[17] = new TH1F("SS_dR_muons", "SS_dR_muons", 600, 0, 6);
   h.studySS[18] = new TH1F("SS_ptratio", "SS_ptratio", 200, 0, 1);
-  h.studySS[19] = new TH1F("SS_met",  "SS_met", 1000, 0, 1000);
-  h.studySS[20] = new TH1F("SS_metphi", "SS_metphi", 200, -4, 4);
-  h.studySS[21] = new TH1F("SS_LT",  "SS_LT", 1000, 0, 1000);
-  h.studySS[22] = new TH1F("SS_HT",  "SS_HT", 1000, 0, 1000);
-  h.studySS[23] = new TH1F("SS_nJet",  "SS_nJet", 10, 0, 10);
-  h.studySS[24] = new TH1F("SS_nbJet",  "SS_nbJet", 10, 0, 10);
-  h.studySS[25] = new TH1F("SS_dphi_mu0_met",  "SS_dphi_mu0_met", 600, 0, 6);
-  h.studySS[26] = new TH1F("SS_dphi_muss_met",  "SS_dphi_muss_met", 600, 0, 6);
-  h.studySS[27] = new TH1F("SS_maxdphimet",  "SS_maxdphimet", 600, 0, 6);
-  for(int i=0; i<28; i++) h.studySS[i]->Sumw2();
+  //Event level plots:
+  h.studySS[19] = new TH1F("SS_nllep",  "SS_nllep", 10, 0, 10);
+  h.studySS[20] = new TH1F("SS_nJet",   "SS_nJet",  10, 0, 10);
+  h.studySS[21] = new TH1F("SS_nbJet",  "SS_nbJet", 10, 0, 10);
+  h.studySS[22] = new TH1F("SS_met",  "SS_met", 1000, 0, 1000);
+  h.studySS[23] = new TH1F("SS_metphi", "SS_metphi", 200, -4, 4);
+  h.studySS[24] = new TH1F("SS_LT",  "SS_LT", 1000, 0, 1000);
+  h.studySS[25] = new TH1F("SS_HT",  "SS_HT", 1000, 0, 1000);
+  h.studySS[26] = new TH1F("SS_ST",  "SS_ST", 1000, 0, 1000);
+  h.studySS[27] = new TH1F("SS_STfrac",  "SS_STfrac", 100, 0, 10);
+  h.studySS[28] = new TH1F("SS_dPhi_met0", "SS_dPhi_met0", 600, 0, 6);
+  h.studySS[29] = new TH1F("SS_dPhi_metss", "SS_dPhi_metss", 600, 0, 6);
+  h.studySS[30] = new TH1F("SS_dPhi_met_max", "SS_dPhi_met_max", 600, 0, 6);
+  h.studySS[31] = new TH1F("SS_dPhi_met_min", "SS_dPhi_met_min", 600, 0, 6);
+  for(int i=0; i<32; i++) h.studySS[i]->Sumw2();
+  //---------------------------------------------------------------------------------
   
   //For event weights (Prachu)
   h.weight[0] = new TH1F("ew_scalefactor", "Scale Factor", 150, 0, 1.5);

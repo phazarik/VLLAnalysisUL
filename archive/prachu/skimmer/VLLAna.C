@@ -438,12 +438,8 @@ Bool_t VLLAna::Process(Long64_t entry)
       //###########################
       // Analysis of 2Mu events
       //###########################
+      /*
       if((int)Muon.size()>1){
-	/*
-	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
-	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
-	float leading_pT = Muon.at(0).v.Pt();
-	bool baseSelection = dimuon_mass>20 && muon_dr>0.4 && leading_pT>26;*/
 
 	//New Skimmer definition:
 	float leading_pT = Muon.at(0).v.Pt();
@@ -466,7 +462,39 @@ Bool_t VLLAna::Process(Long64_t entry)
 	  nEvtSkim++;
 	  skimTree->Fill();
 	}
+      }*/
+      //Appplying trigger:
+      bool single_muon = (int)Muon.size()>0 && Muon.at(0).v.Pt()>24;
+      bool single_electron = (int)Electron.size()>0 && Electron.at(0).v.Pt()>32;
+      bool triggered_events = single_muon || (!single_muon && single_electron); //singlemuon is given preference.
+	
+      //2L same-sign inclusive:
+      if((int)llep.size()>1 && triggered_events){
+
+	//defining flags:
+	bool samesign = false;
+	bool leading_pt_cut = llep.at(0).v.Pt()>30;
+
+	float samesign_dilep_mass = 0;
+	for(int i=1; i<(int)llep.size(); i++){
+	  if(llep.at(0).charge == llep.at(i).charge){
+	    samesign = true;
+	    samesign_dilep_mass = (llep.at(0).v+llep.at(i).v).M();
+	    break;
+	  }
+	}
+
+	bool dilep_mass_cut = samesign_dilep_mass > 15;
+	bool baseSelection = samesign && dilep_mass_cut && leading_pt_cut;
+
+	if(baseSelection){
+	  nEvtSkim++;
+	  skimTree->Fill();
+	}
+	
       }
+
+      
      
 
       /*

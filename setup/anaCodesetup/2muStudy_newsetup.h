@@ -31,6 +31,9 @@ void VLLAna::Make2muPlots(float wt)
   float HT=0; for(int i=0; i<(int)jets.size(); i++) HT = HT + jets.at(i).v.Pt();
   int njet = (int)jets.size();
   int nbjet = (int)BTaggedJet.size();
+  float dphi_mu0_met = delta_phi(Muon.at(0).v.Phi(), metphi);
+  float dphi_muss_met = delta_phi(Muon.at(ss_ind).v.Phi(), metphi);
+  float maxdphimet = max(dphi_mu0_met, dphi_muss_met);
 
   //QCD HT-binned_scaling:
   bool isQCDsample = false;
@@ -58,7 +61,7 @@ void VLLAna::Make2muPlots(float wt)
   
   //-------------------------------------------------------------------------
   
-  if(working_region && signal_region){//Put selections here.
+  if(working_region){//Put selections here.
 
     nEvtPass ++; //no of events that pass my selections
     
@@ -92,7 +95,11 @@ void VLLAna::Make2muPlots(float wt)
     h.studySS[22]->Fill(HT, wt);
     h.studySS[23]->Fill(njet, wt);
     h.studySS[24]->Fill(nbjet, wt);
-
+    h.studySS[25]->Fill(dphi_mu0_met, wt);
+    h.studySS[26]->Fill(dphi_muss_met, wt);
+    h.studySS[27]->Fill(maxdphimet, wt);
+ 
+    //2d plots
     h.regions[0]->Fill(HT, metpt);
     h.regions[1]->Fill(HT, deta_ss_muons);
     h.regions[2]->Fill(HT, njet);
