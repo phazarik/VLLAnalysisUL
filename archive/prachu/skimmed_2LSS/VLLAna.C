@@ -326,14 +326,15 @@ Bool_t VLLAna::Process(Long64_t entry)
       //These two are 1.0 by default (for data)
 
       //Appplying trigger:
-      bool singlemuontrigger = (int)Muon.size()>0 && Muon.at(0).v.Pt()>26;
+      bool single_muon = (int)Muon.size()>0 && Muon.at(0).v.Pt()>24;
+      bool single_electron = (int)Electron.size()>0 && Electron.at(0).v.Pt()>32;
+      bool triggered_events = single_muon || single_electron;
       
        //2L same-sign inclusive:
-      if((int)llep.size()>1 && singlemuontrigger){
+      if((int)llep.size()>1 && triggered_events){
 	
 	//defining flags:
 	bool samesign = false;
-	bool leading_pt_cut = llep.at(0).v.Pt()>30;
 	
 	float samesign_dilep_mass = 0;
 	for(int i=1; i<(int)llep.size(); i++){
@@ -344,9 +345,8 @@ Bool_t VLLAna::Process(Long64_t entry)
 	  }
 	}
 
-	bool dilep_mass_cut = samesign_dilep_mass > 15;
-	bool baseSelection = samesign && dilep_mass_cut && leading_pt_cut;
-	
+	bool dilep_mass_cut = samesign_dilep_mass > 12;
+	bool baseSelection = samesign && dilep_mass_cut;	
 	
 	//ScaleFactors and efficiencies:
 	float scalefactor = 1.0;
@@ -544,37 +544,35 @@ void VLLAna::BookHistograms()
   h.studySS[2] = new TH1F("SS_llep0_Phi",      "SS_llep0_Phi",       200, -4,    4);
   h.studySS[3] = new TH1F("SS_llep0_mT",       "SS_llep0_mT",       1000,  0, 1000);
   h.studySS[4] = new TH1F("SS_llep0_reliso03", "SS_llep0_reliso03",  200,  0,   10);
-  h.studySS[5] = new TH1F("SS_llep0_reliso04", "SS_llep0_reliso04",  200,  0,   10);
-  h.studySS[6] = new TH1F("SS_llep0_sip3d",    "SS_llep0_sip3d",    1000,  0,   50);
+  h.studySS[5] = new TH1F("SS_llep0_sip3d",    "SS_llep0_sip3d",    1000,  0,   50);
   //Samesign lepton:
-  h.studySS[7] = new TH1F("SS_llepss_Pt",      "SS_llepss_Pt",      1000,  0, 1000);
-  h.studySS[8] = new TH1F("SS_llepss_Eta",     "SS_llepss_Eta",      200, -4,    4);
-  h.studySS[9] = new TH1F("SS_llepss_Phi",     "SS_llepss_Phi",      200, -4,    4);
-  h.studySS[10]= new TH1F("SS_llepss_mT",      "SS_llepss_mT",      1000,  0, 1000);
-  h.studySS[11]= new TH1F("SS_llepss_reliso03","SS_llepss_reliso03", 200,  0,   10);
-  h.studySS[12]= new TH1F("SS_llepss_reliso04","SS_llepss_reliso04", 200,  0,   10);
-  h.studySS[13]= new TH1F("SS_llepss_sip3d",   "SS_llepss_sip3d",   1000,  0,   50);
+  h.studySS[6] = new TH1F("SS_llepss_Pt",      "SS_llepss_Pt",      1000,  0, 1000);
+  h.studySS[7] = new TH1F("SS_llepss_Eta",     "SS_llepss_Eta",      200, -4,    4);
+  h.studySS[8] = new TH1F("SS_llepss_Phi",     "SS_llepss_Phi",      200, -4,    4);
+  h.studySS[9]= new TH1F("SS_llepss_mT",      "SS_llepss_mT",      1000,  0, 1000);
+  h.studySS[10]= new TH1F("SS_llepss_reliso03","SS_llepss_reliso03", 200,  0,   10);
+  h.studySS[11]= new TH1F("SS_llepss_sip3d",   "SS_llepss_sip3d",   1000,  0,   50);
   //dilepton system:
-  h.studySS[14] = new TH1F("SS__mass",  "SS_dimuon_mass", 1000, 0, 1000);
-  h.studySS[15] = new TH1F("SS_dEta_muons", "SS_dEta_muons", 600, 0, 6);
-  h.studySS[16] = new TH1F("SS_dPhi_muons", "SS_dPhi_muons", 600, 0, 6);
-  h.studySS[17] = new TH1F("SS_dR_muons", "SS_dR_muons", 600, 0, 6);
-  h.studySS[18] = new TH1F("SS_ptratio", "SS_ptratio", 200, 0, 1);
+  h.studySS[12] = new TH1F("SS_dilep_mass",  "SS_dilep_mass", 1000, 0, 1000);
+  h.studySS[13] = new TH1F("SS_dEta_llep", "SS_dEta_llep", 600, 0, 6);
+  h.studySS[14] = new TH1F("SS_dPhi_llep", "SS_dPhi_llep", 600, 0, 6);
+  h.studySS[15] = new TH1F("SS_dR_llep", "SS_dR_llep", 600, 0, 6);
+  h.studySS[16] = new TH1F("SS_ptratio", "SS_ptratio", 200, 0, 1);
   //Event level plots:
-  h.studySS[19] = new TH1F("SS_nllep",  "SS_nllep", 10, 0, 10);
-  h.studySS[20] = new TH1F("SS_nJet",   "SS_nJet",  10, 0, 10);
-  h.studySS[21] = new TH1F("SS_nbJet",  "SS_nbJet", 10, 0, 10);
-  h.studySS[22] = new TH1F("SS_met",  "SS_met", 1000, 0, 1000);
-  h.studySS[23] = new TH1F("SS_metphi", "SS_metphi", 200, -4, 4);
-  h.studySS[24] = new TH1F("SS_LT",  "SS_LT", 1000, 0, 1000);
-  h.studySS[25] = new TH1F("SS_HT",  "SS_HT", 1000, 0, 1000);
-  h.studySS[26] = new TH1F("SS_ST",  "SS_ST", 1000, 0, 1000);
-  h.studySS[27] = new TH1F("SS_STfrac",  "SS_STfrac", 100, 0, 10);
-  h.studySS[28] = new TH1F("SS_dPhi_met0", "SS_dPhi_met0", 600, 0, 6);
-  h.studySS[29] = new TH1F("SS_dPhi_metss", "SS_dPhi_metss", 600, 0, 6);
-  h.studySS[30] = new TH1F("SS_dPhi_met_max", "SS_dPhi_met_max", 600, 0, 6);
-  h.studySS[31] = new TH1F("SS_dPhi_met_min", "SS_dPhi_met_min", 600, 0, 6);
-  for(int i=0; i<32; i++) h.studySS[i]->Sumw2();
+  h.studySS[17] = new TH1F("SS_nllep",  "SS_nllep", 10, 0, 10);
+  h.studySS[18] = new TH1F("SS_nJet",   "SS_nJet",  10, 0, 10);
+  h.studySS[19] = new TH1F("SS_nbJet",  "SS_nbJet", 10, 0, 10);
+  h.studySS[20] = new TH1F("SS_met",  "SS_met", 1000, 0, 1000);
+  h.studySS[21] = new TH1F("SS_metphi", "SS_metphi", 200, -4, 4);
+  h.studySS[22] = new TH1F("SS_LT",  "SS_LT", 1000, 0, 1000);
+  h.studySS[23] = new TH1F("SS_HT",  "SS_HT", 1000, 0, 1000);
+  h.studySS[24] = new TH1F("SS_ST",  "SS_ST", 1000, 0, 1000);
+  h.studySS[25] = new TH1F("SS_STfrac",  "SS_STfrac", 100, 0, 10);
+  h.studySS[26] = new TH1F("SS_dPhi_met0", "SS_dPhi_met0", 600, 0, 6);
+  h.studySS[27] = new TH1F("SS_dPhi_metss", "SS_dPhi_metss", 600, 0, 6);
+  h.studySS[28] = new TH1F("SS_dPhi_met_max", "SS_dPhi_met_max", 600, 0, 6);
+  h.studySS[29] = new TH1F("SS_dPhi_met_min", "SS_dPhi_met_min", 600, 0, 6);
+  for(int i=0; i<30; i++) h.studySS[i]->Sumw2();
   //---------------------------------------------------------------------------------
   
   //For event weights (Prachu)

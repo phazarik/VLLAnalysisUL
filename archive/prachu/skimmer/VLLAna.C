@@ -165,7 +165,8 @@ Bool_t VLLAna::Process(Long64_t entry)
       trigger2016 = (_year==2016 ? (_lep==1 ? (*HLT_IsoMu24==1) : _lep==0 && *HLT_Ele27_WPTight_Gsf) : 1);
       
       
-      triggerRes = trigger2018 && trigger2017 && trigger2016;
+      //triggerRes = trigger2018 && trigger2017 && trigger2016;
+      triggerRes = true;
       
     }
     if(triggerRes){
@@ -463,17 +464,17 @@ Bool_t VLLAna::Process(Long64_t entry)
 	  skimTree->Fill();
 	}
       }*/
-      //Appplying trigger:
+      
+      //Preselection on the lepton:
       bool single_muon = (int)Muon.size()>0 && Muon.at(0).v.Pt()>24;
       bool single_electron = (int)Electron.size()>0 && Electron.at(0).v.Pt()>32;
-      bool triggered_events = single_muon || (!single_muon && single_electron); //singlemuon is given preference.
+      bool triggered_events = single_muon || single_electron;
 	
       //2L same-sign inclusive:
       if((int)llep.size()>1 && triggered_events){
 
 	//defining flags:
 	bool samesign = false;
-	bool leading_pt_cut = llep.at(0).v.Pt()>30;
 
 	float samesign_dilep_mass = 0;
 	for(int i=1; i<(int)llep.size(); i++){
@@ -484,8 +485,8 @@ Bool_t VLLAna::Process(Long64_t entry)
 	  }
 	}
 
-	bool dilep_mass_cut = samesign_dilep_mass > 15;
-	bool baseSelection = samesign && dilep_mass_cut && leading_pt_cut;
+	bool dilep_mass_cut = samesign_dilep_mass > 12;
+	bool baseSelection = samesign && dilep_mass_cut;
 
 	if(baseSelection){
 	  nEvtSkim++;

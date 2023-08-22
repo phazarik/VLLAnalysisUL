@@ -16,7 +16,7 @@ void ana(int sample=0)
   //--------------------------------------------------------------------------//
 
   if(sample==0){
-    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug16/SingleMuon/SingleMuon_A/*.root");
+    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug21/SingleMuon/SingleMuon_A/*.root");
     hstfilename = "outputs/hst_data.root";
     sumfilename = "outputs/sum_data.txt";
     m_selec.SetData(1); //0 - running over MC, 1 - running over Data
@@ -26,7 +26,7 @@ void ana(int sample=0)
     //m_selec.SetNNFileName("/home/arnab/Arnab/Work/PhD2021/VLLSingletStudy/MultiClassifier/SignalScore_vllneuron.txt");
   }
   else if(sample==1){
-    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug16/DYJetsToLL/M50/*.root");
+    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug21/DYJetsToLL/M50/*.root");
     hstfilename = "outputs/hst_dy.root";
     sumfilename = "outputs/sum_dy.txt";
     m_selec.SetData(0); //0 - running over MC, 1 - running over Data
@@ -37,7 +37,7 @@ void ana(int sample=0)
   }
 
   else if(sample==2){
-    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug16/QCD_MuEnriched/470to600/*.root");
+    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug21/QCD_MuEnriched/470to600/*.root");
     hstfilename = "outputs/hst_qcd.root";
     sumfilename = "outputs/sum_qcd.txt";
     m_selec.SetData(0); //0 - running over MC, 1 - running over Data

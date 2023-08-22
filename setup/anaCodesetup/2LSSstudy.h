@@ -53,39 +53,37 @@ void VLLAna::Make2LSSPlots(float wt){
     h.studySS[2]->Fill(llep.at(0).v.Phi(), wt);
     h.studySS[3]->Fill(mt0, wt);
     h.studySS[4]->Fill(llep.at(0).reliso03, wt);
-    h.studySS[5]->Fill(llep.at(0).reliso04, wt);
-    h.studySS[6]->Fill(llep.at(0).sip3d,    wt);
+    h.studySS[5]->Fill(llep.at(0).sip3d,    wt);
 
     //samesign lepton plots:
-    h.studySS[7]->Fill(llep.at(ss).v.Pt(),  wt);
-    h.studySS[8]->Fill(llep.at(ss).v.Eta(), wt);
-    h.studySS[9]->Fill(llep.at(ss).v.Phi(), wt);
-    h.studySS[10]->Fill(mtss, wt);
-    h.studySS[11]->Fill(llep.at(ss).reliso03, wt);
-    h.studySS[12]->Fill(llep.at(ss).reliso04, wt);
-    h.studySS[13]->Fill(llep.at(ss).sip3d,    wt);
+    h.studySS[6]->Fill(llep.at(ss).v.Pt(),  wt);
+    h.studySS[7]->Fill(llep.at(ss).v.Eta(), wt);
+    h.studySS[8]->Fill(llep.at(ss).v.Phi(), wt);
+    h.studySS[9]->Fill(mtss, wt);
+    h.studySS[10]->Fill(llep.at(ss).reliso03, wt);
+    h.studySS[11]->Fill(llep.at(ss).sip3d,    wt);
 
     //dilepton system plots:
-    h.studySS[14]->Fill(dilep_mass, wt);
-    h.studySS[15]->Fill(deta_llep, wt);
-    h.studySS[16]->Fill(dphi_llep, wt);
-    h.studySS[17]->Fill(dR_llep, wt);
-    h.studySS[18]->Fill(ptratio, wt);
+    h.studySS[12]->Fill(dilep_mass, wt);
+    h.studySS[13]->Fill(deta_llep, wt);
+    h.studySS[14]->Fill(dphi_llep, wt);
+    h.studySS[15]->Fill(dR_llep, wt);
+    h.studySS[16]->Fill(ptratio, wt);
 
     //event level plots:
-    h.studySS[19]->Fill(nllep, wt);
-    h.studySS[20]->Fill(njet,  wt);
-    h.studySS[21]->Fill(nbjet, wt);
-    h.studySS[22]->Fill(metpt, wt);
-    h.studySS[23]->Fill(metphi, wt);
-    h.studySS[24]->Fill(LT);
-    h.studySS[25]->Fill(HT);
-    h.studySS[26]->Fill(ST);
-    h.studySS[27]->Fill(STfrac);
-    h.studySS[28]->Fill(dphi_met0, wt);
-    h.studySS[29]->Fill(dphi_metss, wt);
-    h.studySS[30]->Fill(max(dphi_met0, dphi_metss), wt);
-    h.studySS[31]->Fill(min(dphi_met0, dphi_metss), wt);
+    h.studySS[17]->Fill(nllep, wt);
+    h.studySS[18]->Fill(njet,  wt);
+    h.studySS[19]->Fill(nbjet, wt);
+    h.studySS[20]->Fill(metpt, wt);
+    h.studySS[21]->Fill(metphi, wt);
+    h.studySS[22]->Fill(LT);
+    h.studySS[23]->Fill(HT);
+    h.studySS[24]->Fill(ST);
+    h.studySS[25]->Fill(STfrac);
+    h.studySS[26]->Fill(dphi_met0, wt);
+    h.studySS[27]->Fill(dphi_metss, wt);
+    h.studySS[28]->Fill(max(dphi_met0, dphi_metss), wt);
+    h.studySS[29]->Fill(min(dphi_met0, dphi_metss), wt);
   }
 
  

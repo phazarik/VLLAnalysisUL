@@ -80,6 +80,7 @@ void VLLAna::RecoLightLepton(){
   for(unsigned int i=0; i< (*nElectron); i++){
     Lepton temp; temp.v.SetPtEtaPhiM(Electron_pt[i],Electron_eta[i],Electron_phi[i],0.000511); 
     temp.id = -11*Electron_charge[i]; temp.ind = i; temp.charge = Electron_charge[i];temp.muoncleaning=MuonCleaning(temp.v,0);//0=loosemuon,1=muon
+    temp.reliso03 = Electron_pfRelIso03_all[i];
     bool isprompt = false;
     if(fabs(temp.v.Eta())<=1.479){
       if(fabs(Electron_dxy[i])<0.05 && fabs(Electron_dz[i])<0.1)
