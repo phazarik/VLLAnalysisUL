@@ -159,11 +159,9 @@ Bool_t VLLAna::Process(Long64_t entry)
       trigger2017 = (_year==2017 ? (_lep==1 ? *HLT_IsoMu27==1 : _lep==0 && (*HLT_Ele32_WPTight_Gsf)) : 1);
       trigger2016 = (_year==2016 ? (_lep==1 ? (*HLT_IsoMu24==1) : _lep==0 && *HLT_Ele27_WPTight_Gsf) : 1);
       
-      
-      //triggerRes = trigger2018 && trigger2017 && trigger2016;
-      triggerRes = true;
-      
+      triggerRes = trigger2018 && trigger2017 && trigger2016;
     }
+    
     if(triggerRes){
       nEvtTrigger++; //only triggered events
       h.nevt->Fill(2);
@@ -265,7 +263,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       //-----------------------------------------------------------------------------------------------------------------------
       //                                                EVENT WEIGHTS                                                         |
       //-----------------------------------------------------------------------------------------------------------------------
-      
+      /*
       //evtwt= ID SF * trigg SF * btagging SF
       evtwt=1.0; float lep0SF=-1.0,lep1SF=-1.0,lep2SF=-1.0;
       if(!_data){
@@ -301,6 +299,7 @@ Bool_t VLLAna::Process(Long64_t entry)
       }
       else
 	evtwt=1.0;
+      */
       
       //h.evtwt[0]->Fill(evtwt);
 
@@ -328,7 +327,11 @@ Bool_t VLLAna::Process(Long64_t entry)
       //Appplying trigger:
       bool single_muon = (int)Muon.size()>0 && Muon.at(0).v.Pt()>24;
       bool single_electron = (int)Electron.size()>0 && Electron.at(0).v.Pt()>32;
-      bool triggered_events = single_muon || single_electron;
+      bool triggered_events = false;
+      //If there is a single muon passing the HLT trigger, keep the event.
+      if(single_muon) triggered_events = true;
+      //If the event is not passing the singlemuon trigger, but passing the single-electron trigger, keep it.
+      else if (!single_muon && single_electron) triggered_events = true;
       
        //2L same-sign inclusive:
       if((int)llep.size()>1 && triggered_events){
@@ -348,14 +351,38 @@ Bool_t VLLAna::Process(Long64_t entry)
 	bool dilep_mass_cut = samesign_dilep_mass > 12;
 	bool baseSelection = samesign && dilep_mass_cut;	
 	
-	//ScaleFactors and efficiencies:
+	//ScaleFactors and trigger efficiencies:
 	float scalefactor = 1.0;
 	float triggeff = 1.0;
 
-	if(_data==0){  
-	  //Do something here to properly estimate the event weight.
+	//---------------------------------------------------------------------------------------
+	if(_data==0){
+	  //If there are three or more leptons: (calculation involves three leptons only)
+	  if((int)llep.size()>=3){
+	    float lep0SF=LeptonID_SF(llep.at(0).id,llep.at(0).v.Pt(),llep.at(0).v.Eta());
+	    float lep1SF=LeptonID_SF(llep.at(1).id,llep.at(1).v.Pt(),llep.at(1).v.Eta());
+	    float lep2SF=LeptonID_SF(llep.at(2).id,llep.at(2).v.Pt(),llep.at(2).v.Eta());
+	    scalefactor = lep0SF * lep1SF * lep2SF;
+
+	    float e1=SingleLepTrigger_eff(llep.at(0).id,llep.at(0).v.Pt(),llep.at(0).v.Eta());
+	    float e2=SingleLepTrigger_eff(llep.at(1).id,llep.at(1).v.Pt(),llep.at(1).v.Eta());
+	    float e3=SingleLepTrigger_eff(llep.at(2).id,llep.at(2).v.Pt(),llep.at(2).v.Eta());
+	    triggeff=1-((1-e1)*(1-e2)*(1-e3));
+	  }
+	  //If there are two leptons:
+	  if((int)llep.size()==2){
+	    float lep0SF=LeptonID_SF(llep.at(0).id,llep.at(0).v.Pt(),llep.at(0).v.Eta());
+	    float lep1SF=LeptonID_SF(llep.at(1).id,llep.at(1).v.Pt(),llep.at(1).v.Eta());
+	    scalefactor = lep0SF * lep1SF;
+	   
+	    float e1=SingleLepTrigger_eff(llep.at(0).id,llep.at(0).v.Pt(),llep.at(0).v.Eta());
+	    float e2=SingleLepTrigger_eff(llep.at(1).id,llep.at(1).v.Pt(),llep.at(1).v.Eta());
+	    triggeff=1-((1-e1)*(1-e2));
+	  }
+	  
 	  wt = scalefactor * triggeff;
 	}
+	//---------------------------------------------------------------------------------------
 	
 	h.weight[0]->Fill(scalefactor);
 	h.weight[1]->Fill(triggeff);
@@ -567,7 +594,7 @@ void VLLAna::BookHistograms()
   h.studySS[22] = new TH1F("SS_LT",  "SS_LT", 1000, 0, 1000);
   h.studySS[23] = new TH1F("SS_HT",  "SS_HT", 1000, 0, 1000);
   h.studySS[24] = new TH1F("SS_ST",  "SS_ST", 1000, 0, 1000);
-  h.studySS[25] = new TH1F("SS_STfrac",  "SS_STfrac", 100, 0, 10);
+  h.studySS[25] = new TH1F("SS_STfrac",  "SS_STfrac", 200, 0, 2);
   h.studySS[26] = new TH1F("SS_dPhi_met0", "SS_dPhi_met0", 600, 0, 6);
   h.studySS[27] = new TH1F("SS_dPhi_metss", "SS_dPhi_metss", 600, 0, 6);
   h.studySS[28] = new TH1F("SS_dPhi_met_max", "SS_dPhi_met_max", 600, 0, 6);

@@ -303,6 +303,32 @@
 	    "year": 2018
 	}
     },
+    "EGamma": {
+	"EGamma_Egamma_A": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_A",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"EGamma_Egamma_B": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_B",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"EGamma_Egamma_C": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_C",
+	    "xsec": 1,
+	    "year": 2018
+	},
+	"EGamma_Egamma_D": {
+	    "data": 1,
+	    "samplepath": "/home/work/alaha1/public/RunII_ULSamples/2018/UL2018Data/EGamma/EGamma_D",
+	    "xsec": 1,
+	    "year": 2018
+	}
+    },
     "TTW": {
 	"TTW_TTWToLNu": {
 	    "data": 0,

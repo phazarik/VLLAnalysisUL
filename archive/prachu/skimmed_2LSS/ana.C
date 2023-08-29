@@ -46,6 +46,16 @@ void ana(int sample=0)
     m_selec.SetLep(1); //0-electron dataset, 1-muon dataset
     //m_selec.SetNNFileName("/home/arnab/Arnab/Work/PhD2021/VLLSingletStudy/MultiClassifier/SignalScore_vllneuron.txt");
   }
+  else if(sample==3){
+    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug21/TTW/TTWToLNu/*.root");
+    hstfilename = "outputs/hst_ttw.root";
+    sumfilename = "outputs/sum_ttw.txt";
+    m_selec.SetData(0); //0 - running over MC, 1 - running over Data
+    m_selec.SetYear(2018);
+    m_selec.SetMCwt(1);
+    m_selec.SetLep(1); //0-electron dataset, 1-muon dataset
+    //m_selec.SetNNFileName("/home/arnab/Arnab/Work/PhD2021/VLLSingletStudy/MultiClassifier/SignalScore_vllneuron.txt");
+  }
 
 
   //---------------------------------------------------------------------------------------------------------------------------------------
@@ -54,6 +64,15 @@ void ana(int sample=0)
     chain->Add("/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/archive/prachu/skimmer/skimmed_signal/VLL100_skimmed.root");    
     hstfilename = "outputs/hst_VLL100.root";
     sumfilename = "outputs/sum_VLL100.txt";;
+    m_selec.SetData(0); //0 - running over MC, 1 - running over Data
+    m_selec.SetYear(2018);
+    m_selec.SetMCwt(1);
+    m_selec.SetLep(1); //0-electron dataset, 1-muon dataset
+  }
+  else if (sample==125) {
+    chain->Add("/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/archive/prachu/skimmer/skimmed_signal/VLL125_skimmed.root");    
+    hstfilename = "outputs/hst_VLL125.root";
+    sumfilename = "outputs/sum_VLL125.txt";;
     m_selec.SetData(0); //0 - running over MC, 1 - running over Data
     m_selec.SetYear(2018);
     m_selec.SetMCwt(1);

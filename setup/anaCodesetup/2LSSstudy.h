@@ -36,15 +36,56 @@ void VLLAna::Make2LSSPlots(float wt){
   float LT=0; for(int i=0; i<(int)llep.size(); i++) LT = LT + llep.at(i).v.Pt();
   float HT=0; for(int i=0; i<(int)jets.size(); i++) HT = HT + jets.at(i).v.Pt();
   float ST=LT+HT;
-  float STfrac = 0; if(HT>0) STfrac = LT/HT;
+  float STfrac = 0; if(ST>0) STfrac = LT/ST;
   float dphi_met0 = delta_phi(llep.at(0).v.Phi(), metphi);
   float dphi_metss = delta_phi(llep.at(ss).v.Phi(), metphi);
 
   //---------------------
   // Event selections :
   //---------------------
+
+  bool nonIsoEvts = 0.70 < llep.at(0).reliso03 && llep.at(0).reliso03 < 1;
+  bool Isollep0 = llep.at(0).reliso03 < 0.10;
+  bool additional = (llep.at(0).sip3d < 2.0 &&
+		     llep.at(ss).reliso03 < 0.2 &&
+		     llep.at(ss).sip3d < 3.0 &&
+		     HT < 500 &&
+		     50 < LT && LT < 500 &&
+		     nbjet < 3 &&
+		     llep.at(0).v.Pt() > 30
+		     );
   
-  if(true){//Put selections here
+
+  bool event_selection = Isollep0 && additional;
+
+  //Cutflow:
+  h.cutflow[0]->Fill((int)0, wt); //All pre-selected events
+  if(Isollep0){
+    h.cutflow[0]->Fill((int)1, wt); //Isolated llep0 in pre-selected events
+    if(llep.at(0).sip3d < 2.0){
+      h.cutflow[0]->Fill((int)2, wt); //Aggressive
+      if(llep.at(ss).reliso03 < 0.2){
+	h.cutflow[0]->Fill((int)3, wt); //Aggressive
+	if(llep.at(ss).sip3d < 3.0){
+	  h.cutflow[0]->Fill((int)4, wt);
+	  if(HT < 500){
+	    h.cutflow[0]->Fill((int)5, wt);
+	    if(50 < LT && LT < 500){
+	      h.cutflow[0]->Fill((int)6, wt);
+	      if(nbjet < 3){
+		h.cutflow[0]->Fill((int)7, wt);
+		if(llep.at(0).v.Pt() > 30){
+		  h.cutflow[0]->Fill((int)8, wt);
+		}
+	      }
+	    }
+	  }
+	}
+      }
+    }
+  }
+  
+  if(nonIsoEvts){//Put selections here
     nEvtPass++;
     
     //leading lepton plots:
@@ -76,10 +117,10 @@ void VLLAna::Make2LSSPlots(float wt){
     h.studySS[19]->Fill(nbjet, wt);
     h.studySS[20]->Fill(metpt, wt);
     h.studySS[21]->Fill(metphi, wt);
-    h.studySS[22]->Fill(LT);
-    h.studySS[23]->Fill(HT);
-    h.studySS[24]->Fill(ST);
-    h.studySS[25]->Fill(STfrac);
+    h.studySS[22]->Fill(LT, wt);
+    h.studySS[23]->Fill(HT, wt);
+    h.studySS[24]->Fill(ST, wt);
+    h.studySS[25]->Fill(STfrac, wt);
     h.studySS[26]->Fill(dphi_met0, wt);
     h.studySS[27]->Fill(dphi_metss, wt);
     h.studySS[28]->Fill(max(dphi_met0, dphi_metss), wt);
