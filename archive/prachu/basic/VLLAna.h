@@ -1941,6 +1941,7 @@ public:
     TH1F *studySS[50];
     TH1F *studyOS[50];
     TH1F *cutflow[10];
+    TH1F *chargeMisID[10];
   };
   struct Lepton {//The struct 'Lepton' can store the following variables:
     TLorentzVector v;

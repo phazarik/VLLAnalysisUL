@@ -44,7 +44,7 @@ void VLLAna::Make2LSSPlots(float wt){
   // Event selections :
   //---------------------
 
-  bool nonIsoEvts = 0.70 < llep.at(0).reliso03 && llep.at(0).reliso03 < 1;
+  bool nonIsoEvts = 0.25 < llep.at(0).reliso03 && llep.at(0).reliso03 < 1;
   bool Isollep0 = llep.at(0).reliso03 < 0.10;
   bool additional = (llep.at(0).sip3d < 2.0 &&
 		     llep.at(ss).reliso03 < 0.2 &&
@@ -57,35 +57,8 @@ void VLLAna::Make2LSSPlots(float wt){
   
 
   bool event_selection = Isollep0 && additional;
-
-  //Cutflow:
-  h.cutflow[0]->Fill((int)0, wt); //All pre-selected events
-  if(Isollep0){
-    h.cutflow[0]->Fill((int)1, wt); //Isolated llep0 in pre-selected events
-    if(llep.at(0).sip3d < 2.0){
-      h.cutflow[0]->Fill((int)2, wt); //Aggressive
-      if(llep.at(ss).reliso03 < 0.2){
-	h.cutflow[0]->Fill((int)3, wt); //Aggressive
-	if(llep.at(ss).sip3d < 3.0){
-	  h.cutflow[0]->Fill((int)4, wt);
-	  if(HT < 500){
-	    h.cutflow[0]->Fill((int)5, wt);
-	    if(50 < LT && LT < 500){
-	      h.cutflow[0]->Fill((int)6, wt);
-	      if(nbjet < 3){
-		h.cutflow[0]->Fill((int)7, wt);
-		if(llep.at(0).v.Pt() > 30){
-		  h.cutflow[0]->Fill((int)8, wt);
-		}
-	      }
-	    }
-	  }
-	}
-      }
-    }
-  }
   
-  if(nonIsoEvts){//Put selections here
+  if(true){//Put selections here
     nEvtPass++;
     
     //leading lepton plots:
@@ -125,6 +98,35 @@ void VLLAna::Make2LSSPlots(float wt){
     h.studySS[27]->Fill(dphi_metss, wt);
     h.studySS[28]->Fill(max(dphi_met0, dphi_metss), wt);
     h.studySS[29]->Fill(min(dphi_met0, dphi_metss), wt);
+  }
+
+  
+  //--------------------------------------------------------------------------
+  //Cutflow:
+  h.cutflow[0]->Fill((int)0, wt); //All pre-selected events
+  if(Isollep0){
+    h.cutflow[0]->Fill((int)1, wt); //Isolated llep0 in pre-selected events
+    if(llep.at(0).sip3d < 2.0){
+      h.cutflow[0]->Fill((int)2, wt); //Aggressive
+      if(llep.at(ss).reliso03 < 0.2){
+	h.cutflow[0]->Fill((int)3, wt); //Aggressive
+	if(llep.at(ss).sip3d < 3.0){
+	  h.cutflow[0]->Fill((int)4, wt);
+	  if(HT < 500){
+	    h.cutflow[0]->Fill((int)5, wt);
+	    if(50 < LT && LT < 500){
+	      h.cutflow[0]->Fill((int)6, wt);
+	      if(nbjet < 3){
+		h.cutflow[0]->Fill((int)7, wt);
+		if(llep.at(0).v.Pt() > 30){
+		  h.cutflow[0]->Fill((int)8, wt);
+		}
+	      }
+	    }
+	  }
+	}
+      }
+    }
   }
 
  

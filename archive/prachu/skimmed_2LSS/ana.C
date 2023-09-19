@@ -14,11 +14,20 @@ void ana(int sample=0)
   //--------------------------------------------------------------------------//
   //               Choose the sample you want to run over                     //
   //--------------------------------------------------------------------------//
-
+  if(sample==-1){
+    chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug21/Egamma/Egamma_A/*.root");
+    hstfilename = "outputs/hst_data_egamma.root";
+    sumfilename = "outputs/sum_data_egamma.txt";
+    m_selec.SetData(1); //0 - running over MC, 1 - running over Data
+    m_selec.SetYear(2018);
+    m_selec.SetMCwt(1);
+    m_selec.SetLep(0); //0-electron dataset, 1-muon dataset
+    //m_selec.SetNNFileName("/home/arnab/Arnab/Work/PhD2021/VLLSingletStudy/MultiClassifier/SignalScore_vllneuron.txt");
+  }
   if(sample==0){
     chain->Add("/home/work/phazarik1/work/VLLanalysis/SkimmedSamples/Skimmed2018/VLLAna_2LSSskimmed_Aug21/SingleMuon/SingleMuon_A/*.root");
-    hstfilename = "outputs/hst_data.root";
-    sumfilename = "outputs/sum_data.txt";
+    hstfilename = "outputs/hst_data_singlemuon.root";
+    sumfilename = "outputs/sum_data_singlemuon.txt";
     m_selec.SetData(1); //0 - running over MC, 1 - running over Data
     m_selec.SetYear(2018);
     m_selec.SetMCwt(1);

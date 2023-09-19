@@ -23,7 +23,7 @@ using namespace std;
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
 
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy_newsetup.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2muStudy_newsetup.h"
 
 void VLLAna::Begin(TTree * /*tree*/)
 {
@@ -253,6 +253,47 @@ Bool_t VLLAna::Process(Long64_t entry)
       
       h.evtwt[0]->Fill(evtwt);
 
+      //---------------------------------------
+      // Charge misID calculation :
+      //---------------------------------------
+      //1. For electrons:
+      //Picking a Z window:
+    
+      if((int)Electron.size()>1){
+	float diele_mass = (Electron.at(0).v + Electron.at(1).v).M();
+	bool isoele = Electron.at(0).reliso03 < 0.15 && Electron.at(1).reliso03 < 0.20;
+	bool onZ = 76 < diele_mass && diele_mass < 106;
+	bool SS = false;
+	if(Electron.at(0).charge == Electron.at(1).charge) SS = true;
+
+	h.chargeMisID[0]->Fill(0); //All ee events
+	if(onZ){
+	  h.chargeMisID[0] -> Fill(1); //All ee events which are on-Z
+	  if(SS) h.chargeMisID[0] -> Fill(2); //same-sign ee events which are on-Z
+	}
+	else if(!onZ){
+	  h.chargeMisID[0] -> Fill(3); //All ee events which are NOT on-Z
+	  if(SS) h.chargeMisID[0] -> Fill(4); //same-sign ee events which are NOT on-Z
+	}
+      }
+
+      if((int)Muon.size()>1){
+	float dimuon_mass = (Muon.at(0).v + Muon.at(1).v).M();
+	bool isomu = Muon.at(0).reliso03 < 0.15 && Muon.at(1).reliso03 < 0.20;
+	bool onZ = 76 < dimuon_mass && dimuon_mass < 106;
+	bool SS = false;
+	if(Muon.at(0).charge == Muon.at(1).charge) SS = true;
+
+	h.chargeMisID[0]->Fill(0); //All mumu events
+	if(onZ){
+	  h.chargeMisID[1] -> Fill(1); //All mumu events which are on-Z
+	  if(SS) h.chargeMisID[1] -> Fill(2); //same-sign mumu events which are on-Z
+	}
+	else if(!onZ){
+	  h.chargeMisID[1] -> Fill(3); //All mumu events which are NOT on-Z
+	  if(SS) h.chargeMisID[1] -> Fill(4); //same-sign mumu events which are NOT on-Z
+	}
+      }
 
       //-----------------------------------------------------------------------------------------------------------------------
       //                                        EVENT SELECTION                                                               |
@@ -267,7 +308,8 @@ Bool_t VLLAna::Process(Long64_t entry)
       float wt = 1.0;
       float global_sf = 1.0;
       //These two are 1.0 by default (for data)
-      
+
+      /*
       if((int)Muon.size()>1){
 	float dimuon_mass = (Muon.at(0).v+Muon.at(1).v).M();
 	float muon_dr = Muon.at(0).v.DeltaR(Muon.at(1).v);
@@ -290,7 +332,7 @@ Bool_t VLLAna::Process(Long64_t entry)
 	
 	//cout<<wt*global_sf<<endl;
 	if(baseSelection) Make2muPlots(1);
-      }
+	}*/
 
 
       
@@ -415,6 +457,7 @@ void VLLAna::BookHistograms()
   h.evtwt[3] = new TH1F("totwt"        ,"Trigger Eff x evtwt",100,0,1);
   for(int i=0;i<4;i++) h.evtwt[i]->Sumw2();
 
+  /*
   h.studySS[0] = new TH1F("SS_mu0_Pt",  "SS_mu0_Pt", 1000, 0, 1000);
   h.studySS[1] = new TH1F("SS_mu0_Eta", "SS_mu0_Eta", 200, -4, 4);
   h.studySS[2] = new TH1F("SS_mu0_Phi", "SS_mu0_Phi", 200, -4, 4);
@@ -440,8 +483,12 @@ void VLLAna::BookHistograms()
   h.studySS[22] = new TH1F("SS_HT",  "SS_HT", 1000, 0, 1000);
   h.studySS[23] = new TH1F("SS_nJet",  "SS_nJet", 10, 0, 10);
   h.studySS[24] = new TH1F("SS_nbJet",  "SS_nbJet", 10, 0, 10);
-  for(int i=0; i<25; i++) h.studySS[i]->Sumw2();
-  
+  for(int i=0; i<25; i++) h.studySS[i]->Sumw2();*/
+
+
+  h.chargeMisID[0] = new TH1F("ChargeMisID_ele", "ChargeMisID_ele", 10, 0, 10);
+  h.chargeMisID[1] = new TH1F("ChargeMisID_mu", "ChargeMisID_mu", 10, 0, 10);
+  for(int i=0; i<2; i++) h.chargeMisID[i]->Sumw2();
   
 }//end of BOOK HISTOS
 

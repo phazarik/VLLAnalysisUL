@@ -13,11 +13,11 @@ using namespace std;
 //INCLUDE "/work/VLLAnalysis/new_setup/setup/anaCodesetup/";
 
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/IISERLogo.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/MuonScaleFactor.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/ElectronScaleFactor.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/TauScaleFactor.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/TriggerEfficiencyScaleFactor.h"
-#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/ApplyScaleFactors.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/MuonScaleFactor.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/ElectronScaleFactor.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/TauScaleFactor.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/TriggerEfficiencyScaleFactor.h"
+//#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/corrections/ApplyScaleFactors.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/ProduceGenCollection.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/ObjectCleaning.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/ProduceRecoCollection.h"
@@ -25,6 +25,13 @@ using namespace std;
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/SignalCutflow.h"
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/CustomFunctions.h"
 #include "MVAVar.h"
+
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/newcorrections/ApplyCorrections.h"
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/newcorrections/TriggerEfficiency.h"
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/newcorrections/ScaleFactors/ScaleFactors_2016UL_preVFP.h"
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/newcorrections/ScaleFactors/ScaleFactors_2016UL_postVFP.h"
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/newcorrections/ScaleFactors/ScaleFactors_2017UL.h"
+#include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/newcorrections/ScaleFactors/ScaleFactors_2018UL.h"
 
 #include "/home/work/phazarik1/work/VLLanalysis/VLLAnalysisUL/setup/anaCodesetup/2LSSstudy.h"
 
@@ -153,16 +160,33 @@ Bool_t VLLAna::Process(Long64_t entry)
     
     
     triggerRes=true; //Always true for MC
+
+    h.trig[0]->Fill(*HLT_IsoMu24);
+    h.trig[1]->Fill(*HLT_IsoMu27);
+    h.trig[2]->Fill(*HLT_Ele27_WPTight_Gsf);
+    h.trig[3]->Fill(*HLT_Ele32_WPTight_Gsf);
+    
     if(_data==1){
+      /*
       trigger2018 = (_year==2018 ? (_lep==1 ? *HLT_IsoMu24==1 : _lep==0 && *HLT_Ele32_WPTight_Gsf) : 1);
       //trigger2017 = (_year==2017 ? (_lep==1 ? *HLT_IsoMu27==1 : _lep==0 && (*HLT_Ele32_WPTight_Gsf||*HLT_Ele32_WPTight_Gsf_L1DoubleEG)) : 1);
       trigger2017 = (_year==2017 ? (_lep==1 ? *HLT_IsoMu27==1 : _lep==0 && (*HLT_Ele32_WPTight_Gsf)) : 1);
-      trigger2016 = (_year==2016 ? (_lep==1 ? (*HLT_IsoMu24==1) : _lep==0 && *HLT_Ele27_WPTight_Gsf) : 1);
-      
-      triggerRes = trigger2018 && trigger2017 && trigger2016;
+      trigger2016 = (_year==2016 ? (_lep==1 ? (*HLT_IsoMu24==1) : _lep==0 && *HLT_Ele27_WPTight_Gsf) : 1);      
+      triggerRes = trigger2018 && trigger2017 && trigger2016;*/
+      triggerRes=false;
+      bool muon_trigger = false;
+      bool electron_trigger = false;
+      if     (_year==2016) {muon_trigger = (*HLT_IsoMu24==1); electron_trigger = (*HLT_Ele27_WPTight_Gsf==1);}
+      else if(_year==2017) {muon_trigger = (*HLT_IsoMu27==1); electron_trigger = (*HLT_Ele32_WPTight_Gsf==1);}
+      else if(_year==2018) {muon_trigger = (*HLT_IsoMu24==1); electron_trigger = (*HLT_Ele27_WPTight_Gsf==1);}
+
+      //Muons are preferrred over electrons.
+      //For the electron dataset, pick up only those events which do not fire a Muon trigger.
+      //Otherwise there will be overcounting.
+      triggerRes = muon_trigger || (!muon_trigger && electron_trigger);     
     }
     
-    if(triggerRes){
+    if(*HLT_IsoMu24!=0){
       nEvtTrigger++; //only triggered events
       h.nevt->Fill(2);
       
@@ -389,7 +413,7 @@ Bool_t VLLAna::Process(Long64_t entry)
 	h.weight[2]->Fill(wt);
 	h.weight[3]->Fill(wt*global_sf);
 
-	//cout<<wt*global_sf<<endl;
+	//cout<<wt<<endl;
 	if(baseSelection) Make2LSSPlots(wt);
       }
 
@@ -527,7 +551,10 @@ void VLLAna::BookHistograms()
 {
   //  cout<<"Inside BookHist()"<<endl;
   h.nevt = new TH1F("nEvents","0-Total events, 1-Total events ran, 2-Total events with trigger applied",5,-1,4);
-  
+  h.trig[0] = new TH1F("HLT_IsoMu24","HLT_IsoMu24",5,-1,4);
+  h.trig[1] = new TH1F("HLT_IsoMu27","HLT_IsoMu27",5,-1,4);
+  h.trig[2] = new TH1F("HLT_Ele27_WPTight_Gsf","HLT_Ele27_WPTight_Gsf",5,-1,4);
+  h.trig[3] = new TH1F("HLT_Ele32_WPTight_Gsf","HLT_Ele32_WPTight_Gsf",5,-1,4);
   //jets
   // h.nJet[0]= new TH1F("njet","No of goodjets",20,0,20);
   //h.nJet[1]= new TH1F("nbjet","No of good b-tagged jets",20,0,20);
